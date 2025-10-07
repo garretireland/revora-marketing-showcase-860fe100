@@ -30,40 +30,40 @@ const Hero = () => {
 
           {/* Headline */}
           <h1 className="text-5xl md:text-7xl font-bold text-primary-foreground leading-tight tracking-tight">
-            Elevate Your Local
+            Add $10K+ Monthly Revenue
             <br />
-            <span className="text-accent">Service Business</span>
+            <span className="text-accent">in 90 Days</span>
           </h1>
 
           {/* Subheadline */}
           <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-3xl mx-auto font-light leading-relaxed">
-            We help local service businesses dominate their markets with data-driven marketing strategies that deliver real, measurable results.
+            We help local service businesses generate 30-50 qualified leads per month using proven Facebook Ads—or you don't pay.
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
             <Button variant="hero" size="xl" className="group">
-              Get Started Today
+              Schedule Free Strategy Call
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>
             <Button variant="outline" size="xl" className="bg-transparent text-primary-foreground border-primary-foreground/30 hover:bg-primary-foreground/10 hover:text-primary-foreground">
-              View Our Work
+              See How It Works
             </Button>
           </div>
 
           {/* Trust indicators */}
           <div className="pt-16 grid grid-cols-3 gap-8 max-w-3xl mx-auto">
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-accent">150+</div>
-              <div className="text-sm text-primary-foreground/80">Local Businesses Served</div>
+              <div className="text-4xl font-bold text-accent">30-50</div>
+              <div className="text-sm text-primary-foreground/80">Qualified Leads/Month</div>
             </div>
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-accent">3.2x</div>
-              <div className="text-sm text-primary-foreground/80">Average ROI Increase</div>
+              <div className="text-4xl font-bold text-accent">90 Days</div>
+              <div className="text-sm text-primary-foreground/80">To $10K+ Revenue</div>
             </div>
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-accent">98%</div>
-              <div className="text-sm text-primary-foreground/80">Client Satisfaction</div>
+              <div className="text-4xl font-bold text-accent">100%</div>
+              <div className="text-sm text-primary-foreground/80">Satisfaction Guarantee</div>
             </div>
           </div>
         </div>

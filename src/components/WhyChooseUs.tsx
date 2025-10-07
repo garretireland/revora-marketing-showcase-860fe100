@@ -1,12 +1,11 @@
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Shield } from "lucide-react";
 
 const benefits = [
-  "Proven track record with 150+ local businesses",
-  "Transparent reporting and communication",
-  "Custom strategies tailored to your market",
-  "Dedicated account manager for your business",
-  "Flexible month-to-month contracts",
-  "Results-driven approach with clear KPIs",
+  "Guaranteed 30-50 qualified leads per month within 90 days",
+  "Complete done-for-you system—ads, automation, and training",
+  "Risk-free guarantee: If we don't deliver, you don't pay",
+  "Focus on conversions, not just clicks or impressions",
+  "Weekly reports and monthly strategy calls included",
 ];
 
 const WhyChooseUs = () => {
@@ -19,12 +18,12 @@ const WhyChooseUs = () => {
             <div className="space-y-8">
               <div className="space-y-4">
                 <h2 className="text-4xl md:text-5xl font-bold text-foreground">
-                  Why Partner With
+                  Why Choose
                   <span className="text-accent"> Revora?</span>
                 </h2>
                 <p className="text-lg text-muted-foreground">
-                  We're not just another marketing agency. We're your growth partner, 
-                  dedicated to your success with the same passion you bring to your business.
+                  Unlike agencies that sell clicks, we deliver qualified leads and give you 
+                  the complete system to convert them into revenue—backed by a satisfaction guarantee.
                 </p>
               </div>
 
@@ -43,30 +42,37 @@ const WhyChooseUs = () => {
 
             {/* Right column - Stats card */}
             <div className="bg-gradient-hero rounded-2xl p-12 shadow-elegant text-center space-y-8">
-              <h3 className="text-2xl font-semibold text-primary-foreground">
-                Our Impact in Numbers
-              </h3>
+              <div className="flex items-center justify-center gap-3 mb-2">
+                <Shield className="h-8 w-8 text-accent" />
+                <h3 className="text-2xl font-semibold text-primary-foreground">
+                  Risk-Free Guarantee
+                </h3>
+              </div>
               
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <div className="text-5xl font-bold text-accent">$12M+</div>
-                  <div className="text-primary-foreground/90">Revenue Generated for Clients</div>
+                  <div className="text-5xl font-bold text-accent">30-50</div>
+                  <div className="text-primary-foreground/90">Qualified Leads Per Month</div>
                 </div>
                 
                 <div className="h-px bg-primary-foreground/20" />
                 
                 <div className="space-y-2">
-                  <div className="text-5xl font-bold text-accent">4,800+</div>
-                  <div className="text-primary-foreground/90">Qualified Leads Delivered</div>
+                  <div className="text-5xl font-bold text-accent">90 Days</div>
+                  <div className="text-primary-foreground/90">To Guaranteed Results</div>
                 </div>
                 
                 <div className="h-px bg-primary-foreground/20" />
                 
                 <div className="space-y-2">
-                  <div className="text-5xl font-bold text-accent">247%</div>
-                  <div className="text-primary-foreground/90">Average Growth Rate</div>
+                  <div className="text-5xl font-bold text-accent">$10K+</div>
+                  <div className="text-primary-foreground/90">Monthly Revenue Increase</div>
                 </div>
               </div>
+              
+              <p className="text-sm text-primary-foreground/90 italic pt-4 border-t border-primary-foreground/20">
+                If we don't deliver, you don't pay—simple as that.
+              </p>
             </div>
           </div>
         </div>

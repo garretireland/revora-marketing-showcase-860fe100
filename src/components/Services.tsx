@@ -1,36 +1,36 @@
 import { Card } from "@/components/ui/card";
-import { Search, TrendingUp, Target, Users, BarChart3, Globe } from "lucide-react";
+import { Facebook, Target, Mail, Calendar, GraduationCap, BarChart3 } from "lucide-react";
 
 const services = [
   {
-    icon: Search,
-    title: "Local SEO",
-    description: "Dominate local search results and get found by customers in your area when they need you most.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Paid Advertising",
-    description: "Strategic Google and social media ads that deliver qualified leads and maximize your marketing budget.",
+    icon: Facebook,
+    title: "Facebook Ads Management",
+    description: "Done-for-you ad campaigns with proven creative, targeting, and tracking that deliver results.",
   },
   {
     icon: Target,
-    title: "Lead Generation",
-    description: "Proven systems that consistently bring high-quality leads directly to your business.",
+    title: "Lead Generation System",
+    description: "Guaranteed 30-50 qualified leads per month, not just clicks or impressions.",
   },
   {
-    icon: Users,
-    title: "Social Media Marketing",
-    description: "Build a strong online presence and engage with your community across all platforms.",
+    icon: Mail,
+    title: "Automated Follow-Up",
+    description: "Email and SMS automation that keeps your leads warm and moving through your pipeline.",
+  },
+  {
+    icon: Calendar,
+    title: "Booking & Scheduling",
+    description: "Seamless tools to get prospects on your calendar and into your sales process.",
+  },
+  {
+    icon: GraduationCap,
+    title: "Sales Training & Scripts",
+    description: "Proven conversion systems and scripts to help you close more deals and maximize ROI.",
   },
   {
     icon: BarChart3,
-    title: "Analytics & Reporting",
-    description: "Clear, actionable insights that show exactly how your marketing investments are performing.",
-  },
-  {
-    icon: Globe,
-    title: "Website Design",
-    description: "Beautiful, conversion-focused websites that turn visitors into customers.",
+    title: "Weekly Reports & Coaching",
+    description: "Transparent performance tracking with weekly reports and monthly strategy calls.",
   },
 ];
 
@@ -40,11 +40,11 @@ const Services = () => {
       <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground">
-            Comprehensive Marketing
-            <span className="text-accent"> Solutions</span>
+            Complete Lead Generation
+            <span className="text-accent"> System</span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            Everything your local service business needs to grow, all under one roof.
+            Everything you need to generate, nurture, and convert qualified leads into paying customers.
           </p>
         </div>
 
