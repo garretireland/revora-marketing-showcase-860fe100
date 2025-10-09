@@ -32,6 +32,16 @@ const testimonials = [
     quote: "What sets them apart is the complete system—not just ads. The follow-up automation, booking tools, and weekly coaching made all the difference. We finally have a predictable lead flow.",
     rating: 5,
   },
+  {
+    name: "David Torres",
+    business: "Crystal Clear Window Cleaning",
+    role: "Owner",
+    result: "$38K in new contracts",
+    timeframe: "First 90 days",
+    leads: "71 qualified leads",
+    quote: "We went from struggling to find customers to turning down work. The Facebook ads brought in consistent commercial and residential leads, and the booking system made scheduling seamless. Best investment we ever made.",
+    rating: 5,
+  },
 ];
 
 const Testimonials = () => {
@@ -49,7 +59,7 @@ const Testimonials = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {testimonials.map((testimonial, index) => (
               <Card 
                 key={index}
