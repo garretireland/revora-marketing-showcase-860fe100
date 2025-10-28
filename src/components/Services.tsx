@@ -73,7 +73,7 @@ const Services = () => {
         <div className="text-center mt-12">
           <Button variant="hero" size="xl" className="group" asChild>
             <a href="https://calendly.com/garret-revoramarketingagency/30min" target="_blank" rel="noopener noreferrer">
-              Schedule Free Strategy Call
+              Book Your Call Today
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </a>
           </Button>
