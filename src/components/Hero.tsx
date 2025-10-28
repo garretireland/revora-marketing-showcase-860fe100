@@ -48,9 +48,6 @@ const Hero = () => {
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </a>
             </Button>
-            <Button variant="outline" size="xl" className="bg-transparent text-primary-foreground border-primary-foreground/30 hover:bg-primary-foreground/10 hover:text-primary-foreground">
-              See How It Works
-            </Button>
           </div>
 
           {/* Trust indicators */}
