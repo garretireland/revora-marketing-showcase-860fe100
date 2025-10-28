@@ -28,8 +28,11 @@ const CTA = () => {
               variant="outline" 
               size="xl" 
               className="bg-transparent text-primary-foreground border-primary-foreground/30 hover:bg-primary-foreground/10 hover:text-primary-foreground"
+              asChild
             >
-              Learn About Our Guarantee
+              <a href="/guarantee">
+                Learn About Our Guarantee
+              </a>
             </Button>
           </div>
 
