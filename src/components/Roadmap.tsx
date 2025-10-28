@@ -1,4 +1,5 @@
-import { Calendar, Search, Rocket, Zap, TrendingUp, Trophy } from "lucide-react";
+import { Calendar, Search, Rocket, Zap, TrendingUp, Trophy, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const roadmapSteps = [
   {
@@ -98,10 +99,16 @@ const Roadmap = () => {
             </div>
           </div>
 
-          <div className="mt-12 text-center">
+          <div className="mt-12 text-center space-y-6">
             <p className="text-lg font-semibold text-foreground">
               🎯 Results Guaranteed Within 90 Days or You Don't Pay
             </p>
+            <Button variant="hero" size="xl" className="group" asChild>
+              <a href="https://calendly.com/garret-revoramarketingagency/30min" target="_blank" rel="noopener noreferrer">
+                Schedule Free Strategy Call
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </a>
+            </Button>
           </div>
         </div>
       </div>

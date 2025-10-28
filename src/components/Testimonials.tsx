@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
-import { Quote, Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Quote, Star, ArrowRight } from "lucide-react";
 
 const testimonials = [
   {
@@ -119,6 +120,15 @@ const Testimonials = () => {
               <div className="text-4xl font-bold text-accent">98%</div>
               <div className="text-muted-foreground">Client Satisfaction</div>
             </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <Button variant="hero" size="xl" className="group" asChild>
+              <a href="https://calendly.com/garret-revoramarketingagency/30min" target="_blank" rel="noopener noreferrer">
+                Schedule Free Strategy Call
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </a>
+            </Button>
           </div>
         </div>
       </div>

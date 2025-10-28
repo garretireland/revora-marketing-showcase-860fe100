@@ -1,4 +1,5 @@
-import { CheckCircle2, Shield } from "lucide-react";
+import { CheckCircle2, Shield, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const benefits = [
   "Guaranteed 30-50 qualified leads per month within 90 days",
@@ -74,6 +75,15 @@ const WhyChooseUs = () => {
                 If we don't deliver, you don't pay—simple as that.
               </p>
             </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <Button variant="hero" size="xl" className="group" asChild>
+              <a href="https://calendly.com/garret-revoramarketingagency/30min" target="_blank" rel="noopener noreferrer">
+                Schedule Free Strategy Call
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </a>
+            </Button>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
-import { Facebook, Target, Mail, Calendar, GraduationCap, BarChart3 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Facebook, Target, Mail, Calendar, GraduationCap, BarChart3, ArrowRight } from "lucide-react";
 
 const services = [
   {
@@ -67,6 +68,15 @@ const Services = () => {
               </div>
             </Card>
           ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <Button variant="hero" size="xl" className="group" asChild>
+            <a href="https://calendly.com/garret-revoramarketingagency/30min" target="_blank" rel="noopener noreferrer">
+              Schedule Free Strategy Call
+              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </a>
+          </Button>
         </div>
       </div>
     </section>
