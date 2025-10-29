@@ -55,7 +55,12 @@ const Footer = () => {
               </li>
               <li className="flex items-start gap-2 text-primary-foreground/80">
                 <Mail className="h-4 w-4 text-accent mt-1 flex-shrink-0" />
-                <span className="break-all">garret@revoramarketingagency.com</span>
+                <a 
+                  href="mailto:garret@revoramarketingagency.com" 
+                  className="break-all hover:text-accent transition-colors"
+                >
+                  garret@revoramarketingagency.com
+                </a>
               </li>
               <li className="flex items-start gap-2 text-primary-foreground/80">
                 <MapPin className="h-4 w-4 text-accent mt-1" />
