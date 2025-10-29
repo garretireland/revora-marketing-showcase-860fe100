@@ -11,7 +11,7 @@ const Footer = () => {
             <img 
               src={revoraLogo} 
               alt="Revora Marketing" 
-              className="h-12 brightness-0 invert"
+              className="h-12"
             />
             <p className="text-primary-foreground/80 max-w-md">
               Helping local service businesses dominate their markets with data-driven marketing strategies.
@@ -23,22 +23,22 @@ const Footer = () => {
             <h3 className="font-semibold text-lg">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#services" className="text-primary-foreground/80 hover:text-accent transition-colors">
+                <a href="/#services" className="text-primary-foreground/80 hover:text-accent transition-colors">
                   Services
                 </a>
               </li>
               <li>
-                <a href="#about" className="text-primary-foreground/80 hover:text-accent transition-colors">
+                <a href="/about" className="text-primary-foreground/80 hover:text-accent transition-colors">
                   About Us
                 </a>
               </li>
               <li>
-                <a href="#case-studies" className="text-primary-foreground/80 hover:text-accent transition-colors">
+                <a href="/case-studies" className="text-primary-foreground/80 hover:text-accent transition-colors">
                   Case Studies
                 </a>
               </li>
               <li>
-                <a href="#contact" className="text-primary-foreground/80 hover:text-accent transition-colors">
+                <a href="/contact" className="text-primary-foreground/80 hover:text-accent transition-colors">
                   Contact
                 </a>
               </li>
@@ -51,15 +51,15 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-primary-foreground/80">
                 <Phone className="h-4 w-4 text-accent" />
-                <span>(555) 123-4567</span>
+                <span>(519) 717-9806</span>
               </li>
               <li className="flex items-center gap-2 text-primary-foreground/80">
                 <Mail className="h-4 w-4 text-accent" />
-                <span>hello@revoramarketing.com</span>
+                <span>garret@revoramarketingagency.com</span>
               </li>
               <li className="flex items-start gap-2 text-primary-foreground/80">
                 <MapPin className="h-4 w-4 text-accent mt-1" />
-                <span>123 Marketing St<br />Your City, ST 12345</span>
+                <span>Toronto ON, Canada</span>
               </li>
             </ul>
           </div>

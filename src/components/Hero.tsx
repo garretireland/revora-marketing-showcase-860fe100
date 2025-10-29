@@ -24,7 +24,7 @@ const Hero = () => {
             <img 
               src={revoraLogo} 
               alt="Revora Marketing" 
-              className="h-16 mx-auto"
+              className="h-24 md:h-32 mx-auto"
             />
           </div>
 
