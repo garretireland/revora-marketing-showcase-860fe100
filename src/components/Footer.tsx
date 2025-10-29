@@ -34,7 +34,7 @@ const Footer = () => {
               </li>
               <li>
                 <a href="/case-studies" className="text-primary-foreground/80 hover:text-accent transition-colors">
-                  Case Studies
+                  Testimonials
                 </a>
               </li>
               <li>

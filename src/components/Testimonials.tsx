@@ -113,8 +113,8 @@ const Testimonials = () => {
               <div className="text-muted-foreground">Businesses Helped</div>
             </div>
             <div className="text-center space-y-2">
-              <div className="text-4xl font-bold text-accent">$2.1M+</div>
-              <div className="text-muted-foreground">Revenue Generated</div>
+              <div className="text-4xl font-bold text-accent">$82K+</div>
+              <div className="text-muted-foreground">Total New Monthly Revenue</div>
             </div>
             <div className="text-center space-y-2">
               <div className="text-4xl font-bold text-accent">98%</div>
