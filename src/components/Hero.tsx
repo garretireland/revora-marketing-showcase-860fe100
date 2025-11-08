@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import revoraLogo from "@/assets/revora-logo.png";
+import revoraLogo from "@/assets/revora-logo-hero.png";
 import heroBackground from "@/assets/hero-bg.jpg";
 
 const Hero = () => {
