@@ -8,12 +8,17 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinks = [
-    { title: "Home", href: "/" },
+    { title: "Home", href: "/", scrollToTop: true },
     { title: "About", href: "/about" },
     { title: "Testimonials", href: "/case-studies" },
     { title: "Contact", href: "/contact" },
     { title: "Guarantee", href: "/guarantee" },
   ];
+
+  const handleHomeClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -34,6 +39,7 @@ const Header = () => {
               <Link
                 key={link.title}
                 to={link.href}
+                onClick={link.scrollToTop ? handleHomeClick : undefined}
                 className="text-foreground/80 hover:text-accent transition-colors font-medium"
               >
                 {link.title}
@@ -64,7 +70,12 @@ const Header = () => {
                 key={link.title}
                 to={link.href}
                 className="text-foreground/80 hover:text-accent transition-colors font-medium"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => {
+                  if (link.scrollToTop) {
+                    handleHomeClick(e);
+                  }
+                  setIsMenuOpen(false);
+                }}
               >
                 {link.title}
               </Link>
