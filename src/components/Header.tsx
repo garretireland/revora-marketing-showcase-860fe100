@@ -29,7 +29,7 @@ const Header = () => {
             <img 
               src={revoraLogo} 
               alt="Revora Marketing" 
-              className="h-16"
+              className="h-20"
             />
           </Link>
 
