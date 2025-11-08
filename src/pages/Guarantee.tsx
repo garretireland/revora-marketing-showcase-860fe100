@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft, Star, HandCoins, Lock, BarChart3, Calendar, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
+import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import revoraLogo from "@/assets/revora-logo.png";
 import heroBackground from "@/assets/hero-bg.jpg";
@@ -8,6 +9,7 @@ import heroBackground from "@/assets/hero-bg.jpg";
 const Guarantee = () => {
   return (
     <div className="min-h-screen">
+      <Header />
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background with overlay */}
