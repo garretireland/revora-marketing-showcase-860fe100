@@ -25,7 +25,7 @@ const services = [
   },
   {
     icon: GraduationCap,
-    title: "Sales Training & Scripts",
+    title: "Sales Follow-Up & Scripts",
     description: "Proven conversion systems and scripts to help you close more deals and maximize ROI.",
   },
   {

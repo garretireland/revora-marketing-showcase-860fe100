@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const benefits = [
   "Guaranteed 30-50 qualified leads per month within 90 days",
-  "Complete done-for-you system—ads, automation, and training",
+  "Complete done-for-you system—ads, automation, and follow-up",
   "Risk-free guarantee: If we don't deliver, you don't pay",
   "Focus on conversions, not just clicks or impressions",
   "Weekly reports and monthly strategy calls included",

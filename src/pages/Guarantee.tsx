@@ -136,9 +136,9 @@ const Guarantee = () => {
                 <div className="w-14 h-14 rounded-lg bg-gradient-accent flex items-center justify-center">
                   <Calendar className="h-7 w-7 text-accent-foreground" />
                 </div>
-                <h3 className="text-2xl font-bold text-foreground">Sales Training & Support</h3>
+                <h3 className="text-2xl font-bold text-foreground">Sales Follow-Up & Support</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Proven conversion scripts, sales training, and monthly strategy calls to help you close more 
+                  Proven conversion scripts, sales follow-up, and monthly strategy calls to help you close more 
                   deals and maximize your ROI from every lead we deliver.
                 </p>
               </div>

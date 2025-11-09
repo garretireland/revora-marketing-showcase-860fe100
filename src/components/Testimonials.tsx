@@ -20,7 +20,7 @@ const testimonials = [
     result: "$28K in revenue",
     timeframe: "First 6 months",
     leads: "52 qualified leads",
-    quote: "I was skeptical about the guarantee, but they over-delivered. The sales scripts and conversion training helped us close deals we would have missed. Our booking calendar went from empty to fully booked.",
+    quote: "I was skeptical about the guarantee, but they over-delivered. The sales scripts and conversion follow-up helped us close deals we would have missed. Our booking calendar went from empty to fully booked.",
     rating: 5,
   },
   {
