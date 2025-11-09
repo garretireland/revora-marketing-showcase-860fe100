@@ -1,4 +1,4 @@
-import revoraLogo from "@/assets/revora-logo.png";
+import revoraLogoHero from "@/assets/revora-logo-hero.png";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -10,7 +10,7 @@ const Footer = () => {
           {/* Brand Column */}
           <div className="md:col-span-2 space-y-4">
             <img 
-              src={revoraLogo} 
+              src={revoraLogoHero} 
               alt="Revora Marketing" 
               className="h-12"
             />
