@@ -54,11 +54,11 @@ const Footer = () => {
                 <Phone className="h-4 w-4 text-accent" />
                 <span>(519) 717-9806</span>
               </li>
-              <li className="flex items-start gap-2 text-primary-foreground/80">
-                <Mail className="h-4 w-4 text-accent mt-1 flex-shrink-0" />
+              <li className="flex items-center gap-2 text-primary-foreground/80">
+                <Mail className="h-4 w-4 text-accent flex-shrink-0" />
                 <a 
                   href="mailto:garret@revoramarketingagency.com" 
-                  className="break-all hover:text-accent transition-colors"
+                  className="whitespace-nowrap hover:text-accent transition-colors"
                 >
                   garret@revoramarketingagency.com
                 </a>
