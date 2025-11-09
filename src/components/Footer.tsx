@@ -1,5 +1,6 @@
 import revoraLogo from "@/assets/revora-logo.png";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -28,19 +29,19 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="/about" className="text-primary-foreground/80 hover:text-accent transition-colors">
+                <Link to="/about" className="text-primary-foreground/80 hover:text-accent transition-colors">
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/case-studies" className="text-primary-foreground/80 hover:text-accent transition-colors">
+                <Link to="/case-studies" className="text-primary-foreground/80 hover:text-accent transition-colors">
                   Testimonials
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/contact" className="text-primary-foreground/80 hover:text-accent transition-colors">
+                <Link to="/contact" className="text-primary-foreground/80 hover:text-accent transition-colors">
                   Contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
