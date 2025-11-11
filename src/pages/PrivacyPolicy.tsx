@@ -5,7 +5,7 @@ const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="container mx-auto px-6 py-16 max-w-4xl">
+      <main className="container mx-auto px-6 pt-32 pb-16 max-w-4xl">
         <h1 className="text-4xl font-bold text-foreground mb-8">Privacy Policy</h1>
         <p className="text-muted-foreground mb-8">Last Updated: {new Date().toLocaleDateString()}</p>
 
