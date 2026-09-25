@@ -62,7 +62,7 @@ export default function TabletCinematic() {
             <SiteFrame />
           </Reveal>
         </div>
-        <div className="flex min-h-[110vh] flex-col justify-between pt-6">
+        <div className="flex min-h-[75vh] flex-col justify-between gap-16 pt-6">
           <Reveal className="space-y-5">
             <p className="font-display text-4xl lg:text-5xl font-light leading-tight">{STORY.craftA}</p>
             <p className="font-display text-4xl lg:text-5xl font-light leading-tight text-accent">{STORY.craftB}</p>
