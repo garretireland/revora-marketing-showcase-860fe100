@@ -8,7 +8,7 @@ import {
 // Full-bleed photography, no drift/parallax/sticky, CSS reveals only.
 export default function PhoneStory() {
   return (
-    <div id="services" className="overflow-x-clip bg-primary text-primary-foreground">
+    <div id="services" className="bg-primary text-primary-foreground" style={{ overflowX: "clip" }}>
       {/* 1. Establishing hero, type set low over the dark grade */}
       <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden px-6 pb-10 pt-28">
         <div className="absolute inset-0">

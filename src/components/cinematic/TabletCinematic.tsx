@@ -11,7 +11,7 @@ import {
 // ~one extra viewport, so there is no scroll trap.
 export default function TabletCinematic() {
   return (
-    <div id="services" className="overflow-x-clip bg-primary text-primary-foreground">
+    <div id="services" className="bg-primary text-primary-foreground" style={{ overflowX: "clip" }}>
       {/* 1. Establishing hero */}
       <section className="relative flex min-h-[100svh] items-end overflow-hidden px-10 pb-16 pt-32 lg:px-16">
         <div className="absolute inset-0">
