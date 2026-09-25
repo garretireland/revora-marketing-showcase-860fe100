@@ -55,13 +55,13 @@ const Header = () => {
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-colors duration-500 ${shell}`}>
-      <nav className="container mx-auto px-6 py-2.5">
+      <nav className="container mx-auto px-6 py-2">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center" onClick={handleNavClick}>
             {/* Logo sits on a small light plate in immersive mode so the navy
                 wordmark and orange arrow stay exactly as designed. */}
-            <span className={`rounded-md transition-colors duration-500 ${immersive ? "bg-background/90 px-2 py-1" : ""}`}>
-              <img src={revoraLogo} alt="Revora Marketing" className="h-10 md:h-11" />
+            <span className={`rounded-md transition-colors duration-500 ${immersive ? "bg-background/90 px-1.5" : ""}`}>
+              <img src={revoraLogo} alt="Revora Marketing" className="h-14 md:h-16" />
             </span>
           </Link>
 

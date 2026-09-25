@@ -1480,7 +1480,7 @@ function MobileFallback() {
           className="absolute inset-0 h-full w-full object-cover animate-slow-drift"
           style={{ objectPosition: "72% 50%" }}
         />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-primary via-primary/75 to-primary/10" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-primary from-35% via-primary/50 to-transparent" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-primary/60 to-transparent" />
         <div className="relative max-w-2xl space-y-6">
           <p className="animate-fade-in flex items-center gap-3 text-[11px] font-medium tracking-[0.35em] text-primary-foreground/70 uppercase">
