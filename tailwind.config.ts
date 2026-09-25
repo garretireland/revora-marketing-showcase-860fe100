@@ -117,6 +117,10 @@ export default {
           "50%, 65%": { transform: "translateY(-72px)" },
           "100%": { transform: "translateY(0)" },
         },
+        "slow-drift": {
+          "0%": { transform: "scale(1.08) translateX(1.5%)" },
+          "100%": { transform: "scale(1) translateX(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -127,6 +131,8 @@ export default {
         "fade-in": "fade-in 0.8s ease-out both",
         "line-draw": "line-draw 1.3s ease-out 0.7s both",
         "panel-in": "panel-in 0.9s ease-out 1.1s both",
+        // Opening act: very slow camera drift on the establishing photo.
+        "slow-drift": "slow-drift 24s ease-out both",
       },
     },
   },
