@@ -65,7 +65,7 @@ const Header = () => {
             </span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-7">
+          <div className="hidden lg:flex items-center gap-7">
             {navLinks.map((link) => (
               <Link
                 key={link.title}
@@ -84,7 +84,7 @@ const Header = () => {
           </div>
 
           <button
-            className="md:hidden p-2"
+            className="lg:hidden p-2"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -93,7 +93,7 @@ const Header = () => {
         </div>
 
         {isMenuOpen && (
-          <div className="md:hidden mt-3 pb-4 flex flex-col gap-4">
+          <div className="lg:hidden mt-3 pb-4 flex flex-col gap-4">
             {navLinks.map((link) => (
               <Link
                 key={link.title}

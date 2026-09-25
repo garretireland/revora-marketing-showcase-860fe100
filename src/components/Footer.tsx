@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="bg-primary text-primary-foreground py-16">
       <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-4 gap-12 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-12 max-w-6xl mx-auto">
           {/* Brand Column */}
           <div className="md:col-span-2 space-y-4">
             <img 
@@ -63,7 +63,7 @@ const Footer = () => {
                 <Mail className="h-4 w-4 text-accent flex-shrink-0" />
                 <a 
                   href="mailto:garret@revoramarketingagency.com" 
-                  className="whitespace-nowrap hover:text-accent transition-colors"
+                  className="whitespace-nowrap text-sm sm:text-base hover:text-accent transition-colors"
                 >
                   garret@revoramarketingagency.com
                 </a>

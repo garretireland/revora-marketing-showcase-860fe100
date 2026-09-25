@@ -3,7 +3,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { useInView } from "@/hooks/use-in-view";
+import TabletCinematic from "./TabletCinematic";
+import PhoneStory from "./PhoneStory";
 import { MEDIA_SLOTS, type MediaSlot } from "./mediaSlots";
 
 // PROTOTYPE V3: cinematography / spatial-composition pass.
@@ -55,33 +56,6 @@ const TOTAL_SCROLL_VH = 13;
 // top-anchored piece of scene text/UI below uses this constant (plus its
 // own margin) instead of a guessed magic number.
 const NAVBAR_SAFE_PX = 128;
-
-// BUG FIX: the ambitious spatial composition (percentage-width columns
-// down to ~32-46%, large display typography, several fixed-pixel absolute
-// elements like the Scene 7 ad card) does not hold up at narrower
-// desktop/tablet widths -- it visibly breaks (cramped/overlapping text,
-// awkward wrapping) anywhere from roughly 900 up through 1200-1300px,
-// while the previous 1024px threshold still activated the full desktop
-// choreography across most of that broken range. Raised to 1280px so
-// every width the desktop composition can't actually accommodate falls
-// through to the safer, plain responsive MobileFallback composition
-// instead of a half-broken desktop layout.
-function useIsDesktopMotion() {
-  const [enabled, setEnabled] = useState(false);
-  useEffect(() => {
-    const mqDesktop = window.matchMedia("(min-width: 1280px)");
-    const mqMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setEnabled(mqDesktop.matches && !mqMotion.matches);
-    update();
-    mqDesktop.addEventListener("change", update);
-    mqMotion.addEventListener("change", update);
-    return () => {
-      mqDesktop.removeEventListener("change", update);
-      mqMotion.removeEventListener("change", update);
-    };
-  }, []);
-  return enabled;
-}
 
 // ---- Scene 6, aerial market -------------------------------------------
 // 24 audience/home signals distributed across the FULL frame (corners,
@@ -207,10 +181,31 @@ function useResizeBucket() {
   return bucket;
 }
 
+// Three-tier selection. Width alone decides the tier; reduced motion never
+// moves a visitor to a different tier (the global reduced-motion CSS in
+// index.css and useInView's instant-resolve handle motion per tier).
+type Tier = "desktop" | "tablet" | "phone";
+function currentTier(): Tier {
+  if (window.matchMedia("(min-width: 1280px)").matches) return "desktop";
+  if (window.matchMedia("(min-width: 768px)").matches) return "tablet";
+  return "phone";
+}
+function useTier() {
+  const [tier, setTier] = useState<Tier>(currentTier);
+  useEffect(() => {
+    const mqs = [window.matchMedia("(min-width: 1280px)"), window.matchMedia("(min-width: 768px)")];
+    const update = () => setTier(currentTier());
+    mqs.forEach((m) => m.addEventListener("change", update));
+    return () => mqs.forEach((m) => m.removeEventListener("change", update));
+  }, []);
+  return tier;
+}
+
 export default function CinematicExperience() {
-  const desktopMotion = useIsDesktopMotion();
+  const tier = useTier();
   const resizeBucket = useResizeBucket();
-  return desktopMotion ? <DesktopCinematic key={resizeBucket} /> : <MobileFallback />;
+  if (tier === "desktop") return <DesktopCinematic key={resizeBucket} />;
+  return tier === "tablet" ? <TabletCinematic /> : <PhoneStory />;
 }
 
 // Reads a point at a fraction along an SVG path -- used to move a small
@@ -1445,104 +1440,5 @@ function LandscapingConcept({ pieceAttr, isStatic = false }: { pieceAttr: string
         View Our Work
       </div>
     </div>
-  );
-}
-
-// Mobile gets its own INTENTIONAL, vertically-composed telling of the same
-// story beats -- not the desktop pinned/scrubbed camera experience with
-// GSAP switched off. Each section reveals itself once as it scrolls into
-// view (via the existing useInView hook, already correct under
-// prefers-reduced-motion: it resolves to "already in view" immediately, so
-// nothing here ever depends on an animation for content to appear). No
-// pinning, no pointer-events risk, no horizontal scroll surface, every CTA
-// is a normal in-flow, always-clickable element throughout.
-function MobileReveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.15 });
-  return (
-    <div
-      ref={ref}
-      className={`${className} transition-all duration-700 ease-out ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
-    >
-      {children}
-    </div>
-  );
-}
-
-function MobileFallback() {
-  return (
-    <div id="services" className="overflow-x-hidden bg-primary">
-      {/* Opening act (phones + tablets): same establishing photograph,
-          image-led top half, type anchored low on the dark grade. */}
-      <section className="relative min-h-[100svh] flex flex-col justify-end overflow-hidden px-6 pt-28 pb-12 sm:px-10 md:px-14">
-        <img
-          src={MEDIA_SLOTS.revoraEstablishing.mobileSrc ?? MEDIA_SLOTS.revoraEstablishing.desktopSrc}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover animate-slow-drift"
-          style={{ objectPosition: "72% 50%" }}
-        />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-primary from-35% via-primary/50 to-transparent" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-primary/60 to-transparent" />
-        <div className="relative max-w-2xl space-y-6">
-          <p className="animate-fade-in flex items-center gap-3 text-[11px] font-medium tracking-[0.35em] text-primary-foreground/70 uppercase">
-            <span className="h-px w-8 bg-accent" />
-            Revora Marketing
-          </p>
-          <h1 className="animate-fade-in [animation-delay:150ms] font-display text-[clamp(2.6rem,9vw,4.5rem)] font-light leading-[1.02] tracking-[-0.02em] text-primary-foreground">
-            Turn Your Website Into a Growth Asset.
-          </h1>
-          <p className="animate-fade-in [animation-delay:300ms] text-base sm:text-lg text-primary-foreground/80 font-light leading-relaxed">
-            A professional website that makes your business look as good as your work. When it's the right fit, we can also build a customer-acquisition system to bring in more of the jobs you actually want.
-          </p>
-          <div className="animate-fade-in [animation-delay:450ms] flex flex-col sm:flex-row sm:items-center gap-4 pt-2">
-            <Button variant="hero" size="lg" className="w-full sm:w-auto" asChild>
-              <a href="/#services">See the Website Offer</a>
-            </Button>
-            <a
-              href="https://calendly.com/garret-revoramarketingagency/30min"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-center text-sm font-medium text-primary-foreground/90 underline decoration-primary-foreground/30 underline-offset-8 py-2"
-            >
-              Book a 15-Minute Discovery Call
-            </a>
-          </div>
-          <dl className="animate-fade-in [animation-delay:600ms] grid grid-cols-3 border-t border-primary-foreground/15 pt-4 divide-x divide-primary-foreground/15">
-            {[
-              ["$997", "Website, One-Time"],
-              ["$99/mo", "Website Care"],
-              ["No Lock-In", "Straightforward"],
-            ].map(([v, l]) => (
-              <div key={v} className="px-3 first:pl-0">
-                <dt className="font-display text-lg sm:text-xl text-primary-foreground">{v}</dt>
-                <dd className="mt-0.5 text-[11px] text-primary-foreground/60">{l}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </section>
-
-      <MobilePanel title="What Revora builds" body="A professional website that makes your business look as good online as the work you do in person, plus, when it's the right fit, a customer-acquisition system behind it." />
-      <MobilePanel title="Examples of what's possible" body="Roofing, landscaping, concrete, HVAC and remodeling businesses can each get a distinct, premium digital identity. These are design concepts, not real client work." />
-      <MobilePanel title="How customer acquisition works" body="Revora puts the right offer in front of relevant homeowners. Interested homeowners raise their hand. We capture and pre-qualify the response, filter out obvious poor fits, and follow up so you get to real sales conversations while interest is fresh." dark />
-      <MobilePanel title="Customer Acquisition System" body="Investment is set after discovery. No setup fee. Month-to-month." cta />
-    </div>
-  );
-}
-
-function MobilePanel({ title, body, dark = false, cta = false }: { title: string; body: string; dark?: boolean; cta?: boolean }) {
-  return (
-    <section className={`py-16 px-6 ${dark ? "bg-primary" : "bg-card"}`}>
-      <MobileReveal className="max-w-md mx-auto text-center space-y-4">
-        <h2 className={`font-display text-2xl font-semibold ${dark ? "text-primary-foreground" : "text-primary"}`}>{title}</h2>
-        <p className={dark ? "text-primary-foreground/80" : "text-muted-foreground"}>{body}</p>
-        {cta && (
-          <Button variant="hero" size="lg" className="w-full mt-2" asChild>
-            <a href="https://calendly.com/garret-revoramarketingagency/30min" target="_blank" rel="noopener noreferrer">
-              Book a 15-Minute Discovery Call
-            </a>
-          </Button>
-        )}
-      </MobileReveal>
-    </section>
   );
 }
