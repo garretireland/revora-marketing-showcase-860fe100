@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="bg-primary text-primary-foreground py-16">
       <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-12 max-w-6xl mx-auto">
           {/* Brand Column */}
           <div className="md:col-span-2 space-y-4">
             <img 
