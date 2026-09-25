@@ -1,50 +1,70 @@
-import { Calendar, Search, Rocket, Zap, TrendingUp, Trophy, ArrowRight } from "lucide-react";
+import { Search, Hammer, Eye, Rocket, Calculator, Layers, RefreshCw, ArrowRight, LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useInView } from "@/hooks/use-in-view";
+import { cn } from "@/lib/utils";
 
-const roadmapSteps = [
-  {
-    icon: Calendar,
-    week: "Week 0",
-    title: "Onboarding",
-    description: "Setup, access, and goal alignment.",
-  },
-  {
-    icon: Search,
-    week: "Week 1",
-    title: "Audit & Strategy",
-    description: "Research, offer optimization, KPI setup.",
-  },
-  {
-    icon: Rocket,
-    week: "Week 2",
-    title: "Creative & Tracking",
-    description: "Launch ads, pixel tracking, landing pages/lead forms.",
-  },
-  {
-    icon: Zap,
-    week: "Week 3",
-    title: "Sales Systems",
-    description: "Follow-up automations, booking integration, sales scripts.",
-  },
-  {
-    icon: Rocket,
-    week: "Week 4",
-    title: "Launch & Testing",
-    description: "Campaigns live, early optimization.",
-  },
-  {
-    icon: TrendingUp,
-    week: "Weeks 5–8",
-    title: "Optimization & Scaling",
-    description: "Weekly reports, conversion coaching, ad scaling.",
-  },
-  {
-    icon: Trophy,
-    week: "Weeks 9–12",
-    title: "Ramp & Handoff",
-    description: "Scale proven campaigns, final audit, growth plan.",
-  },
+const websiteSteps = [
+  { icon: Search, title: "Understand Your Business", description: "What you do, who you serve, and what should stand out." },
+  { icon: Hammer, title: "Build the Site", description: "A professional website built around your business." },
+  { icon: Eye, title: "Review & Refine", description: "You review it, we adjust it." },
+  { icon: RefreshCw, title: "Launch & Care", description: "Site goes live. Website Care keeps it hosted, monitored, and updated." },
 ];
+
+const growthSteps = [
+  { icon: Calculator, title: "Understand the Economics", description: "Which jobs you actually want more of, and what they're worth to you." },
+  { icon: Layers, title: "Build the Offer & System", description: "The ad, the landing page, and the follow-up behind them." },
+  { icon: Rocket, title: "Launch", description: "Campaigns go live, funded directly by you." },
+  { icon: RefreshCw, title: "Learn & Refine", description: "We adjust based on what's actually happening, not guesswork." },
+];
+
+type Step = { icon: LucideIcon; title: string; description: string };
+
+// V2: each step observes its own visibility so the active step highlights
+// as the page scrolls past it, a lightweight "scroll progression" rather
+// than a static list. Reduced-motion users get the same information
+// immediately, useInView resolves to true instantly for them.
+function TimelineStep({ step, isLast }: { step: Step; isLast: boolean }) {
+  const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.5 });
+
+  return (
+    <div ref={ref} className="relative flex items-start gap-5 group">
+      <div className="relative z-10 flex-shrink-0 flex flex-col items-center">
+        <div
+          className={cn(
+            "w-14 h-14 rounded-full flex items-center justify-center shadow-elegant transition-all duration-500 group-hover:scale-110",
+            inView ? "bg-gradient-accent ring-4 ring-accent/25" : "bg-primary/15",
+          )}
+        >
+          <step.icon className={cn("h-6 w-6 transition-colors duration-500", inView ? "text-accent-foreground" : "text-primary/50")} />
+        </div>
+        {!isLast && (
+          <div
+            className={cn("w-0.5 flex-1 mt-2 mb-2 transition-colors duration-500 min-h-[2rem]", inView ? "bg-accent/50" : "bg-border")}
+          />
+        )}
+      </div>
+      <div className="flex-1 bg-card border border-border/50 rounded-xl p-5 shadow-sm hover:shadow-elegant transition-all duration-300 mb-2">
+        <h4 className="text-lg font-bold text-foreground">{step.title}</h4>
+        <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
+      </div>
+    </div>
+  );
+}
+
+function TimelineColumn({ heading, steps }: { heading: string; steps: Step[] }) {
+  return (
+    <div className="space-y-6">
+      <h3 className="text-xl font-semibold text-accent uppercase tracking-wide text-center lg:text-left">
+        {heading}
+      </h3>
+      <div className="space-y-6">
+        {steps.map((step, index) => (
+          <TimelineStep key={index} step={step} isLast={index === steps.length - 1} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const Roadmap = () => {
   return (
@@ -52,60 +72,24 @@ const Roadmap = () => {
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16 space-y-4">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground">
-              Your 90-Day
-              <span className="text-accent"> Roadmap to Results</span>
+            <h2 className="font-display text-4xl md:text-5xl font-semibold text-foreground">
+              How It
+              <span className="text-accent"> Actually Works</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              A proven, step-by-step process to deliver qualified leads and revenue growth in just 90 days.
+              Two paths, depending on where your business is at. We move quickly and adjust based on what's actually happening, not empty promises.
             </p>
           </div>
 
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-accent via-accent/50 to-accent hidden md:block" />
-
-            <div className="space-y-8">
-              {roadmapSteps.map((step, index) => (
-                <div 
-                  key={index}
-                  className="relative flex items-start gap-6 group"
-                >
-                  {/* Icon circle */}
-                  <div className="relative z-10 flex-shrink-0">
-                    <div className="w-16 h-16 rounded-full bg-gradient-accent flex items-center justify-center shadow-elegant transition-transform group-hover:scale-110">
-                      <step.icon className="h-7 w-7 text-accent-foreground" />
-                    </div>
-                  </div>
-
-                  {/* Content card */}
-                  <div className="flex-1 bg-card border border-border/50 rounded-xl p-6 shadow-sm hover:shadow-elegant transition-all duration-300 hover:-translate-y-1">
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-3">
-                        <span className="text-sm font-semibold text-accent uppercase tracking-wide">
-                          {step.week}
-                        </span>
-                      </div>
-                      <h3 className="text-2xl font-bold text-foreground">
-                        {step.title}
-                      </h3>
-                      <p className="text-muted-foreground leading-relaxed">
-                        {step.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="grid md:grid-cols-2 gap-12">
+            <TimelineColumn heading="Website Path" steps={websiteSteps} />
+            <TimelineColumn heading="Growth Path" steps={growthSteps} />
           </div>
 
-          <div className="mt-12 text-center space-y-6">
-            <p className="text-lg font-semibold text-foreground">
-              🎯 Results Guaranteed Within 90 Days or You Don't Pay
-            </p>
+          <div className="mt-16 text-center">
             <Button variant="hero" size="xl" className="group" asChild>
               <a href="https://calendly.com/garret-revoramarketingagency/30min" target="_blank" rel="noopener noreferrer">
-                Claim Your Free Consultation
+                Book a 15-Minute Discovery Call
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </a>
             </Button>

@@ -1,5 +1,5 @@
 import revoraLogoHero from "@/assets/revora-logo-hero.png";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -15,7 +15,7 @@ const Footer = () => {
               className="h-12"
             />
             <p className="text-primary-foreground/80 max-w-md">
-              Helping local service businesses dominate their markets with data-driven marketing strategies.
+              Websites and growth systems for local service businesses, built by an operator who understands the work.
             </p>
           </div>
 
@@ -35,7 +35,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link to="/case-studies" className="text-primary-foreground/80 hover:text-accent transition-colors">
-                  Testimonials
+                  Our Approach
                 </Link>
               </li>
               <li>
@@ -67,10 +67,6 @@ const Footer = () => {
                 >
                   garret@revoramarketingagency.com
                 </a>
-              </li>
-              <li className="flex items-start gap-2 text-primary-foreground/80">
-                <MapPin className="h-4 w-4 text-accent mt-1" />
-                <span>Toronto ON, Canada</span>
               </li>
             </ul>
           </div>

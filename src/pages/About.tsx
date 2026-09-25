@@ -37,11 +37,11 @@ const About = () => {
           </div>
 
           <div className="max-w-6xl mx-auto text-center space-y-6 animate-fade-in">
-            <h1 className="text-5xl md:text-7xl font-bold text-accent leading-tight">
+            <h1 className="font-display text-5xl md:text-7xl font-semibold text-accent leading-tight">
               About Revora Marketing
             </h1>
             <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-3xl mx-auto">
-              We're on a mission to help local service businesses predictably scale their revenue through data-driven Facebook Ads.
+              We help local service businesses build a stronger online presence and create more opportunities for work, starting with a website, and building toward a full growth system when it makes sense.
             </p>
           </div>
         </div>
@@ -51,18 +51,18 @@ const About = () => {
       <section className="py-24 bg-secondary">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto space-y-8">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground text-center mb-12">
+            <h2 className="font-display text-4xl md:text-5xl font-semibold text-foreground text-center mb-12">
               Our <span className="text-accent">Story</span>
             </h2>
             <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>
-                Revora Marketing was founded with a simple belief: local service businesses deserve the same high-quality marketing strategies that enterprise companies use—without the complexity or massive budgets.
+                Revora Marketing was founded with a simple belief: local service businesses deserve the same quality of online presence and customer acquisition that bigger companies use, without the complexity or the agency runaround.
               </p>
               <p>
-                After working with hundreds of local businesses and seeing firsthand how difficult it is to generate consistent, qualified leads, we developed a proven system that delivers results in 90 days or less.
+                We start every relationship the same way: figuring out what's actually holding a business back. For a lot of local service businesses, that's a website that doesn't represent the quality of their work, so we start there, with a professional website, built fast, for a flat price.
               </p>
               <p>
-                Our Facebook Ads methodology isn't just about getting clicks—it's about generating real revenue. Every campaign we run is built around one goal: adding $10K+ in monthly revenue to your business through qualified leads that actually convert.
+                For businesses ready for more, where landing just a few extra jobs a month would easily cover the cost, we build the customer-acquisition system behind the website: paid advertising, lead capture, pre-qualification, and follow-up, so you get to good opportunities while they're still interested.
               </p>
             </div>
           </div>
@@ -73,7 +73,7 @@ const About = () => {
       <section className="py-24 bg-background">
         <div className="container mx-auto px-6">
           <div className="max-w-6xl mx-auto space-y-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground text-center">
+            <h2 className="font-display text-4xl md:text-5xl font-semibold text-foreground text-center">
               What We <span className="text-accent">Stand For</span>
             </h2>
 
@@ -82,9 +82,9 @@ const About = () => {
                 <div className="w-14 h-14 rounded-lg bg-gradient-accent flex items-center justify-center">
                   <Target className="h-7 w-7 text-accent-foreground" />
                 </div>
-                <h3 className="text-2xl font-bold text-foreground">Results-Driven</h3>
+                <h3 className="text-2xl font-bold text-foreground">Practical, Not Theoretical</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  We don't believe in vanity metrics. Our focus is on qualified leads and revenue growth—the numbers that actually matter to your bottom line.
+                  We think in terms of jobs booked and calls answered, not clicks and impressions dressed up as KPIs.
                 </p>
               </div>
 
@@ -92,9 +92,9 @@ const About = () => {
                 <div className="w-14 h-14 rounded-lg bg-gradient-accent flex items-center justify-center">
                   <Users className="h-7 w-7 text-accent-foreground" />
                 </div>
-                <h3 className="text-2xl font-bold text-foreground">Partnership Approach</h3>
+                <h3 className="text-2xl font-bold text-foreground">Built From the Operator's Side</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Your success is our success. We work alongside you as partners, not just vendors, to ensure you get the results you deserve.
+                  Garret runs a local service business himself. Revora is built around how those businesses actually operate, not generic agency theory.
                 </p>
               </div>
 
@@ -102,9 +102,9 @@ const About = () => {
                 <div className="w-14 h-14 rounded-lg bg-gradient-accent flex items-center justify-center">
                   <TrendingUp className="h-7 w-7 text-accent-foreground" />
                 </div>
-                <h3 className="text-2xl font-bold text-foreground">Predictable Growth</h3>
+                <h3 className="text-2xl font-bold text-foreground">Straightforward Pricing</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  No guesswork. Our proven system delivers 30-50 qualified leads per month and $10K+ in new revenue within 90 days—guaranteed.
+                  A $997 website and $99/month Website Care, both fixed and public. Growth engagements are no-setup-fee and month-to-month. Investment is set after we understand your business, not pulled from a generic price list.
                 </p>
               </div>
 
@@ -112,9 +112,9 @@ const About = () => {
                 <div className="w-14 h-14 rounded-lg bg-gradient-accent flex items-center justify-center">
                   <Award className="h-7 w-7 text-accent-foreground" />
                 </div>
-                <h3 className="text-2xl font-bold text-foreground">Risk-Free Promise</h3>
+                <h3 className="text-2xl font-bold text-foreground">Honest by Default</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  We back every campaign with our 90-day guarantee. If we don't deliver results, we keep working for free or refund your investment.
+                  We won't promise results we can't back. Growth engagements are month-to-month with no setup fee, and you control your own ad spend directly.
                 </p>
               </div>
             </div>
@@ -126,15 +126,15 @@ const About = () => {
       <section className="py-24 bg-gradient-hero">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center space-y-8">
-            <h2 className="text-4xl md:text-5xl font-bold text-primary-foreground">
+            <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary-foreground">
               Ready to Work Together?
             </h2>
             <p className="text-xl text-primary-foreground/90">
-              Let's discuss how we can help your business achieve predictable, profitable growth.
+              Let's talk about what's actually holding your business back online.
             </p>
             <Button variant="hero" size="xl" asChild>
               <a href="https://calendly.com/garret-revoramarketingagency/30min" target="_blank" rel="noopener noreferrer">
-                Schedule Your Free Strategy Call
+                Book a 15-Minute Discovery Call
               </a>
             </Button>
           </div>

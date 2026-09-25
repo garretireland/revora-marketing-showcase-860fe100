@@ -11,6 +11,9 @@ import CaseStudies from "./pages/CaseStudies";
 import Contact from "./pages/Contact";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NotFound from "./pages/NotFound";
+// Isolated production-design sandbox, not linked from any nav -- see
+// src/pages/concept/NorthlineRoofing.tsx's own header comment.
+import NorthlineRoofing from "./pages/concept/NorthlineRoofing";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +31,7 @@ const App = () => (
           <Route path="/case-studies" element={<CaseStudies />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/concept/northline" element={<NorthlineRoofing />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

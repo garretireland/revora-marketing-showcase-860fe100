@@ -43,6 +43,9 @@ All colors MUST be HSL.
     --gradient-accent: linear-gradient(135deg, hsl(24 100% 61%) 0%, hsl(24 100% 65%) 100%);
     --shadow-elegant: 0 20px 60px -15px hsl(210 50% 16% / 0.15);
     --shadow-soft: 0 10px 30px -10px hsl(210 50% 16% / 0.1);
+    /* V2 authority pass: one warm neutral for section-background variety,
+       navy/orange hues themselves are unchanged. */
+    --warm-neutral: 30 25% 96%;
   }
 
   .dark {
@@ -78,6 +81,7 @@ All colors MUST be HSL.
     --gradient-accent: linear-gradient(135deg, hsl(24 100% 61%) 0%, hsl(24 100% 65%) 100%);
     --shadow-elegant: 0 20px 60px -15px hsl(0 0% 0% / 0.5);
     --shadow-soft: 0 10px 30px -10px hsl(0 0% 0% / 0.3);
+    --warm-neutral: 210 30% 14%;
   }
 }
 
@@ -88,5 +92,20 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* V2 authority pass: global reduced-motion safety net. Every animated
+   element in this build ("both" fill mode, see tailwind.config.ts) already
+   resolves correctly to its end state on its own; this is the belt-and-
+   suspenders guarantee that nothing ever depends on motion to be usable. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -108,7 +108,6 @@ const PrivacyPolicy = () => {
               <p><strong>Revora Marketing</strong></p>
               <p>Email: garret@revoramarketingagency.com</p>
               <p>Phone: (519) 717-9806</p>
-              <p>Location: Toronto ON, Canada</p>
             </div>
           </section>
         </div>

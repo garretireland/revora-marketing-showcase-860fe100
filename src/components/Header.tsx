@@ -10,9 +10,9 @@ const Header = () => {
   const navLinks = [
     { title: "Home", href: "/" },
     { title: "About", href: "/about" },
-    { title: "Testimonials", href: "/case-studies" },
+    { title: "Our Approach", href: "/case-studies" },
+    { title: "How We Work", href: "/guarantee" },
     { title: "Contact", href: "/contact" },
-    { title: "Guarantee", href: "/guarantee" },
   ];
 
   const handleNavClick = () => {
@@ -48,7 +48,7 @@ const Header = () => {
             ))}
             <Button variant="default" size="default" asChild>
               <a href="https://calendly.com/garret-revoramarketingagency/30min" target="_blank" rel="noopener noreferrer">
-                Book a Call
+                Book a 15-Minute Discovery Call
               </a>
             </Button>
           </div>
@@ -81,7 +81,7 @@ const Header = () => {
             ))}
             <Button variant="default" size="default" className="w-full" asChild>
               <a href="https://calendly.com/garret-revoramarketingagency/30min" target="_blank" rel="noopener noreferrer">
-                Book a Call
+                Book a 15-Minute Discovery Call
               </a>
             </Button>
           </div>

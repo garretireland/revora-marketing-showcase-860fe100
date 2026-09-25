@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Mail, Phone, MapPin, Calendar } from "lucide-react";
+import { ArrowLeft, Mail, Phone, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -37,11 +37,11 @@ const Contact = () => {
           </div>
 
           <div className="max-w-6xl mx-auto text-center space-y-6 animate-fade-in">
-            <h1 className="text-5xl md:text-7xl font-bold text-accent leading-tight">
+            <h1 className="font-display text-5xl md:text-7xl font-semibold text-accent leading-tight">
               Let's Talk Growth
             </h1>
             <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-3xl mx-auto">
-              Ready to add $10K+ in monthly revenue? Schedule your free strategy call or reach out directly.
+              Whether you need a website or a full growth system, book a discovery call or reach out directly.
             </p>
           </div>
         </div>
@@ -54,7 +54,7 @@ const Contact = () => {
             {/* Contact Information */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-4xl font-bold text-foreground mb-6">
+                <h2 className="font-display text-4xl font-semibold text-foreground mb-6">
                   Get in <span className="text-accent">Touch</span>
                 </h2>
                 <p className="text-lg text-muted-foreground">
@@ -88,15 +88,6 @@ const Contact = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-accent flex items-center justify-center flex-shrink-0">
-                    <MapPin className="h-6 w-6 text-accent-foreground" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-1">Location</h3>
-                    <p className="text-muted-foreground">Toronto ON, Canada</p>
-                  </div>
-                </div>
               </div>
 
               <div className="pt-6">
@@ -114,12 +105,11 @@ const Contact = () => {
                 <div className="w-20 h-20 rounded-full bg-gradient-accent flex items-center justify-center mx-auto">
                   <Calendar className="h-10 w-10 text-accent-foreground" />
                 </div>
-                <h3 className="text-3xl font-bold text-foreground">
-                  Schedule Your Free Strategy Call
+                <h3 className="font-display text-3xl font-semibold text-foreground">
+                  Book a 15-Minute Discovery Call
                 </h3>
                 <p className="text-muted-foreground text-lg">
-                  In just 15 minutes, we'll discuss your business goals and show you exactly how we can 
-                  help you generate 30-50 qualified leads per month.
+                  In just 15 minutes, we'll talk through your business and figure out which path, website, growth system, or both, actually makes sense.
                 </p>
               </div>
 
@@ -130,17 +120,17 @@ const Contact = () => {
                 </div>
                 <div className="flex items-center gap-3 text-muted-foreground">
                   <div className="w-2 h-2 rounded-full bg-accent"></div>
-                  <span>Learn about our 90-day guarantee</span>
+                  <span>See which path fits your business</span>
                 </div>
                 <div className="flex items-center gap-3 text-muted-foreground">
                   <div className="w-2 h-2 rounded-full bg-accent"></div>
-                  <span>Get a custom growth strategy</span>
+                  <span>Website pricing is public. Growth investment is discussed on the call</span>
                 </div>
               </div>
 
               <Button variant="default" size="xl" className="w-full" asChild>
                 <a href="https://calendly.com/garret-revoramarketingagency/30min" target="_blank" rel="noopener noreferrer">
-                  Book Your Call Now
+                  Book a 15-Minute Discovery Call
                 </a>
               </Button>
 

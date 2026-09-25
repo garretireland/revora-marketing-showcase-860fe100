@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowLeft, Star, HandCoins, Lock, BarChart3, Calendar, Shield } from "lucide-react";
+import { ArrowRight, ArrowLeft, BarChart3, Wallet, Calendar, ShieldCheck, Globe, Target } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -15,9 +15,9 @@ const Guarantee = () => {
         {/* Background with overlay */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-hero opacity-95 z-10" />
-          <img 
-            src={heroBackground} 
-            alt="Business growth visualization" 
+          <img
+            src={heroBackground}
+            alt="Business growth visualization"
             className="w-full h-full object-cover"
           />
         </div>
@@ -32,9 +32,9 @@ const Guarantee = () => {
                 Back to Home
               </Link>
             </Button>
-            <img 
-              src={revoraLogo} 
-              alt="Revora Marketing" 
+            <img
+              src={revoraLogo}
+              alt="Revora Marketing"
               className="h-12"
             />
           </div>
@@ -42,63 +42,60 @@ const Guarantee = () => {
           <div className="max-w-6xl mx-auto space-y-12 animate-fade-in">
             {/* Main Headline */}
             <div className="text-center space-y-6">
-              <h1 className="text-5xl md:text-7xl font-bold text-accent leading-tight">
-                The Revora Guarantee
+              <h1 className="font-display text-5xl md:text-7xl font-semibold text-accent leading-tight">
+                How We Work
               </h1>
             </div>
 
-            {/* 90-Day Guarantee Card */}
+            {/* Straightforward Terms Card */}
             <div className="bg-card/10 backdrop-blur-sm border border-primary-foreground/20 rounded-2xl p-8 md:p-12 shadow-elegant">
-              <h2 className="text-3xl md:text-4xl font-bold text-accent mb-6">
-                90-Day Growth Guarantee
+              <h2 className="font-display text-3xl md:text-4xl font-semibold text-accent mb-6">
+                Straightforward, No Fine Print
               </h2>
               <p className="text-lg md:text-xl text-primary-foreground/90 leading-relaxed">
-                Add $10k+ in new monthly revenue or get 30-50 qualified leads in just 90 days — Guaranteed. 
-                Our proven Facebook Ads system delivers predictable leads and consistent revenue growth, or you don't pay.
+                We don't promise results we can't back. Here's exactly how the website build and the growth system work,
+                and what's actually included.
               </p>
             </div>
 
             {/* Three Pillars */}
             <div className="grid md:grid-cols-3 gap-8">
-              {/* Measurable Results */}
+              {/* Clear Reporting */}
               <div className="bg-card/10 backdrop-blur-sm border border-primary-foreground/20 rounded-2xl p-8 text-center space-y-6 hover:border-accent/50 transition-all duration-300">
                 <div className="w-20 h-20 rounded-full bg-gradient-accent flex items-center justify-center mx-auto">
-                  <Star className="h-10 w-10 text-accent-foreground" />
+                  <BarChart3 className="h-10 w-10 text-accent-foreground" />
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold text-accent">
-                  Measurable Results
+                  Clear Reporting
                 </h3>
                 <p className="text-primary-foreground/90 text-lg leading-relaxed">
-                  We track every metric that matters. You'll see exactly where every lead comes from and which 
-                  campaigns drive the most revenue for your business.
+                  On growth engagements, you see real numbers, not vanity metrics dressed up to look good.
                 </p>
               </div>
 
-              {/* Money-Back Promise */}
+              {/* You Control the Spend */}
               <div className="bg-card/10 backdrop-blur-sm border border-primary-foreground/20 rounded-2xl p-8 text-center space-y-6 hover:border-accent/50 transition-all duration-300">
                 <div className="w-20 h-20 rounded-full bg-gradient-accent flex items-center justify-center mx-auto">
-                  <HandCoins className="h-10 w-10 text-accent-foreground" />
+                  <Wallet className="h-10 w-10 text-accent-foreground" />
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold text-accent">
-                  Money-Back Promise
+                  You Control the Spend
                 </h3>
                 <p className="text-primary-foreground/90 text-lg leading-relaxed">
-                  Don't see results in 90 days? We continue working free until you do, or we issue a full refund. 
-                  Your success is non-negotiable.
+                  Ad budget is funded directly by you to Meta. We never take a cut or mark it up.
                 </p>
               </div>
 
-              {/* Zero Risk */}
+              {/* No Lock-In */}
               <div className="bg-card/10 backdrop-blur-sm border border-primary-foreground/20 rounded-2xl p-8 text-center space-y-6 hover:border-accent/50 transition-all duration-300">
                 <div className="w-20 h-20 rounded-full bg-gradient-accent flex items-center justify-center mx-auto">
-                  <Lock className="h-10 w-10 text-accent-foreground" />
+                  <ShieldCheck className="h-10 w-10 text-accent-foreground" />
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold text-accent">
-                  Zero Risk
+                  No Lock-In
                 </h3>
                 <p className="text-primary-foreground/90 text-lg leading-relaxed">
-                  No long-term contracts. No hidden fees. Just pure, predictable revenue growth. If we don't deliver, 
-                  you don't pay.
+                  No setup fee, month-to-month. About 90 days is a realistic window to evaluate whether it's working, not a guaranteed-results deadline.
                 </p>
               </div>
             </div>
@@ -106,29 +103,38 @@ const Guarantee = () => {
         </div>
       </section>
 
-      {/* What You Get Section */}
+      {/* What's Included Section */}
       <section className="py-24 bg-secondary">
         <div className="container mx-auto px-6">
           <div className="max-w-6xl mx-auto space-y-12">
             <div className="text-center space-y-4">
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground">
+              <h2 className="font-display text-4xl md:text-5xl font-semibold text-foreground">
                 What's Included in
-                <span className="text-accent"> Your Guarantee</span>
+                <span className="text-accent"> Each Path</span>
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Everything you need to generate qualified leads and convert them into revenue—backed by our risk-free promise.
+                Two offers, priced and scoped separately.
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">
               <div className="bg-card border border-border/50 rounded-xl p-8 space-y-4 hover:shadow-elegant transition-all duration-300">
                 <div className="w-14 h-14 rounded-lg bg-gradient-accent flex items-center justify-center">
-                  <BarChart3 className="h-7 w-7 text-accent-foreground" />
+                  <Globe className="h-7 w-7 text-accent-foreground" />
                 </div>
-                <h3 className="text-2xl font-bold text-foreground">Complete Lead Generation System</h3>
+                <h3 className="text-2xl font-bold text-foreground">Website: $997 one-time</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Done-for-you Facebook Ads campaigns, automated follow-up sequences, booking tools, 
-                  and weekly performance reports—all designed to deliver 30-50 qualified leads per month.
+                  A professional website built for your business, plus $99/month Website Care to keep it hosted, monitored, and updated.
+                </p>
+              </div>
+
+              <div className="bg-card border border-border/50 rounded-xl p-8 space-y-4 hover:shadow-elegant transition-all duration-300">
+                <div className="w-14 h-14 rounded-lg bg-gradient-accent flex items-center justify-center">
+                  <Target className="h-7 w-7 text-accent-foreground" />
+                </div>
+                <h3 className="text-2xl font-bold text-foreground">Growth System: Founding Client Program</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Ad management, lead capture, pre-qualification, and follow-up. We're opening a limited number of founding positions for qualified businesses. Investment and scope are set after we understand your business. No setup fee, month-to-month.
                 </p>
               </div>
 
@@ -136,32 +142,19 @@ const Guarantee = () => {
                 <div className="w-14 h-14 rounded-lg bg-gradient-accent flex items-center justify-center">
                   <Calendar className="h-7 w-7 text-accent-foreground" />
                 </div>
-                <h3 className="text-2xl font-bold text-foreground">Sales Follow-Up & Support</h3>
+                <h3 className="text-2xl font-bold text-foreground">A Realistic Timeline</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Proven conversion scripts, sales follow-up, and monthly strategy calls to help you close more 
-                  deals and maximize your ROI from every lead we deliver.
+                  Around 90 days is a fair window to see whether a growth engagement is working for your business. It's not a contractual lock-in, and not a promise of a specific result by that date.
                 </p>
               </div>
 
               <div className="bg-card border border-border/50 rounded-xl p-8 space-y-4 hover:shadow-elegant transition-all duration-300">
                 <div className="w-14 h-14 rounded-lg bg-gradient-accent flex items-center justify-center">
-                  <Shield className="h-7 w-7 text-accent-foreground" />
-                </div>
-                <h3 className="text-2xl font-bold text-foreground">90-Day Performance Promise</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  We guarantee 30-50 qualified leads or $10K+ in new monthly revenue within 90 days. 
-                  If we don't deliver, you don't pay—and we keep working until we do.
-                </p>
-              </div>
-
-              <div className="bg-card border border-border/50 rounded-xl p-8 space-y-4 hover:shadow-elegant transition-all duration-300">
-                <div className="w-14 h-14 rounded-lg bg-gradient-accent flex items-center justify-center">
-                  <Lock className="h-7 w-7 text-accent-foreground" />
+                  <ShieldCheck className="h-7 w-7 text-accent-foreground" />
                 </div>
                 <h3 className="text-2xl font-bold text-foreground">Flexible Terms</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  No long-term contracts. No hidden setup fees. Cancel anytime if you're not satisfied. 
-                  Your success is our only commitment.
+                  No long-term contracts on the growth system. No hidden fees on either offer. Cancel a month-to-month growth engagement anytime.
                 </p>
               </div>
             </div>
@@ -173,28 +166,27 @@ const Guarantee = () => {
       <section className="py-24 bg-gradient-hero">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center space-y-8">
-            <h2 className="text-4xl md:text-5xl font-bold text-primary-foreground">
-              Ready to See
-              <span className="text-accent"> Real Results?</span>
+            <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary-foreground">
+              Ready to
+              <span className="text-accent"> Talk It Through?</span>
             </h2>
-            
+
             <p className="text-xl text-primary-foreground/90 max-w-2xl mx-auto">
-              Schedule a 15-minute strategy call to see if your business qualifies for our 
-              guaranteed lead generation system—completely risk-free.
+              Schedule a 15-minute discovery call to figure out which path, website, growth system, or both, makes sense for your business.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
               <Button variant="hero" size="xl" className="group" asChild>
                 <a href="https://calendly.com/garret-revoramarketingagency/30min" target="_blank" rel="noopener noreferrer">
                   <Calendar className="mr-2 h-5 w-5" />
-                  Schedule Free Strategy Call
+                  Book a 15-Minute Discovery Call
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </a>
               </Button>
             </div>
 
             <p className="text-sm text-primary-foreground/70 pt-4">
-              ✓ No pressure, no commitments  •  ✓ Risk-free guarantee  •  ✓ Results in 90 days
+              ✓ Website pricing is public  •  ✓ No obligation to continue
             </p>
           </div>
         </div>
