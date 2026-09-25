@@ -75,7 +75,7 @@ export default function TabletCinematic() {
       </section>
 
       {/* 4. Northline / roofing concept, offset right */}
-      <section className="bg-warm/5 px-10 py-28 lg:px-16">
+      <section className="bg-primary-foreground/[0.03] px-10 py-28 lg:px-16">
         <p className="mb-10 text-[11px] uppercase tracking-[0.35em] text-primary-foreground/50">{STORY.conceptNote}</p>
         <div className="grid grid-cols-12 items-center gap-8">
           <Reveal dir="left" className="col-span-4 space-y-4">
