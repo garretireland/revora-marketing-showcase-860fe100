@@ -298,7 +298,13 @@ function DesktopCinematic() {
       // the tagline cross-dissolves in as it clears, then holds alone for
       // a real cinematic beat before fading out ahead of the Scene 2
       // crossfade.
-      tl.to(q('[data-s="1-hero"]'), { yPercent: -8, scale: 0.95, opacity: 0, duration: 1.6, ease: "none" }, s1 + 0.1);
+      tl.to(q('[data-s="1-hero"]'), { yPercent: -8, opacity: 0, duration: 1.6, ease: "none" }, s1 + 0.1);
+      // Opening photograph: slow camera push-in across the whole act, and
+      // the navy shade rises so the frame dissolves into Scene 2's stage
+      // rather than cutting from "photo" to "animation".
+      tl.fromTo(q('[data-s="1-photo"]'), { scale: 1 }, { scale: 1.14, xPercent: -2, duration: s1End - s1, ease: "none" }, s1);
+      tl.to(q('[data-s="1-shade"]'), { opacity: 0.55, duration: 2, ease: "none" }, s1 + 0.6);
+      tl.to(q('[data-s="1-shade"]'), { opacity: 1, duration: 2, ease: "none" }, s1End - 2.2);
       tl.to(q('[data-s="1-tagline"]'), { opacity: 1, scale: 1, duration: 1.4 }, s1 + 1.0);
       tl.to(q('[data-s="1-tagline"]'), { opacity: 0, duration: 1.2 }, s1End - 1.5);
       crossfade("1", "2", SCENE.s2[0]);
@@ -730,39 +736,75 @@ function DesktopCinematic() {
       <div ref={stageRef} className="relative h-screen w-full overflow-hidden bg-primary">
         {/* SCENE 1 -- REVORA -------------------------------------------------- */}
         <Scene id="1">
-          <div data-s="1-hero" className="relative z-10 container mx-auto px-6 text-center">
-            <div className="max-w-4xl mx-auto space-y-8">
-              <p className="text-sm font-semibold tracking-[0.3em] text-accent uppercase">Revora Marketing</p>
-              <h1 className="font-display text-5xl md:text-7xl font-semibold text-primary-foreground leading-tight tracking-tight">
+          {/* OPENING ACT: real establishing photograph, full-bleed. The
+              frame's dark foliage negative space (left) is where the type
+              lives; truck + homes stay visible on the right. */}
+          <div data-s="1-photo" className="absolute inset-0 will-change-transform">
+            <img
+              src={MEDIA_SLOTS.revoraEstablishing.desktopSrc}
+              alt=""
+              className="h-full w-full object-cover animate-slow-drift"
+              style={{ objectPosition: MEDIA_SLOTS.revoraEstablishing.objectPosition }}
+            />
+          </div>
+          {/* Left-weighted grade so type reads against the foliage, plus a
+              soft bottom vignette. The shade layer darkens on scroll to hand
+              off into the navy stage of Scene 2. */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/40 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-primary/30" />
+          <div data-s="1-shade" className="pointer-events-none absolute inset-0 bg-primary opacity-0" />
+
+          <div
+            data-s="1-hero"
+            className="relative z-10 h-full w-full flex flex-col justify-end px-[6vw] pb-[9vh]"
+            style={{ paddingTop: NAVBAR_SAFE_PX }}
+          >
+            <div className="max-w-[46rem]">
+              <p className="animate-fade-in flex items-center gap-4 text-xs font-medium tracking-[0.35em] text-primary-foreground/70 uppercase">
+                <span className="h-px w-10 bg-accent" />
+                Revora Marketing
+              </p>
+              <h1 className="animate-fade-in [animation-delay:150ms] mt-8 font-display text-[clamp(3.25rem,6.2vw,6.5rem)] font-light leading-[0.98] tracking-[-0.02em] text-primary-foreground">
                 Turn Your Website Into a Growth Asset.
               </h1>
-              <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-3xl mx-auto font-light leading-relaxed">
+              <p className="animate-fade-in [animation-delay:350ms] mt-8 max-w-xl text-lg leading-relaxed text-primary-foreground/80 font-light">
                 A professional website that makes your business look as good as your work. When it's the right fit, we can also build a customer-acquisition system to bring in more of the jobs you actually want.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-2">
+              <div className="animate-fade-in [animation-delay:550ms] mt-10 flex items-center gap-6">
                 <Button variant="hero" size="xl" className="group" asChild>
                   <a href="/#services">
                     See the Website Offer
                     <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </a>
                 </Button>
-                <Button variant="outline" size="xl" className="bg-transparent text-primary-foreground border-primary-foreground/30 hover:bg-primary-foreground/10 hover:text-primary-foreground" asChild>
-                  <a href="https://calendly.com/garret-revoramarketingagency/30min" target="_blank" rel="noopener noreferrer">
-                    Book a 15-Minute Discovery Call
-                  </a>
-                </Button>
-              </div>
-              <div className="pt-6 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
-                <Stat value="$997" label="Professional Website, One-Time" />
-                <Stat value="$99/mo" label="Ongoing Website Care" />
-                <Stat value="No Lock-In" label="Straightforward Terms" />
+                <a
+                  href="https://calendly.com/garret-revoramarketingagency/30min"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium text-primary-foreground/90 underline decoration-primary-foreground/30 underline-offset-8 transition-colors hover:decoration-accent"
+                >
+                  Book a 15-Minute Discovery Call
+                </a>
               </div>
             </div>
+            {/* Offer line: quiet, editorial, hairline-divided -- not a stat grid. */}
+            <dl className="animate-fade-in [animation-delay:750ms] mt-14 flex max-w-2xl divide-x divide-primary-foreground/15 border-t border-primary-foreground/15 pt-5">
+              {[
+                ["$997", "Professional Website, One-Time"],
+                ["$99/mo", "Ongoing Website Care"],
+                ["No Lock-In", "Straightforward Terms"],
+              ].map(([v, l]) => (
+                <div key={v} className="px-6 first:pl-0">
+                  <dt className="font-display text-2xl text-primary-foreground">{v}</dt>
+                  <dd className="mt-1 text-xs tracking-wide text-primary-foreground/60">{l}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
-          {/* Act title -- treated as a real cinematic beat, not transitional
-              microcopy: large scale, appears almost immediately, holds. */}
-          <div className="absolute inset-0 flex items-center justify-center px-6 pointer-events-none">
-            <p data-s="1-tagline" className="text-center font-display text-3xl md:text-5xl tracking-tight text-primary-foreground opacity-0" style={{ transform: "scale(0.94)" }}>
+          {/* Act title -- rises out of the darkened photograph, left-set to
+              stay on the same editorial axis as the headline. */}
+          <div className="absolute inset-0 flex items-center px-[6vw] pointer-events-none">
+            <p data-s="1-tagline" className="font-display text-5xl xl:text-6xl font-light leading-tight tracking-tight text-primary-foreground opacity-0" style={{ transform: "scale(0.94)", transformOrigin: "left center" }}>
               We build for the businesses
               <br />
               that <span className="text-accent">build.</span>
@@ -1429,31 +1471,54 @@ function MobileReveal({ children, className = "" }: { children: React.ReactNode;
 function MobileFallback() {
   return (
     <div id="services" className="overflow-x-hidden bg-primary">
-      <section className="min-h-screen flex items-center pt-24 pb-16 px-6">
-        <MobileReveal className="max-w-xl mx-auto text-center space-y-6">
-          <p className="text-xs font-semibold tracking-[0.3em] text-accent uppercase">Revora Marketing</p>
-          <h1 className="font-display text-4xl font-semibold text-primary-foreground leading-tight">
+      {/* Opening act (phones + tablets): same establishing photograph,
+          image-led top half, type anchored low on the dark grade. */}
+      <section className="relative min-h-[100svh] flex flex-col justify-end overflow-hidden px-6 pt-28 pb-12 sm:px-10 md:px-14">
+        <img
+          src={MEDIA_SLOTS.revoraEstablishing.mobileSrc ?? MEDIA_SLOTS.revoraEstablishing.desktopSrc}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover animate-slow-drift"
+          style={{ objectPosition: "72% 50%" }}
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-primary from-35% via-primary/50 to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-primary/60 to-transparent" />
+        <div className="relative max-w-2xl space-y-6">
+          <p className="animate-fade-in flex items-center gap-3 text-[11px] font-medium tracking-[0.35em] text-primary-foreground/70 uppercase">
+            <span className="h-px w-8 bg-accent" />
+            Revora Marketing
+          </p>
+          <h1 className="animate-fade-in [animation-delay:150ms] font-display text-[clamp(2.6rem,9vw,4.5rem)] font-light leading-[1.02] tracking-[-0.02em] text-primary-foreground">
             Turn Your Website Into a Growth Asset.
           </h1>
-          <p className="text-lg text-primary-foreground/90 font-light leading-relaxed">
+          <p className="animate-fade-in [animation-delay:300ms] text-base sm:text-lg text-primary-foreground/80 font-light leading-relaxed">
             A professional website that makes your business look as good as your work. When it's the right fit, we can also build a customer-acquisition system to bring in more of the jobs you actually want.
           </p>
-          <div className="flex flex-col gap-3 pt-2">
-            <Button variant="hero" size="lg" className="w-full" asChild>
+          <div className="animate-fade-in [animation-delay:450ms] flex flex-col sm:flex-row sm:items-center gap-4 pt-2">
+            <Button variant="hero" size="lg" className="w-full sm:w-auto" asChild>
               <a href="/#services">See the Website Offer</a>
             </Button>
-            <Button variant="outline" size="lg" className="w-full bg-transparent text-primary-foreground border-primary-foreground/30" asChild>
-              <a href="https://calendly.com/garret-revoramarketingagency/30min" target="_blank" rel="noopener noreferrer">
-                Book a 15-Minute Discovery Call
-              </a>
-            </Button>
+            <a
+              href="https://calendly.com/garret-revoramarketingagency/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-center text-sm font-medium text-primary-foreground/90 underline decoration-primary-foreground/30 underline-offset-8 py-2"
+            >
+              Book a 15-Minute Discovery Call
+            </a>
           </div>
-          <div className="pt-4 grid grid-cols-3 gap-4">
-            <Stat value="$997" label="Website, One-Time" />
-            <Stat value="$99/mo" label="Website Care" />
-            <Stat value="No Lock-In" label="Straightforward" />
-          </div>
-        </MobileReveal>
+          <dl className="animate-fade-in [animation-delay:600ms] grid grid-cols-3 border-t border-primary-foreground/15 pt-4 divide-x divide-primary-foreground/15">
+            {[
+              ["$997", "Website, One-Time"],
+              ["$99/mo", "Website Care"],
+              ["No Lock-In", "Straightforward"],
+            ].map(([v, l]) => (
+              <div key={v} className="px-3 first:pl-0">
+                <dt className="font-display text-lg sm:text-xl text-primary-foreground">{v}</dt>
+                <dd className="mt-0.5 text-[11px] text-primary-foreground/60">{l}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </section>
 
       <MobilePanel title="What Revora builds" body="A professional website that makes your business look as good online as the work you do in person, plus, when it's the right fit, a customer-acquisition system behind it." />
