@@ -77,7 +77,7 @@ const WhyChooseUs = () => {
           </div>
 
           <div className="text-center mt-12">
-            <Button variant="hero" size="xl" className="group" asChild>
+            <Button variant="hero" size="xl" className="group max-w-full whitespace-normal text-center h-auto py-4" asChild>
               <a href="https://calendly.com/garret-revoramarketingagency/30min" target="_blank" rel="noopener noreferrer">
                 Book a 15-Minute Discovery Call
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
