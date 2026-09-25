@@ -1,4 +1,10 @@
 import { useEffect } from "react";
+// MEDIA INTEGRATION: consumes the SAME shared slot CinematicExperience.tsx's
+// RoofingConcept reads (MEDIA_SLOTS.northlineRoofHero), rather than this
+// page holding its own separate copy of the asset reference. This page
+// previously had no media-slot wiring at all (it predates that
+// architecture) -- this is the minimal wire-up, not a restructure.
+import { MEDIA_SLOTS } from "@/components/cinematic/mediaSlots";
 
 // ============================================================================
 // NORTHLINE ROOFING — isolated production-design sandbox
@@ -97,6 +103,8 @@ function AccentLines() {
 //     this panel is a backdrop, not the focal motion of the hero.
 // ----------------------------------------------------------------------------
 function MediaPlane() {
+  const realSrc = MEDIA_SLOTS.northlineRoofHero.desktopSrc;
+
   return (
     <div
       data-layer="hero-media-plane"
@@ -105,48 +113,71 @@ function MediaPlane() {
         clipPath: "polygon(14% 0, 100% 0, 100% 100%, 0% 100%)",
       }}
     >
-      {/* Base sky-to-ground gradient -- the dark/light balance the future asset should match. */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: "linear-gradient(180deg, #100d0a 0%, #241d16 30%, #55432f 66%, #8f7a5f 100%)",
-        }}
-      />
+      {realSrc ? (
+        <>
+          {/* MEDIA INTEGRATION: the real Northline roof still, sourced from
+              the shared MEDIA_SLOTS.northlineRoofHero slot. Chimney/roof
+              detail sits right-of-center in the source -- biased further
+              right than the wide-container position in mediaSlots.ts,
+              since this panel is a tall portrait crop of the same
+              landscape source and needs a stronger horizontal bias to keep
+              the subject in frame. */}
+          <img
+            src={realSrc}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ objectPosition: "70% 55%" }}
+          />
+          {/* A light scrim keeps the AccentLines' warm highlight readable
+              against the real photo without hiding it. */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/10" />
+        </>
+      ) : (
+        <>
+          {/* Base sky-to-ground gradient -- the dark/light balance the future asset should match. */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: "linear-gradient(180deg, #100d0a 0%, #241d16 30%, #55432f 66%, #8f7a5f 100%)",
+            }}
+          />
 
-      {/* Abstract overlapping roof-pitch planes — communicates roofline geometry and subject placement without a real photo. */}
-      <div
-        className="absolute left-[8%] right-[-10%] bottom-[18%] h-[38%] opacity-90"
-        style={{
-          background: "linear-gradient(135deg, #2a2119 0%, #3a2c1f 100%)",
-          clipPath: "polygon(0% 100%, 38% 0%, 100% 28%, 100% 100%)",
-        }}
-      />
-      <div
-        className="absolute left-[22%] right-[-4%] bottom-[14%] h-[26%] opacity-80"
-        style={{
-          background: "linear-gradient(135deg, #b3672d 0%, #8a4f24 100%)",
-          clipPath: "polygon(0% 100%, 46% 8%, 100% 0%, 100% 100%)",
-          opacity: 0.22,
-        }}
-      />
+          {/* Abstract overlapping roof-pitch planes — communicates roofline geometry and subject placement without a real photo. */}
+          <div
+            className="absolute left-[8%] right-[-10%] bottom-[18%] h-[38%] opacity-90"
+            style={{
+              background: "linear-gradient(135deg, #2a2119 0%, #3a2c1f 100%)",
+              clipPath: "polygon(0% 100%, 38% 0%, 100% 28%, 100% 100%)",
+            }}
+          />
+          <div
+            className="absolute left-[22%] right-[-4%] bottom-[14%] h-[26%] opacity-80"
+            style={{
+              background: "linear-gradient(135deg, #b3672d 0%, #8a4f24 100%)",
+              clipPath: "polygon(0% 100%, 46% 8%, 100% 0%, 100% 100%)",
+              opacity: 0.22,
+            }}
+          />
 
-      {/* Drafting-grid texture — reinforces "architecture studio," not decoration. */}
-      <div
-        className="absolute inset-0 opacity-[0.08]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, #f3efe6 1px, transparent 1px), linear-gradient(to bottom, #f3efe6 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-      />
+          {/* Drafting-grid texture — reinforces "architecture studio," not decoration. */}
+          <div
+            className="absolute inset-0 opacity-[0.08]"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, #f3efe6 1px, transparent 1px), linear-gradient(to bottom, #f3efe6 1px, transparent 1px)",
+              backgroundSize: "48px 48px",
+            }}
+          />
+
+          {/* Reserved open negative-space zone (upper two-thirds stays clear per the crop note above) — no element intentionally placed here. */}
+
+          <span className="absolute bottom-6 right-6 font-['Archivo'] text-[10px] uppercase tracking-[0.25em] text-[#f3efe6]/40">
+            Image / Video, Pending
+          </span>
+        </>
+      )}
 
       <AccentLines />
-
-      {/* Reserved open negative-space zone (upper two-thirds stays clear per the crop note above) — no element intentionally placed here. */}
-
-      <span className="absolute bottom-6 right-6 font-['Archivo'] text-[10px] uppercase tracking-[0.25em] text-[#f3efe6]/40">
-        Image / Video, Pending
-      </span>
     </div>
   );
 }

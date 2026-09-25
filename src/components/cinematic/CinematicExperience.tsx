@@ -147,13 +147,25 @@ const LAYER_EXIT = [
 // tree, so a future video source here can never reach mobile. A video slot
 // is always given a poster and never autoplays without one, and always
 // starts `preload="none"` so no bytes download until a real src exists.
+// Only treat a video-kind slot's desktopSrc as an actual video file by
+// extension -- a still image (the interim state most slots are in right
+// now) always renders through the plain <img> path below, regardless of
+// the slot's own `kind` (which documents the eventual final asset type,
+// not necessarily what's wired in today). Avoids ever mounting a <video>
+// with a .png src.
+function isVideoFile(src: string): boolean {
+  return /\.(mp4|webm|mov)(\?.*)?$/i.test(src);
+}
+
 function SceneMedia({ slot, placeholder }: { slot: MediaSlot; placeholder: React.ReactNode }) {
   const src = slot.desktopSrc;
   if (!src) return <>{placeholder}</>;
-  if (slot.kind === "video") {
+  const objectPosition = slot.objectPosition ?? "center";
+  if (slot.kind === "video" && isVideoFile(src)) {
     return (
       <video
         className="h-full w-full object-cover"
+        style={{ objectPosition }}
         poster={slot.posterSrc}
         muted
         loop
@@ -165,7 +177,7 @@ function SceneMedia({ slot, placeholder }: { slot: MediaSlot; placeholder: React
       </video>
     );
   }
-  return <img className="h-full w-full object-cover" src={src} alt="" />;
+  return <img className="h-full w-full object-cover" style={{ objectPosition }} src={src} alt="" />;
 }
 
 // DesktopCinematic's timeline bakes window.innerWidth/innerHeight into its
@@ -500,6 +512,22 @@ function DesktopCinematic() {
       // edge), and the device/ad sits in the right midground.
       const s7 = SCENE.s7[0];
       const s7End = SCENE.s7[1];
+      // BUG FIX (real regression, predates the media-integration pass --
+      // reproduced against the checkpoint commit with zero media changes
+      // applied): the `7-card` pulse below passes boxShadow strings
+      // containing `hsl(var(--accent) / alpha)` directly into gsap.set/.to.
+      // GSAP's CSSPlugin regex-parses complex string values itself (it
+      // does not ask the browser to resolve them first) and cannot parse a
+      // `var()` reference nested inside a color function -- it throws
+      // `Cannot read properties of null (reading 'map')` inside
+      // splitColor/_formatColors the instant this zero-duration tween
+      // renders, which (uncaught, inside a useLayoutEffect, with no error
+      // boundary) unmounts the whole React tree -- the exact "flashes then
+      // goes blank" symptom, confirmed via a real Chrome DevTools Protocol
+      // console/exception capture at a real 1440x900 desktop viewport.
+      // Fixed by using --accent's resolved literal value (`24 100% 61%`,
+      // see index.css) instead of `var(--accent)` in these 3 tween
+      // strings only -- visually identical, GSAP parses plain hsl() fine.
       gsap.set(q('[data-s="7-interior"]'), { opacity: 1 });
       gsap.set(q('[data-s="7-roomdetail"]'), { opacity: 1 });
       gsap.set(q('[data-s="7-caption"]'), { opacity: 0 });
@@ -515,7 +543,7 @@ function DesktopCinematic() {
       gsap.set(q('[data-s="7-checkpoint-mark"]'), { opacity: 0 });
       gsap.set(q('[data-s="7-qual-mark"]'), { opacity: 0 });
       gsap.set(q('[data-s="7-qual-ring"]'), { opacity: 0 });
-      gsap.set(q('[data-s="7-card"]'), { boxShadow: "0 0 0px 0px hsl(var(--accent) / 0)" });
+      gsap.set(q('[data-s="7-card"]'), { boxShadow: "0 0 0px 0px hsl(24 100% 61% / 0)" });
       gsap.set(q('[data-s="7-label-capture"]'), { opacity: 0 });
       gsap.set(q('[data-s="7-label-qualify"]'), { opacity: 0 });
       gsap.set(q('[data-s="7-label-focus"]'), { opacity: 0 });
@@ -561,8 +589,8 @@ function DesktopCinematic() {
       // Beat 1 -- ONE opening moment: the card pulses, "Capture." appears
       // tied to it, and the signal is born at the card's own corner, all at
       // the same instant.
-      tl.to(q('[data-s="7-card"]'), { boxShadow: "0 0 44px 10px hsl(var(--accent) / 0.4)", duration: 0.5, ease: "power1.out" }, qualStart + 0.6);
-      tl.to(q('[data-s="7-card"]'), { boxShadow: "0 0 0px 0px hsl(var(--accent) / 0)", duration: 0.6, ease: "power1.in" }, qualStart + 1.1);
+      tl.to(q('[data-s="7-card"]'), { boxShadow: "0 0 44px 10px hsl(24 100% 61% / 0.4)", duration: 0.5, ease: "power1.out" }, qualStart + 0.6);
+      tl.to(q('[data-s="7-card"]'), { boxShadow: "0 0 0px 0px hsl(24 100% 61% / 0)", duration: 0.6, ease: "power1.in" }, qualStart + 1.1);
       tl.to(q('[data-s="7-label-capture"]'), { opacity: 1, duration: 0.5 }, qualStart + 0.6);
       tl.to(q('[data-s="7-dot-a"]'), { opacity: 1, duration: 0.25 }, qualStart + 0.6);
 
@@ -945,20 +973,31 @@ function DesktopCinematic() {
               placeholder={<div className="absolute inset-0 bg-gradient-to-br from-[#3a2f22] via-[#241d16] to-[#14100b]" />}
             />
           </div>
-          <div data-s="7-roomdetail" className="absolute inset-0">
-            {/* Window, upper right -- background depth cue. */}
-            <div className="absolute right-[8%] top-[8%] h-[30%] w-[16%] rounded-sm bg-gradient-to-b from-accent/15 to-transparent" />
-            {/* Cabinetry, upper left -- background depth cue. */}
-            <div className="absolute left-[4%] top-[6%] h-[22%] w-[10%] rounded-sm bg-black/20" />
-            <div className="absolute left-[15%] top-[6%] h-[22%] w-[8%] rounded-sm bg-black/15" />
-            {/* Table edge, lower foreground. */}
-            <div className="absolute inset-x-0 bottom-[28%] h-[3%] bg-black/25" />
-          </div>
-          {/* Over-the-shoulder silhouette, left third/foreground, cropped by
-              the viewport edge. Deliberately abstract, never a realistic
-              figure. */}
-          <div className="absolute bottom-0 left-[-4%] h-[68%] w-[26%] rounded-t-full bg-black/35" aria-hidden="true" />
-          <div className="absolute bottom-[46%] left-[4%] h-20 w-20 rounded-full bg-black/35" aria-hidden="true" />
+          {/* MEDIA INTEGRATION: the window/cabinetry/table-edge cues and the
+              silhouette below were drawn to fake room depth for the
+              placeholder-only state. Now that homeownerInterior has a real
+              photo (an actual room, an actual person), rendering these
+              synthetic shapes on top of it would look like broken overlay
+              debris rather than depth cues -- they're placeholder-only,
+              gated the same way SceneMedia's own `placeholder` prop is. */}
+          {!MEDIA_SLOTS.homeownerInterior.desktopSrc && (
+            <>
+              <div data-s="7-roomdetail" className="absolute inset-0">
+                {/* Window, upper right -- background depth cue. */}
+                <div className="absolute right-[8%] top-[8%] h-[30%] w-[16%] rounded-sm bg-gradient-to-b from-accent/15 to-transparent" />
+                {/* Cabinetry, upper left -- background depth cue. */}
+                <div className="absolute left-[4%] top-[6%] h-[22%] w-[10%] rounded-sm bg-black/20" />
+                <div className="absolute left-[15%] top-[6%] h-[22%] w-[8%] rounded-sm bg-black/15" />
+                {/* Table edge, lower foreground. */}
+                <div className="absolute inset-x-0 bottom-[28%] h-[3%] bg-black/25" />
+              </div>
+              {/* Over-the-shoulder silhouette, left third/foreground,
+                  cropped by the viewport edge. Deliberately abstract, never
+                  a realistic figure. */}
+              <div className="absolute bottom-0 left-[-4%] h-[68%] w-[26%] rounded-t-full bg-black/35" aria-hidden="true" />
+              <div className="absolute bottom-[46%] left-[4%] h-20 w-20 rounded-full bg-black/35" aria-hidden="true" />
+            </>
+          )}
           {/* BUG FIX: same navbar-safe-area issue as Scene 5's pivot copy --
               was `top-[14%]`, now a fixed offset below the real Header. */}
           <p
