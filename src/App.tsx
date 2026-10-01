@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound";
 // src/pages/concept/NorthlineRoofing.tsx's own header comment.
 import NorthlineRoofing from "./pages/concept/NorthlineRoofing";
 import LeadJourneyPreview from "./pages/concept/LeadJourneyPreview";
+import ContractorLeadPreview from "./pages/concept/ContractorLeadPreview";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/concept/northline" element={<NorthlineRoofing />} />
           <Route path="/concept/lead-journey" element={<LeadJourneyPreview />} />
+          <Route path="/concept/contractor-lead" element={<ContractorLeadPreview />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
