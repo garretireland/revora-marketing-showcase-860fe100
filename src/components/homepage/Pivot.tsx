@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { ArrowDown } from "lucide-react";
 import { C, CONTAINER } from "./tokens";
-import { scrollToId } from "./scrollTo";
+import { scrollToFilm } from "./scrollTo";
 import { useEnter } from "./useEnter";
 
 // Chapter change: website (CHOOSE) -> acquisition (FIND). Calls back to the
@@ -41,10 +41,11 @@ export default function Pivot() {
       </div>
 
       <div className={`${CONTAINER} mt-8`}>
-        <a data-pv-foot href="#acquisition-film" onClick={(e) => { e.preventDefault(); scrollToId("acquisition-film-player"); }} className="group inline-flex items-center gap-3 text-[15px]" style={{ color: C.muted }}>
+        {/* inline flow: on narrow screens "· 58 sec ↓" follows the wrapped
+            text instead of floating beside a two-line block */}
+        <a data-pv-foot href="#acquisition-film" onClick={(e) => { e.preventDefault(); scrollToFilm(); }} className="group inline text-[15px] leading-[1.6]" style={{ color: C.muted }}>
           <span className="transition-colors group-hover:text-white">Watch one qualified lead get found, start to finish</span>
-          <span style={{ color: C.faint }}>· 58 sec</span>
-          <ArrowDown size={15} style={{ color: C.orange }} className="transition-transform group-hover:translate-y-0.5" />
+          <span className="ml-3 whitespace-nowrap" style={{ color: C.faint }}>· 58 sec<ArrowDown size={15} style={{ color: C.orange }} className="ml-3 inline-block align-[-2px] transition-transform group-hover:translate-y-0.5" /></span>
         </a>
       </div>
     </section>

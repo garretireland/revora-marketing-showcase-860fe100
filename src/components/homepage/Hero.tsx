@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Play } from "lucide-react";
 import { BookCall, SeeWhatWedBuild } from "./Cta";
-import { scrollToId } from "./scrollTo";
+import { scrollToFilm } from "./scrollTo";
 import { AfterSite, BrowserFrame } from "./MockSites";
 import { C, CONTAINER, OFFER } from "./tokens";
 
@@ -70,7 +70,7 @@ export default function Hero({ onPrimary }: { onPrimary: () => void }) {
           </dl>
 
           {/* early door to the acquisition film (full film lives further down) */}
-          <a data-hero-in href="#acquisition-film" onClick={(e) => { e.preventDefault(); scrollToId("acquisition-film-player"); }} className="group mt-8 inline-flex items-center gap-3.5 text-[14px]" style={{ color: C.muted }}>
+          <a data-hero-in href="#acquisition-film" onClick={(e) => { e.preventDefault(); scrollToFilm(); }} className="group mt-8 inline-flex items-center gap-3.5 text-[14px]" style={{ color: C.muted }}>
             <span className="flex h-9 w-9 items-center justify-center rounded-full transition-colors group-hover:bg-white/5" style={{ boxShadow: `inset 0 0 0 1px ${C.orange}` }}>
               <Play size={13} fill={C.orange} color={C.orange} className="ml-0.5" />
             </span>

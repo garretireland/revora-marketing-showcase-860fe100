@@ -153,7 +153,7 @@ export default function AcquisitionFilm() {
     if (!v) return;
     const p = v.duration ? v.currentTime / v.duration : 0;
     if (barRef.current) barRef.current.style.transform = `scaleX(${p})`;
-    if (thumbRef.current) thumbRef.current.style.left = `${p * 100}%`;
+    if (thumbRef.current) thumbRef.current.style.transform = `translateX(${p * 100}%)`;
     const i = beatAt(v.currentTime);
     if (i !== beatRef.current) { beatRef.current = i; setBeat(i); }
   };
@@ -215,15 +215,32 @@ export default function AcquisitionFilm() {
   }, []);
 
   // progress line + story follow the playhead (rAF, no re-renders unless
-  // the story beat changes)
+  // the story beat changes). The per-frame loop runs only while the video
+  // is actually playing; any seek/pause/reset updates once.
   useEffect(() => {
+    const v = vidRef.current;
     let raf = 0;
     const tick = () => {
       if (!scrub.current || scrub.current.mode !== "drag") sync();
       raf = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
-    return () => { cancelAnimationFrame(raf); window.clearTimeout(pokeTimer.current); };
+    const start = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    const stop = () => { cancelAnimationFrame(raf); raf = 0; sync(); };
+    const once = () => sync();
+    v?.addEventListener("playing", start);
+    v?.addEventListener("pause", stop);
+    v?.addEventListener("ended", stop);
+    v?.addEventListener("seeked", once);
+    v?.addEventListener("loadedmetadata", once);
+    return () => {
+      cancelAnimationFrame(raf);
+      v?.removeEventListener("playing", start);
+      v?.removeEventListener("pause", stop);
+      v?.removeEventListener("ended", stop);
+      v?.removeEventListener("seeked", once);
+      v?.removeEventListener("loadedmetadata", once);
+      window.clearTimeout(pokeTimer.current);
+    };
   }, []);
 
   // SEEK. Seeks are coalesced: while one is in flight the latest target
@@ -250,7 +267,7 @@ export default function AcquisitionFilm() {
   };
   const showAt = (f: number) => {
     if (barRef.current) barRef.current.style.transform = `scaleX(${f})`;
-    if (thumbRef.current) thumbRef.current.style.left = `${f * 100}%`;
+    if (thumbRef.current) thumbRef.current.style.transform = `translateX(${f * 100}%)`;
   };
   const seekToX = (x: number) => {
     const v = vidRef.current;
@@ -472,11 +489,14 @@ export default function AcquisitionFilm() {
             >
               <div className={`absolute inset-x-0 bottom-0 bg-white/15 transition-[height] duration-200 ${dragging ? "h-[4px]" : "h-[2px] group-focus-visible/seek:h-[4px] [@media(hover:hover)]:group-hover/seek:h-[4px]"}`}>
                 <div ref={barRef} className="h-full w-full origin-left" style={{ background: C.orange, transform: "scaleX(0)" }} />
-                <div
-                  ref={thumbRef}
-                  className={`absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full transition-opacity duration-200 ${dragging || chrome ? "opacity-100" : "opacity-0 group-focus-visible/seek:opacity-100 [@media(hover:hover)]:group-hover/seek:opacity-100"}`}
-                  style={{ left: 0, background: C.orange, boxShadow: "0 0 0 3px rgba(7,11,17,0.45)" }}
-                />
+                {/* full-width carrier moved by transform (no per-frame layout);
+                    the handle sits on its left edge */}
+                <div ref={thumbRef} className="pointer-events-none absolute inset-0" style={{ transform: "translateX(0%)", willChange: "transform" }}>
+                  <div
+                    className={`absolute left-0 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full transition-opacity duration-200 ${dragging || chrome ? "opacity-100" : "opacity-0 group-focus-visible/seek:opacity-100 [@media(hover:hover)]:group-hover/seek:opacity-100"}`}
+                    style={{ background: C.orange, boxShadow: "0 0 0 3px rgba(7,11,17,0.45)" }}
+                  />
+                </div>
               </div>
               {/* keyboard focus ring hugging the bottom edge */}
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[10px] opacity-0 group-focus-visible/seek:opacity-100" style={{ boxShadow: "inset 0 0 0 2px rgba(255,136,56,0.9)" }} />
