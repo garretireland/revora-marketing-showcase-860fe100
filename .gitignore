@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# local-only media: prototype/concept sources, image masters, rollback film
+media/
+public/acquisition/
+public/lead-delivery/
+public/lead-journey/
+public/video/revora-acquisition-film.mp4
+public/video/revora-acquisition-film-poster.jpg
+src/assets/web/concepts/*.png

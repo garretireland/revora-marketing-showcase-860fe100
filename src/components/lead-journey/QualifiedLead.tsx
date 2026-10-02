@@ -1,4 +1,4 @@
-import { ACCENT, ANSWERS, CRITERIA, LEAD, REVORA_BG } from "./content";
+import { useAccent, ANSWERS, CRITERIA, LEAD, REVORA_BG } from "./content";
 
 // Revora world. The rows start life as the homeowner's submitted answers
 // (light, form-styled chips floating over the receding form), carry over
@@ -10,6 +10,7 @@ import { ACCENT, ANSWERS, CRITERIA, LEAD, REVORA_BG } from "./content";
 const META_FONT = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
 
 export default function QualifiedLead() {
+  const ACCENT = useAccent();
   return (
     <div data-lj="revora" className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center font-sans">
       <div data-lj="revora-bg" className="absolute inset-0" style={{ background: REVORA_BG }} />

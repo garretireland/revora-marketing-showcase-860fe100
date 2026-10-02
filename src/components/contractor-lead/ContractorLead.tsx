@@ -24,7 +24,10 @@ const SHELL = {
 const WALLPAPER =
   "radial-gradient(ellipse 60% 70% at 22% 18%, #33465c 0%, transparent 60%), radial-gradient(ellipse 55% 60% at 82% 92%, #5e4128 0%, transparent 62%), linear-gradient(160deg, #18202b 0%, #111419 55%, #1a1611 100%)";
 
-export default function ContractorLead() {
+// Optional onTimeline = controlled mode: timeline built paused and handed
+// to a parent (scroll engine) instead of autoplaying.
+export default function ContractorLead({ onTimeline }: { onTimeline?: (tl: gsap.core.Timeline) => void } = {}) {
+  const controlRef = useRef(onTimeline);
   const frameRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0);
@@ -52,7 +55,7 @@ export default function ContractorLead() {
       gsap.set(q("[data-contractor-handoff]"), { autoAlpha: 0, backgroundColor: "transparent" });
       gsap.set(q("[data-cl-call-in]"), { opacity: 0, y: 12 });
 
-      const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+      const tl = gsap.timeline({ paused: !!controlRef.current, defaults: { ease: "power2.out" } });
 
       // 1. inside the contractor's phone; the lead object arrives
       tl.to(q('[data-cl="world"]'), { scale: 1, filter: "blur(0px)", duration: 0.7 }, 0)
@@ -95,6 +98,8 @@ export default function ContractorLead() {
         .set(q("[data-contractor-handoff]"), { autoAlpha: 1 }, 5.4)
         .to(q("[data-cl-call-in]"), { opacity: 1, y: 0, duration: 0.5, stagger: 0.07 }, 5.42)
         .set(q("[data-contractor-handoff]"), { backgroundColor: REVORA_BG }, 5.8);
+
+      if (controlRef.current) { controlRef.current(tl); return; }
 
       tl.eventCallback("onComplete", () => {
         gsap.fromTo(q('[data-cl="ring"]'), { scale: 1, opacity: 0.7 }, { scale: 1.5, opacity: 0, duration: 1.8, ease: "power1.out", repeat: -1, stagger: 0.9 });

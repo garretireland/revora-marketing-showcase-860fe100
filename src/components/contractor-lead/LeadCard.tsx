@@ -1,5 +1,5 @@
 import { Phone } from "lucide-react";
-import { ACCENT, LEAD } from "@/components/lead-journey/content";
+import { LEAD, useAccent } from "@/components/lead-journey/content";
 
 // The three faces of the single travelling lead shell (see
 // ContractorLead.tsx): the arrived lead object, the compressed
@@ -9,6 +9,7 @@ import { ACCENT, LEAD } from "@/components/lead-journey/content";
 const DETAIL_ROWS = ["Full roof replacement", "Within 30 days", "Homeowner", "Contact details captured"];
 
 export function RevoraIcon({ size = 52 }: { size?: number }) {
+  const ACCENT = useAccent();
   return (
     <span className="relative flex shrink-0 items-center justify-center rounded-[14px] bg-[#0a0b0c]" style={{ width: size, height: size, boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)" }}>
       <span className="absolute rounded-full border" style={{ width: size * 0.46, height: size * 0.46, borderColor: `${ACCENT}80` }} />
@@ -19,6 +20,7 @@ export function RevoraIcon({ size = 52 }: { size?: number }) {
 }
 
 function Check({ i }: { i: number }) {
+  const ACCENT = useAccent();
   return (
     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border" style={{ borderColor: `${ACCENT}66`, background: `${ACCENT}14` }}>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -30,6 +32,7 @@ function Check({ i }: { i: number }) {
 
 // Echo of the homeowner sequence's final frame, arriving.
 export function ObjectFace() {
+  const ACCENT = useAccent();
   return (
     <div data-cl="face-object" className="absolute left-0 top-0 w-[640px] px-12 pt-11">
       <div className="absolute inset-x-12 top-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${ACCENT}, transparent)` }} />
@@ -45,6 +48,7 @@ export function ObjectFace() {
 }
 
 export function NotificationFace() {
+  const ACCENT = useAccent();
   return (
     <div data-cl="face-notif" className="absolute left-0 top-0 flex w-[760px] items-center gap-5 px-6 py-[22px]">
       <RevoraIcon />
@@ -63,6 +67,7 @@ export function NotificationFace() {
 }
 
 export function DetailFace() {
+  const ACCENT = useAccent();
   return (
     <div data-cl="face-detail" className="absolute left-0 top-0 w-[760px] px-11 pt-10">
       <div data-cl-in className="flex items-center gap-4">

@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { FeedChrome, FeedList } from "./SocialFeed";
 import LeadForm from "./LeadForm";
 import QualifiedLead from "./QualifiedLead";
-import { ACCENT, APPBAR_H, COL_W, QUESTIONS, STAGE_H, STAGE_W, STATUS_H, WORLD_SCALE } from "./content";
+import { useAccent, APPBAR_H, COL_W, QUESTIONS, STAGE_H, STAGE_W, STATUS_H, WORLD_SCALE } from "./content";
 
 // ISOLATED PROTOTYPE -- digital lead journey (feed -> ad -> form ->
 // qualified lead). Picks up where the physical Higgsfield push-in into
@@ -29,7 +29,17 @@ function offsetIn(el: HTMLElement, ancestor: HTMLElement) {
   return { t, l };
 }
 
-export default function LeadJourney() {
+// Optional onComplete fires once the timeline finishes (used by the
+// homepage AcquisitionFilm to hand over to LeadDelivery). Optional
+// onTimeline = controlled mode: the timeline is built paused and handed
+// to a parent (scroll engine) instead of autoplaying.
+type Props = { onComplete?: () => void; onTimeline?: (tl: gsap.core.Timeline) => void };
+
+export default function LeadJourney({ onComplete, onTimeline }: Props = {}) {
+  const doneRef = useRef(onComplete);
+  doneRef.current = onComplete;
+  const controlRef = useRef(onTimeline);
+  const accentRef = useRef(useAccent());
   const frameRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0);
@@ -86,7 +96,7 @@ export default function LeadJourney() {
       gsap.set(q("[data-rowlabel]"), { y: 8 });
       gsap.set(rows, { opacity: 0, y: (i: number) => chipY(i) + 16 });
 
-      const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+      const tl = gsap.timeline({ paused: !!controlRef.current, defaults: { ease: "power2.out" } });
 
       const tap = (id: string, press: string, at: number) => {
         const t = q(`[data-tap="${id}"]`);
@@ -178,9 +188,12 @@ export default function LeadJourney() {
         .to(q('[data-lj="title"]'), { yPercent: 0, filter: "blur(0px)", duration: 1.05, ease: "power3.out" }, 14.55)
         .to(q('[data-lj="rule"]'), { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, 15.05)
         .to(q('[data-lj="edge"]'), { scaleX: 1, duration: 1.1, ease: "power2.inOut" }, 15.05)
-        .to(q('[data-rowring]'), { backgroundColor: `${ACCENT}14`, duration: 0.6 }, 15.2);
+        .to(q('[data-rowring]'), { backgroundColor: `${accentRef.current}14`, duration: 0.6 }, 15.2);
+
+      if (controlRef.current) { controlRef.current(tl); return; }
 
       tl.eventCallback("onComplete", () => {
+        doneRef.current?.();
         gsap.to(q('[data-lj="dot"]'), { opacity: 0.35, duration: 1.2, yoyo: true, repeat: -1, ease: "sine.inOut" });
       });
 

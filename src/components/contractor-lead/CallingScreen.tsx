@@ -1,10 +1,11 @@
 import { PhoneOff } from "lucide-react";
-import { ACCENT, LEAD, REVORA_BG } from "@/components/lead-journey/content";
+import { LEAD, REVORA_BG, useAccent } from "@/components/lead-journey/content";
 
 // Minimal outgoing-call state. HANDOFF: [data-contractor-handoff="calling"]
 // is the stable final frame where the live-action cinematic takes over
 // (homeowner's phone rings in the office).
 export default function CallingScreen() {
+  const ACCENT = useAccent();
   return (
     <div data-contractor-handoff="calling" className="absolute inset-0 z-40 flex flex-col items-center justify-center font-sans" style={{ background: REVORA_BG }}>
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[760px] w-[760px] rounded-full" style={{ marginLeft: -380, marginTop: -430, background: `radial-gradient(circle, ${ACCENT}14 0%, ${ACCENT}05 38%, transparent 66%)` }} />

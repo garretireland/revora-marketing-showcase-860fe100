@@ -1,1 +1,7 @@
+# legacy pages from the previous site -> their homepage sections
+/about          /#operator      301
+/guarantee      /#founding      301
+/case-studies   /#operator      301
+/contact        /#book          301
+
 /*  /index.html  200

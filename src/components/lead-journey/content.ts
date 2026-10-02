@@ -6,8 +6,14 @@
 // it exists the components render an obvious labelled placeholder.
 export const AD_IMAGE = "/lead-journey/northline-roofing-ad.png";
 
+import { createContext, useContext } from "react";
+
 // Revora-world accent. Single swap point if the brand accent changes.
 export const ACCENT = "#c8e64a";
+// Per-tree accent override (e.g. Revora orange in /concept/acquisition-scroll).
+// Defaults to ACCENT, so routes without a provider are unchanged.
+export const AccentContext = createContext(ACCENT);
+export const useAccent = () => useContext(AccentContext);
 export const REVORA_BG = "#0a0b0c";
 
 // Stage is authored in fixed design pixels and scaled to fit (16:9).
