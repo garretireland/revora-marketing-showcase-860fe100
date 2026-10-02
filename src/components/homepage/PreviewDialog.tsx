@@ -135,7 +135,7 @@ export default function PreviewDialog({ open, onOpenChange }: { open: boolean; o
 
               {/* honeypot (hidden from people and assistive tech) */}
               <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
-                <label>Company URL<input tabIndex={-1} autoComplete="off" name="company_url" value={data.company_url} onChange={set("company_url")} /></label>
+                <label>Leave this field empty<input tabIndex={-1} autoComplete="off" name="bot-field" value={data["bot-field"]} onChange={set("bot-field")} /></label>
               </div>
 
               {status === "failed" && (

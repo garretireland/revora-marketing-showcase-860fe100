@@ -14,10 +14,10 @@ export type PreviewRequest = {
   phone: string;
   improve: string;
   /** honeypot: real people leave this empty */
-  company_url: string;
+  "bot-field": string;
 };
 
-export const EMPTY_REQUEST: PreviewRequest = { name: "", business: "", website: "", email: "", phone: "", improve: "", company_url: "" };
+export const EMPTY_REQUEST: PreviewRequest = { name: "", business: "", website: "", email: "", phone: "", improve: "", "bot-field": "" };
 export const IMPROVE_MAX = 1000;
 export const CONTACT_EMAIL = "garret@revoramarketingagency.com";
 export const FORM_NAME = "website-preview-request";
@@ -58,7 +58,7 @@ export class SubmitError extends Error {
 // detection off -> 404/405), or a 2xx that is just the app shell (a
 // rewrite, not the form handler).
 export async function submitPreviewRequest(r: PreviewRequest): Promise<void> {
-  if (r.company_url) return; // honeypot tripped: drop quietly (bots only)
+  if (r["bot-field"]) return; // honeypot tripped: drop quietly (bots only)
   const body = new URLSearchParams({
     "form-name": FORM_NAME,
     name: r.name.trim(),
@@ -67,7 +67,7 @@ export async function submitPreviewRequest(r: PreviewRequest): Promise<void> {
     email: r.email.trim(),
     phone: r.phone.trim(),
     improve: r.improve.trim(),
-    company_url: "",
+    "bot-field": "",
   }).toString();
   const ctrl = new AbortController();
   const timer = window.setTimeout(() => ctrl.abort(), 15000);
