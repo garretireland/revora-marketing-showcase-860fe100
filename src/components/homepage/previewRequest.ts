@@ -1,13 +1,10 @@
-// "See What We'd Build For You" request: data shape, validation, and the
-// submission seam.
-//
-// DELIVERY IS NOT CONNECTED YET. This repo has no backend, serverless
-// function, form service or env configuration (audited), so there is no
-// safe way to deliver a request. submitPreviewRequest() therefore REJECTS
-// with "not-configured" -- the UI must never show success until a real
-// delivery mechanism replaces the body of that function. Intended
-// destination: garret@revoramarketingagency.com, subject
-// "New Revora Website Preview Request — [Business Name]".
+// "See What We'd Build For You" request: data shape, validation, and
+// delivery via NETLIFY FORMS (the production host). The form is registered
+// at deploy time by the static <form name="website-preview-request"> in
+// index.html; submissions are a urlencoded POST with form-name. The UI shows
+// success ONLY when submitPreviewRequest() resolves, i.e. Netlify's form
+// handler accepted the submission. Anything else rejects (and the dialog
+// offers the email / Book a Call fallback).
 
 export type PreviewRequest = {
   name: string;
@@ -23,6 +20,7 @@ export type PreviewRequest = {
 export const EMPTY_REQUEST: PreviewRequest = { name: "", business: "", website: "", email: "", phone: "", improve: "", company_url: "" };
 export const IMPROVE_MAX = 1000;
 export const CONTACT_EMAIL = "garret@revoramarketingagency.com";
+export const FORM_NAME = "website-preview-request";
 
 export type FieldErrors = Partial<Record<keyof PreviewRequest, string>>;
 
@@ -55,11 +53,35 @@ export class SubmitError extends Error {
   }
 }
 
-// The submission seam. Replace this body with the approved delivery
-// mechanism (and resolve only on a confirmed backend success).
+// Resolves only when Netlify's form handler accepted the submission.
+// Rejects on network failure/timeout, a non-2xx response (e.g. form
+// detection off -> 404/405), or a 2xx that is just the app shell (a
+// rewrite, not the form handler).
 export async function submitPreviewRequest(r: PreviewRequest): Promise<void> {
   if (r.company_url) return; // honeypot tripped: drop quietly (bots only)
-  throw new SubmitError("not-configured");
+  const body = new URLSearchParams({
+    "form-name": FORM_NAME,
+    name: r.name.trim(),
+    business: r.business.trim(),
+    website: normalizeWebsite(r.website),
+    email: r.email.trim(),
+    phone: r.phone.trim(),
+    improve: r.improve.trim(),
+    company_url: "",
+  }).toString();
+  const ctrl = new AbortController();
+  const timer = window.setTimeout(() => ctrl.abort(), 15000);
+  let res: Response;
+  try {
+    res = await fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body, signal: ctrl.signal });
+  } catch {
+    throw new SubmitError("network");
+  } finally {
+    window.clearTimeout(timer);
+  }
+  if (!res.ok) throw new SubmitError("server");
+  const text = await res.text().catch(() => "");
+  if (text.includes('id="root"')) throw new SubmitError("not-configured");
 }
 
 // Honest fallback while delivery isn't connected: a pre-filled email the

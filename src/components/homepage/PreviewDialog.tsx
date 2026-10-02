@@ -39,6 +39,7 @@ export default function PreviewDialog({ open, onOpenChange }: { open: boolean; o
   const [tried, setTried] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const formRef = useRef<HTMLFormElement>(null);
+  const sendingRef = useRef(false);
 
   // a completed request starts fresh the next time the dialog opens
   useEffect(() => {
@@ -56,6 +57,9 @@ export default function PreviewDialog({ open, onOpenChange }: { open: boolean; o
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // one request at a time: a ref, because rapid taps land before React
+    // re-renders the disabled "Sending…" button
+    if (sendingRef.current) return;
     setTried(true);
     const v = validate(data);
     setErrors(v);
@@ -64,12 +68,15 @@ export default function PreviewDialog({ open, onOpenChange }: { open: boolean; o
       formRef.current?.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
       return;
     }
+    sendingRef.current = true;
     setStatus("sending");
     try {
       await submitPreviewRequest(data);
       setStatus("sent");
     } catch {
       setStatus("failed"); // fields are kept; retry or use a fallback
+    } finally {
+      sendingRef.current = false;
     }
   };
 
@@ -89,9 +96,9 @@ export default function PreviewDialog({ open, onOpenChange }: { open: boolean; o
       >
         {status === "sent" ? (
           <div className="py-6">
-            <DialogTitle className="font-display text-[34px] font-medium leading-tight">Got it.</DialogTitle>
+            <DialogTitle className="font-display text-[34px] font-medium leading-tight">Request received.</DialogTitle>
             <DialogDescription className="mt-3 text-[16px] leading-relaxed" style={{ color: C.muted }}>
-              We'll take a look at your business and reach out with the next step.
+              We'll take a look at your business and get back to you shortly.
             </DialogDescription>
             <button type="button" onClick={() => onOpenChange(false)} className="mt-8 rounded-full px-6 py-3 text-[14px] font-semibold" style={{ color: C.text, boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.22)" }}>
               Close

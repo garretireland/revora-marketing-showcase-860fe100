@@ -24,6 +24,18 @@
   </head>
 
   <body>
+    <!-- Netlify Forms detection: Netlify parses this static form at deploy
+         time (the React dialog is client-rendered and can't be detected).
+         Field names must match previewRequest.ts. Never displayed. -->
+    <form name="website-preview-request" data-netlify="true" netlify-honeypot="company_url" hidden>
+      <input type="text" name="name" />
+      <input type="text" name="business" />
+      <input type="text" name="website" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <textarea name="improve"></textarea>
+      <input type="text" name="company_url" />
+    </form>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
