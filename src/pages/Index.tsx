@@ -15,6 +15,7 @@ import SiteFooter from "@/components/homepage/SiteFooter";
 import PreviewDialog from "@/components/homepage/PreviewDialog";
 import WebsiteTransformation from "@/components/website-transformation/WebsiteTransformation";
 import IndustryShowcase from "@/components/homepage/IndustryShowcase";
+import SignatureStudio from "@/components/homepage/SignatureStudio";
 import { C } from "@/components/homepage/tokens";
 
 // Revora homepage -- the website chapter (Phase 2): nav, hero, find-vs-
@@ -39,6 +40,7 @@ const Index = () => {
           sub="We rebuild how your business presents itself online, so the first impression matches the work."
         />
         <IndustryShowcase />
+        <SignatureStudio />
         <Offer onPrimary={openPreview} />
         <Process onPrimary={openPreview} />
         <Pivot />

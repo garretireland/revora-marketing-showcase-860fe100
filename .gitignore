@@ -37,3 +37,8 @@ src/assets/web/concepts/*.png
 src/assets/northline-roof-installation.png
 src/assets/northline-roof-repair.png
 src/assets/northline-roof-inspection.png
+# Phase 6: masters for the three Signature Studio composites, same narrow,
+# explicitly-named approach as above.
+src/assets/signature-studio-northline.png
+src/assets/signature-studio-calder.png
+src/assets/signature-studio-ashgrove.png

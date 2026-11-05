@@ -40,9 +40,19 @@ export default function Offer({ onPrimary }: { onPrimary: () => void }) {
           <p data-of-in className="mt-6 text-[18px] leading-[1.6]" style={{ color: C.muted }}>
             A serious website for a serious business, without a bloated agency package. You see the price before you ever talk to us.
           </p>
-          <div data-of-in className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <BookCall />
-            <SeeWhatWedBuild onClick={onPrimary} />
+          {/* Phase 6A: at desktop widths where this column sits near its
+              own max-w-[500px] cap, the two buttons' combined natural width
+              was right at that limit, so "See What We'd Build For You"
+              wrapped its own text mid-label. Scoped fix, not a global Cta.tsx
+              change: whitespace-nowrap on each button's own label (via the
+              className prop both already accept) stops text wrapping inside
+              a button, and sm:flex-wrap on the row lets the two buttons wrap
+              onto their own line as whole units instead, if space is ever
+              tight -- the existing flex-col mobile base is untouched, so
+              mobile's already-correct stacked layout doesn't change. */}
+          <div data-of-in className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <BookCall className="whitespace-nowrap" />
+            <SeeWhatWedBuild onClick={onPrimary} className="whitespace-nowrap" />
           </div>
         </div>
 
@@ -67,12 +77,19 @@ export default function Offer({ onPrimary }: { onPrimary: () => void }) {
             </ul>
           </div>
 
-          <div className="mt-10 flex items-center gap-5 lg:mt-12">
+          {/* Phase 6A: mobile-only mt reduced (divider mt-10->mt-6, care
+              block mt-8->mt-5) -- the $997 glyph above is huge
+              (up to 10.5rem), so on mobile the full mt-10+divider+mt-8 gap
+              before the much smaller $99 block read as disproportionate.
+              Desktop is untouched: lg:mt-12 already existed for the
+              divider, and the care block now gets an explicit lg:mt-8
+              that reproduces its previous (unconditional) mt-8 exactly. */}
+          <div className="mt-6 flex items-center gap-5 lg:mt-12">
             <span data-of-join className="h-px w-16 origin-left lg:w-24" style={{ background: C.orange }} />
             <span className="text-[13px] font-semibold" style={{ color: C.orange }}>+</span>
           </div>
 
-          <div data-of-care className="mt-8 lg:pl-10">
+          <div data-of-care className="mt-5 lg:mt-8 lg:pl-10">
             <p className="text-[12px] font-semibold uppercase tracking-[0.3em]" style={{ color: C.faint }}>Website Care</p>
             <div className="mt-2 flex items-baseline gap-3">
               <span className="font-display text-[clamp(2.6rem,5vw,3.8rem)] font-medium leading-none tracking-[-0.03em]" style={{ color: C.text }}>$99</span>
