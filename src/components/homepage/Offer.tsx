@@ -6,6 +6,20 @@ import { useEnter } from "./useEnter";
 // The commercial payoff to the transformation: ONE website offer, shown as
 // an editorial price composition (no tiers, no cards, no invented scope).
 
+// Owner-approved inclusions (Phase 4A) -- same facts already stated in
+// Faq.tsx's "What does the $997 website include?" answer, just reformatted
+// into short scannable phrases for a compact list next to the price itself.
+// Not a new scope decision: nothing here may be added without also updating
+// that FAQ answer, since both describe the same approved offer.
+const INCLUDES = [
+  "Up to 5 pages",
+  "Mobile-friendly design",
+  "Contact / quote form",
+  "Domain connection",
+  "Basic on-page SEO setup",
+  "One consolidated revision round",
+];
+
 export default function Offer({ onPrimary }: { onPrimary: () => void }) {
   const root = useRef<HTMLElement>(null);
   useEnter(root, (tl) => {
@@ -38,8 +52,19 @@ export default function Offer({ onPrimary }: { onPrimary: () => void }) {
             <p className="text-[12px] font-semibold uppercase tracking-[0.3em] lg:pl-10" style={{ color: C.faint }}>Website build</p>
             <div className="mt-3 flex items-baseline gap-4 lg:pl-10">
               <span className="font-display text-[clamp(5.2rem,13vw,10.5rem)] font-medium leading-[0.82] tracking-[-0.05em]" style={{ color: C.text }}>$997</span>
-              <span className="text-[16px]" style={{ color: C.muted }}>one time</span>
+              <span className="text-[16px]" style={{ color: C.muted }}>CAD &middot; one time</span>
             </div>
+            {/* compact inclusion list -- small, two-column at rest; deliberately
+                not a bordered/boxed comparison table, so the price above stays
+                the dominant element on the page. */}
+            <ul className="mt-6 grid grid-cols-1 gap-x-6 gap-y-2.5 sm:grid-cols-2 lg:pl-10 lg:max-w-[420px]">
+              {INCLUDES.map((item) => (
+                <li key={item} className="flex items-start gap-2.5 text-[14px] leading-snug" style={{ color: C.muted }}>
+                  <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full" style={{ background: C.orange }} />
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div className="mt-10 flex items-center gap-5 lg:mt-12">
@@ -51,7 +76,7 @@ export default function Offer({ onPrimary }: { onPrimary: () => void }) {
             <p className="text-[12px] font-semibold uppercase tracking-[0.3em]" style={{ color: C.faint }}>Website Care</p>
             <div className="mt-2 flex items-baseline gap-3">
               <span className="font-display text-[clamp(2.6rem,5vw,3.8rem)] font-medium leading-none tracking-[-0.03em]" style={{ color: C.text }}>$99</span>
-              <span className="text-[16px]" style={{ color: C.muted }}>per month</span>
+              <span className="text-[16px]" style={{ color: C.muted }}>CAD &middot; per month</span>
             </div>
             <p className="mt-8 flex items-center gap-3 text-[17px] font-medium" style={{ color: C.text }}>
               <span className="h-1.5 w-1.5 rounded-full" style={{ background: C.orange }} />

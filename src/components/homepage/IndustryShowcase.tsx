@@ -157,7 +157,15 @@ function Switcher({ active, onChange }: { active: Industry; onChange: (i: Indust
             className="relative z-[1] flex min-h-[44px] flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 text-[13px] font-medium outline-none transition-colors focus-visible:shadow-[0_0_0_2px_#FF8838]"
             style={{ fontFamily: "Inter, system-ui, sans-serif", color: isActive ? C.text : C.muted }}
           >
-            {isActive && <span aria-hidden="true" className="block h-[6px] w-[6px] rounded-full" style={{ background: C.orange }} />}
+            {/* Phase 4A: the dot's layout slot is now always present (only
+                its opacity toggles), not conditionally mounted -- mounting
+                it only when active made the centered flex content wider
+                for the active tab than the inactive one (dot + gap-2 =
+                14px), which measurably decentered the active tab's own
+                label text 7px off its button's true center. Reserving the
+                same space either way keeps a given tab's text position
+                constant whether it's active or not. */}
+            <span aria-hidden="true" className="block h-[6px] w-[6px] shrink-0 rounded-full transition-opacity" style={{ background: C.orange, opacity: isActive ? 1 : 0 }} />
             {t.label}
           </button>
         );
@@ -381,9 +389,12 @@ function PreviewModal({ open, onOpenChange, industry, mode, onModeChange }: { op
         <div className="flex flex-wrap items-center justify-between gap-4 pr-8">
           <div>
             <DialogTitle className="font-display text-[22px] font-medium leading-tight sm:text-[26px]" style={{ color: C.text }}>{NAMES[industry]}</DialogTitle>
-            {/* Accessible description only -- no visible "Design concept
-                preview" caption per owner request; Radix still gets the
-                aria-describedby it wants for the dialog's accessible name. */}
+            {/* Phase 4A: no visible "design concept" caption here, by
+                owner decision -- disclosure is handled once, prominently,
+                in the showroom section heading below the "Same standard.
+                Different trade." title, so this expanded preview can stay
+                visually clean. Radix still gets the aria-describedby it
+                wants for the dialog's accessible name. */}
             <DialogDescription className="sr-only">{NAMES[industry]} website preview, {mode} view.</DialogDescription>
           </div>
           <div role="tablist" aria-label="Preview device" className="inline-flex items-center gap-1 rounded-full p-1" style={{ boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.09)" }}>
@@ -538,9 +549,12 @@ export default function IndustryShowcase() {
       <style>{ANIM_CSS}</style>
       <div className={CONTAINER}>
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <h2 className="font-display text-[clamp(1.625rem,3.4vw,2.5rem)] font-medium leading-[1.05] tracking-[-0.03em]" style={{ color: C.text }}>
-            Same standard. Different trade.
-          </h2>
+          <div>
+            <h2 className="font-display text-[clamp(1.625rem,3.4vw,2.5rem)] font-medium leading-[1.05] tracking-[-0.03em]" style={{ color: C.text }}>
+              Same standard. Different trade.
+            </h2>
+            <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.25em]" style={{ color: C.faint }}>REVORA design concepts</p>
+          </div>
           <Switcher active={active} onChange={onChange} />
         </div>
 

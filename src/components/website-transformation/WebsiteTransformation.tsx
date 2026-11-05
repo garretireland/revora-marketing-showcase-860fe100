@@ -100,6 +100,12 @@ export default function WebsiteTransformation({ id, sub, note }: Props = {}) {
         <h2 className="mt-3 font-display text-[clamp(1.9rem,3.2vw,2.9rem)] font-medium leading-[1.05] tracking-[-0.03em]" style={{ color: C.text }}>
           Same business. Completely different first impression.
         </h2>
+        {/* Shared by all three render modes (pinned/touch/static) below --
+            one edit covers the disclosure everywhere this section renders,
+            rather than duplicating it per mode. Northline Roofing is a
+            fictional example (see MockSites.tsx), never disclosed in
+            rendered UI before this. */}
+        <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.25em]" style={{ color: C.faint }}>REVORA design concept</p>
       </div>
       {(sub || note) && (
         <div className="max-w-[360px] lg:pb-1.5 lg:text-right">

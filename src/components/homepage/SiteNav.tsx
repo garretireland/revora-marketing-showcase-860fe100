@@ -24,7 +24,13 @@ const LINKS = [
   ["Websites", "offer"], // the website product/offer, not the mid-page animation
   ["How It Works", "how-it-works"],
   ["Lead Generation", "lead-generation"], // start of the lead-gen chapter (pivot)
-  ["Pricing", "founding"], // nav label only; the section stays "Founding Client Program"
+  // Phase 4A: previously pointed at "founding" (lead-gen pricing only) --
+  // with two separate products on this page, a visitor clicking "Pricing"
+  // most naturally expects the website's $997 offer first. "Lead
+  // Generation" above already gives a discoverable path to the founding
+  // program's own pricing further down, so this needed only a target
+  // change, not a new nav item.
+  ["Pricing", "offer"],
   ["FAQ", "faq"],
 ] as const;
 

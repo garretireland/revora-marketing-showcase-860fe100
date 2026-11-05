@@ -18,7 +18,7 @@ export const CALENDLY = "https://calendly.com/garret-revoramarketingagency/30min
 export const CONTAINER = "mx-auto w-full max-w-[1240px] px-6 md:px-10";
 
 export const OFFER = [
-  { value: "$997", label: "website build" },
-  { value: "$99/mo", label: "Website Care" },
+  { value: "$997 CAD", label: "website build" },
+  { value: "$99 CAD/mo", label: "Website Care" },
   { value: "No lock-in", label: "" },
 ] as const;

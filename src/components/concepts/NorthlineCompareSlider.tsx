@@ -160,7 +160,10 @@ export default function NorthlineCompareSlider() {
     applyPct(next);
   };
 
-  const stateLabel = pct <= 2 ? "Original website" : pct >= 98 ? "Completed redesign" : "Rebuilding";
+  // "Original website" (prior wording) could read as a real client's actual
+  // prior site; "Original concept" states plainly that this is REVORA's own
+  // illustrative before-state, pairing naturally with "Completed redesign".
+  const stateLabel = pct <= 2 ? "Original concept" : pct >= 98 ? "Completed redesign" : "Rebuilding";
 
   return (
     <div className="w-full">
