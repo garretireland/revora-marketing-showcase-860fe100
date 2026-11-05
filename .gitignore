@@ -31,3 +31,9 @@ public/lead-journey/
 public/video/revora-acquisition-film.mp4
 public/video/revora-acquisition-film-poster.jpg
 src/assets/web/concepts/*.png
+# Phase 5: masters for the three new Northline service-card photos only --
+# named explicitly (not a wildcard) so this can never catch the existing,
+# already-tracked src/assets/northline-roof-hero.png.
+src/assets/northline-roof-installation.png
+src/assets/northline-roof-repair.png
+src/assets/northline-roof-inspection.png

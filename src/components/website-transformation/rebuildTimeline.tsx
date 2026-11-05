@@ -2,8 +2,9 @@ import gsap from "gsap";
 import { NorthlineMark } from "@/components/lead-journey/primitives";
 import { C } from "@/components/homepage/tokens";
 import roofHero from "@/assets/web/northline-roof-hero.jpg";
-import roofTile from "@/assets/web/northline-roof-hero-800.jpg";
-import craftTile from "@/assets/web/craftsmanship-800.jpg";
+import roofInstall from "@/assets/web/northline-roof-installation.jpg";
+import roofRepair from "@/assets/web/northline-roof-repair.jpg";
+import roofInspect from "@/assets/web/northline-roof-inspection.jpg";
 
 // The Northline rebuild's data + timeline-building logic, split out of
 // WebsiteTransformation.tsx so that file exports components only (Canvas,
@@ -41,10 +42,15 @@ const LINKS_NEW: Record<number, { label: string; x: number; w: number }> = {
   1: { label: "Roofing", x: 760, w: 70 }, 2: { label: "Repairs", x: 846, w: 70 },
   3: { label: "Our work", x: 932, w: 84 }, 4: { label: "About", x: 1032, w: 56 },
 };
+// Phase 5: each service card now shows its own distinct photo (previously
+// "Full replacement" and "Inspections" both reused northline-roof-hero-800
+// with only a different crop, and "Repairs & leaks" used an unrelated
+// generic craftsmanship stock photo). Positions chosen to keep the actual
+// worker/action visible within each card's 368x96 design-px crop.
 const SERVICES = [
-  { old: "Shingles & Flat Roofs", title: "Full replacement", img: roofTile, pos: "70% 30%" },
-  { old: "Repairs & Leaks", title: "Repairs & leaks", img: craftTile, pos: "50% 50%" },
-  { old: "Inspections & Gutters", title: "Inspections", img: roofTile, pos: "30% 60%" },
+  { old: "Shingles & Flat Roofs", title: "Full replacement", img: roofInstall, pos: "75% 55%" },
+  { old: "Repairs & Leaks", title: "Repairs & leaks", img: roofRepair, pos: "40% 60%" },
+  { old: "Inspections & Gutters", title: "Inspections", img: roofInspect, pos: "35% 20%" },
 ];
 
 export const PIECES: Piece[] = [

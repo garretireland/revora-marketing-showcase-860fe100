@@ -1,8 +1,9 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { NorthlineMark } from "@/components/lead-journey/primitives";
 import roofHero from "@/assets/web/northline-roof-hero.jpg";
-import roofTile from "@/assets/web/northline-roof-hero-800.jpg";
-import craftTile from "@/assets/web/craftsmanship-800.jpg";
+import roofInstall from "@/assets/web/northline-roof-installation.jpg";
+import roofRepair from "@/assets/web/northline-roof-repair.jpg";
+import roofInspect from "@/assets/web/northline-roof-inspection.jpg";
 
 // Static website mocks for the homepage (fictional business, Northline
 // Roofing). AfterSite = the premium Revora-built version; BeforeSite = the
@@ -72,7 +73,10 @@ export function AfterSite() {
           </div>
         </div>
         <div className="absolute inset-x-16 bottom-10 grid grid-cols-3 gap-6">
-          {[["Full replacement", roofTile, "70% 30%"], ["Repairs & leaks", craftTile, "50% 50%"], ["Inspections", roofTile, "30% 60%"]].map(([t, src, pos]) => (
+          {/* Phase 5: matches rebuildTimeline.tsx's SERVICES mapping and
+              crop positions exactly, so the reduced-motion fallback shown
+              here stays visually consistent with the live GSAP version. */}
+          {[["Full replacement", roofInstall, "75% 55%"], ["Repairs & leaks", roofRepair, "40% 60%"], ["Inspections", roofInspect, "35% 20%"]].map(([t, src, pos]) => (
             <div key={t} className="overflow-hidden rounded-lg" style={{ background: "#1d1915" }}>
               <img src={src} alt="" className="h-[96px] w-full object-cover" style={{ objectPosition: pos }} />
               <div className="px-4 py-3 text-[15px] font-medium">{t}</div>
