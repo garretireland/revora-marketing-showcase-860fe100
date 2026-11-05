@@ -82,11 +82,10 @@ export default function Hero({ onPrimary }: { onPrimary: () => void }) {
         {/* the product: a premium site, not a dashboard */}
         <div className="relative lg:pl-4" style={{ perspective: "1600px" }}>
           <div data-hero-frame>
-            <BrowserFrame label="northline roofing — design concept">
+            <BrowserFrame label="northlineroofing.com">
               <AfterSite />
             </BrowserFrame>
           </div>
-          <p className="mt-4 text-right text-[12px]" style={{ color: C.faint }}>Design concept by Revora</p>
         </div>
       </div>
     </section>

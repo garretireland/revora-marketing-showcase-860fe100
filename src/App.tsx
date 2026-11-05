@@ -23,6 +23,7 @@ const AcquisitionScrollPreview = lazy(() => import("./pages/concept/AcquisitionS
 const AcquisitionFilmRender = lazy(() => import("./pages/concept/AcquisitionFilmRender"));
 const WebsiteTransformationPreview = lazy(() => import("./pages/concept/WebsiteTransformationPreview"));
 const WebsiteConceptPreview = lazy(() => import("./pages/concept/WebsiteConceptPreview"));
+const NorthlineComparePreview = lazy(() => import("./pages/concept/NorthlineComparePreview"));
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,7 @@ const App = () => (
             <Route path="/concept/website-transformation" element={<WebsiteTransformationPreview />} />
             <Route path="/concept/ashgrove" element={<WebsiteConceptPreview concept="ashgrove" />} />
             <Route path="/concept/calder" element={<WebsiteConceptPreview concept="calder" />} />
+            <Route path="/concept/northline-compare" element={<NorthlineComparePreview />} />
             </>
           )}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

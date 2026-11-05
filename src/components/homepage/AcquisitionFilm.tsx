@@ -503,8 +503,6 @@ export default function AcquisitionFilm() {
             </div>
           </div>
 
-          <p className="mt-4 text-[12px]" style={{ color: C.faint }}>Illustrative Revora concept.</p>
-
           {/* the film is proof; this is the conversion moment */}
           <div className="mt-14 flex flex-col items-start gap-5 border-t pt-10 md:flex-row md:items-center md:justify-between" style={{ borderColor: C.line }}>
             <p className="font-display text-[clamp(1.5rem,2.6vw,2.1rem)] font-medium leading-tight tracking-[-0.02em]" style={{ color: C.text }}>
