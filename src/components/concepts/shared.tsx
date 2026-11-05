@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 // Shared plumbing for the website-concept mockups (Ashgrove, Calder).
 // Each concept is authored at a fixed design size and scaled to fit, so
@@ -14,9 +14,20 @@ const urlFor = (slot: string) => Object.entries(FILES).find(([p]) => p.split("/"
 
 export type Slot = { id: string; label: string; tone: string };
 
+// Both the dedicated /concept/calder and /concept/ashgrove review routes
+// AND the homepage showroom (IndustryShowcase.tsx) render these exact same
+// ConceptImage calls -- but only the dedicated routes show the hero slot
+// above the fold (true LCP candidate there). Defaulting to eager preserves
+// that for the dedicated routes with zero changes to Calder.tsx/Ashgrove.tsx;
+// IndustryShowcase opts into native loading="lazy" by providing "lazy"
+// through this context around its own render tree only.
+const ConceptImageLoadingContext = createContext<"eager" | "lazy">("eager");
+export const ConceptImageLoadingProvider = ConceptImageLoadingContext.Provider;
+
 export function ConceptImage({ slot, className = "", style, position = "50% 50%" }: { slot: Slot; className?: string; style?: React.CSSProperties; position?: string }) {
+  const loading = useContext(ConceptImageLoadingContext);
   const src = urlFor(slot.id);
-  if (src) return <img src={src} alt="" decoding="async" className={`block h-full w-full object-cover ${className}`} style={{ objectPosition: position, ...style }} />;
+  if (src) return <img src={src} alt="" loading={loading} decoding="async" className={`block h-full w-full object-cover ${className}`} style={{ objectPosition: position, ...style }} />;
   return (
     <div className={`relative h-full w-full overflow-hidden ${className}`} style={{ background: slot.tone, ...style }}>
       <span className="absolute right-2 top-2 rounded-[3px] px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em]" style={{ background: "rgba(0,0,0,0.35)", color: "rgba(255,255,255,0.8)" }}>

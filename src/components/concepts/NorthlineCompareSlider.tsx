@@ -91,6 +91,10 @@ export default function NorthlineCompareSlider() {
     setInteracted(true);
   };
   const endDrag = () => {
+    const id = scrub.current?.id;
+    if (id !== undefined) {
+      try { trackRef.current?.releasePointerCapture(id); } catch { /* already released */ }
+    }
     setDragging(false);
     scrub.current = null;
   };
@@ -109,11 +113,21 @@ export default function NorthlineCompareSlider() {
     if (!s || s.id !== e.pointerId) return;
     if (s.mode === "pending") {
       const dx = Math.abs(e.clientX - s.x0), dy = Math.abs(e.clientY - s.y0);
-      if (dx > 6 && dx > dy) beginDrag(e);
-      else {
-        if (dy > 10) scrub.current = null; // a real vertical swipe: let the page scroll
+      if (dx > 6 && dx > dy) {
+        beginDrag(e);
+        e.preventDefault(); // confirmed horizontal: stop native pan-y from also competing for this gesture
+      } else {
+        // Require a clearer, more vertical-dominant move before giving up
+        // on the drag. The old dy>10 (regardless of dx) cancelled on the
+        // very first sample for any touch with even a slightly diagonal
+        // start -- exactly what a finger tends to do immediately after a
+        // vertical scroll, when some residual vertical motion is still
+        // present even though the user is now trying to drag horizontally.
+        if (dy > 24 && dy > dx * 1.5) scrub.current = null; // clearly a scroll: let the page handle it
         return;
       }
+    } else {
+      e.preventDefault(); // already dragging: keep native vertical pan from taking back over mid-gesture
     }
     applyPct(pctAt(e.clientX));
   };
@@ -194,15 +208,21 @@ export default function NorthlineCompareSlider() {
           onKeyDown={onKeyDown}
           className="relative h-11 flex-1 cursor-ew-resize select-none outline-none [touch-action:pan-y] focus-visible:[&_[data-handle]]:shadow-[0_0_0_3px_rgba(255,136,56,0.55)]"
         >
-          {/* hit-area track line */}
-          <div className="absolute left-0 right-0 top-1/2 h-[3px] -translate-y-1/2 overflow-hidden rounded-full" style={{ background: "rgba(255,255,255,0.12)" }}>
+          {/* hit-area track line -- inset by the handle's own radius (16px,
+              matching h-8 w-8 below) on each side, so the fill bar and
+              handle travel entirely within the track's own box and never
+              overhang into the Before/After labels at either end. The
+              track div itself (the pointer/keyboard target) stays full
+              width -- only the visual fill/handle are inset. */}
+          <div className="absolute left-4 right-4 top-1/2 h-[3px] -translate-y-1/2 overflow-hidden rounded-full" style={{ background: "rgba(255,255,255,0.12)" }}>
             <div className="h-full rounded-full" style={{ width: `${pct}%`, background: C.orange }} />
           </div>
-          {/* thumb */}
+          {/* thumb -- position matches the same 16px inset so it never
+              extends past the track's own left/right edge */}
           <div
             data-handle
             className={`pointer-events-none absolute top-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full transition-transform ${dragging ? "scale-110" : ""}`}
-            style={{ left: `${pct}%`, background: "#f4f1ec", boxShadow: "0 10px 24px -6px rgba(0,0,0,0.6)" }}
+            style={{ left: `calc(16px + (100% - 32px) * ${pct / 100})`, background: "#f4f1ec", boxShadow: "0 10px 24px -6px rgba(0,0,0,0.6)" }}
           >
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M5 3L1.5 8L5 13" stroke="#0a1018" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
