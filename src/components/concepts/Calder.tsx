@@ -63,7 +63,16 @@ function Index({ rowH, size }: { rowH: number; size: number }) {
 }
 
 // 1280 x 800 desktop page (12 cols: 48 margins, 24 gutters)
-export function CalderDesktop() {
+// showSelectedWork: the compact homepage showroom (IndustryShowcase.tsx)
+// crops this component's visual output at y=572, well above the "Selected
+// work" grid at y=620 -- but Fit still mounts its full child regardless of
+// the crop (overflow-hidden only clips visually), so the three gallery
+// <img> elements were downloading on every homepage load despite never
+// being visible there. Defaulting to true preserves every other caller
+// (CalderBrowser on /concept/calder, and the expanded showroom preview,
+// both of which DO show this grid) with zero changes; only the compact
+// homepage call sites pass false.
+export function CalderDesktop({ showSelectedWork = true }: { showSelectedWork?: boolean } = {}) {
   return (
     <div className="relative h-[800px] w-[1280px] overflow-hidden" style={{ background: CAL.paper, fontFamily: SANS }}>
       <header className="absolute inset-x-0 top-0 flex h-[64px] items-center justify-between px-12" style={{ borderBottom: `1px solid ${CAL.rule}` }}>
@@ -97,7 +106,7 @@ export function CalderDesktop() {
         {/* crop keeps the driveway as the subject: joints run into the frame,
             entry + garage above (the house is context, not the subject) */}
         <ConceptImage slot={CAL_SLOTS.hero} position="66% 50%" />
-        <div className="absolute bottom-4 left-4"><Tag a="Driveway" b="Exposed aggregate" /></div>
+        <div className="absolute bottom-4 left-4"><Tag a="Driveway" b="Architectural concrete" /></div>
       </div>
       <div className="absolute left-[724px] top-[84px] h-px w-[508px]" style={{ background: CAL.rule }}>
         <i className="absolute -top-[3px] left-0 h-[7px] w-px" style={{ background: CAL.grey }} /><i className="absolute -top-[3px] right-0 h-[7px] w-px" style={{ background: CAL.grey }} />
@@ -106,20 +115,26 @@ export function CalderDesktop() {
         <i className="absolute -left-[3px] top-0 h-px w-[7px]" style={{ background: CAL.grey }} /><i className="absolute -left-[3px] bottom-0 h-px w-[7px]" style={{ background: CAL.grey }} />
       </div>
 
-      {/* project strip */}
-      <div className="absolute left-12 right-12 top-[584px] flex items-center justify-between pt-3 text-[10px]" style={{ ...MID, letterSpacing: "0.3em", borderTop: `1px solid ${CAL.charcoal}` }}>
-        <span style={{ color: CAL.charcoal }}>Selected work</span><span className="tabular-nums" style={{ color: CAL.grey }}>01 — 03</span>
-      </div>
-      <div className="absolute left-12 right-12 top-[620px] grid grid-cols-3 gap-6">
-        {WORK.map((w) => (
-          <div key={w.a}>
-            <div className="h-[132px] overflow-hidden"><ConceptImage slot={w.slot} /></div>
-            <div className="mt-2.5 flex justify-between text-[10px]" style={{ ...MID, letterSpacing: "0.2em" }}>
-              <span style={{ color: CAL.charcoal, fontWeight: 600 }}>{w.a}</span><span style={{ color: CAL.grey }}>{w.b}</span>
-            </div>
+      {/* project strip -- and the gallery's actual <img> mounts below it --
+          omitted entirely (not just visually clipped) when the caller has
+          no use for them, so their images never mount or download. */}
+      {showSelectedWork && (
+        <>
+          <div className="absolute left-12 right-12 top-[584px] flex items-center justify-between pt-3 text-[10px]" style={{ ...MID, letterSpacing: "0.3em", borderTop: `1px solid ${CAL.charcoal}` }}>
+            <span style={{ color: CAL.charcoal }}>Selected work</span><span className="tabular-nums" style={{ color: CAL.grey }}>01 — 03</span>
           </div>
-        ))}
-      </div>
+          <div className="absolute left-12 right-12 top-[620px] grid grid-cols-3 gap-6">
+            {WORK.map((w) => (
+              <div key={w.a}>
+                <div className="h-[132px] overflow-hidden"><ConceptImage slot={w.slot} /></div>
+                <div className="mt-2.5 flex justify-between text-[10px]" style={{ ...MID, letterSpacing: "0.2em" }}>
+                  <span style={{ color: CAL.charcoal, fontWeight: 600 }}>{w.a}</span><span style={{ color: CAL.grey }}>{w.b}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -140,7 +155,7 @@ export function CalderPhone() {
       </div>
       <div className="absolute left-6 right-6 top-[236px] h-[280px]">
         <ConceptImage slot={CAL_SLOTS.hero} position="68% 50%" />
-        <div className="absolute bottom-3 left-3"><Tag a="Driveway" b="Exposed aggregate" /></div>
+        <div className="absolute bottom-3 left-3"><Tag a="Driveway" b="Architectural concrete" /></div>
       </div>
       <div className="absolute left-6 right-6 top-[540px]"><Index rowH={38} size={11} /></div>
       <span className="absolute left-6 right-6 top-[714px] flex justify-center py-4 text-[11px]" style={{ ...MID, fontWeight: 600, letterSpacing: "0.2em", background: CAL.charcoal, color: CAL.paper }}>Request a quote</span>

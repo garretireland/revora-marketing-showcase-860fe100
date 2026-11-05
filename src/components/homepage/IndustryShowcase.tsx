@@ -76,12 +76,29 @@ function PhoneChrome({ children, onOpen, label }: { children: React.ReactNode; o
   );
 }
 
-// Calder: crop at design y=572 (before "Selected work"). Ashgrove: full
-// 800/844 -- its design is complete, nothing to hide. Shared by both the
-// compact stage and the expanded preview dialog, so the same crop applies
-// everywhere Calder appears, per "keep the preview limited to the
-// completed portions."
-function CalderBrowserContent() { return <Fit w={1280} h={572}><CalderDesktop /></Fit>; }
+// Calder: compact stage crops at design y=572 (before "Selected work") --
+// unchanged, still the approved homepage composition. The expanded preview
+// dialog crops at CALDER_EXPANDED_CROP instead, just past the "Selected
+// work" grid's own true bottom edge (measured directly off the rendered
+// DOM: the grid's content ends at design y=777, not the grid's nominal
+// top-[620px]+132px image height alone -- the caption row below each photo
+// adds a further ~25px), so the three now-integrated photos are fully
+// visible with a small clean margin, without dragging in the ~23px of bare
+// canvas between y=777 and CalderDesktop's own full 800px height. Ashgrove
+// is untouched either way -- it already renders full height (800/844),
+// nothing to hide, no shared code path with these two functions.
+// expanded also gates CalderDesktop's own showSelectedWork prop: the
+// compact stage's crop only ever hid the gallery visually (Fit always
+// mounts its full child), so the three gallery images were downloading on
+// every homepage load regardless of the crop height. Passing
+// showSelectedWork={expanded} stops the compact stage from mounting those
+// <img> elements at all, while the expanded preview (which actually shows
+// them) is unaffected.
+const CALDER_COMPACT_CROP = 572;
+const CALDER_EXPANDED_CROP = 784;
+function CalderBrowserContent({ expanded = false }: { expanded?: boolean } = {}) {
+  return <Fit w={1280} h={expanded ? CALDER_EXPANDED_CROP : CALDER_COMPACT_CROP}><CalderDesktop showSelectedWork={expanded} /></Fit>;
+}
 function CalderPhoneContent() { return <Fit w={390} h={780}><CalderPhone /></Fit>; }
 function AshgroveBrowserContent() { return <Fit w={1280} h={800}><AshgroveDesktop /></Fit>; }
 function AshgrovePhoneContent() { return <Fit w={390} h={844}><AshgrovePhone /></Fit>; }
@@ -98,7 +115,9 @@ function FixedScale({ w, h, scale, children }: { w: number; h: number; scale: nu
     </div>
   );
 }
-function CalderBrowserContentFixed({ scale }: { scale: number }) { return <FixedScale w={1280} h={572} scale={scale}><CalderDesktop /></FixedScale>; }
+function CalderBrowserContentFixed({ scale, expanded = false }: { scale: number; expanded?: boolean }) {
+  return <FixedScale w={1280} h={expanded ? CALDER_EXPANDED_CROP : CALDER_COMPACT_CROP} scale={scale}><CalderDesktop showSelectedWork={expanded} /></FixedScale>;
+}
 function AshgroveBrowserContentFixed({ scale }: { scale: number }) { return <FixedScale w={1280} h={800} scale={scale}><AshgroveDesktop /></FixedScale>; }
 
 // ---------------------------------------------------------------- switcher
@@ -325,12 +344,12 @@ function DesktopPreviewArea({ industry }: { industry: Industry }) {
   return (
     <div className="w-full min-w-0" style={{ maxWidth: 940 }}>
       <div className="dp-large">
-        <BrowserChrome url={URLS[industry]}>{isConcrete ? <CalderBrowserContent /> : <AshgroveBrowserContent />}</BrowserChrome>
+        <BrowserChrome url={URLS[industry]}>{isConcrete ? <CalderBrowserContent expanded /> : <AshgroveBrowserContent />}</BrowserChrome>
       </div>
       <div className="dp-pan">
         <PannableDesktop>
           <BrowserChrome url={URLS[industry]}>
-            {isConcrete ? <CalderBrowserContentFixed scale={scale} /> : <AshgroveBrowserContentFixed scale={scale} />}
+            {isConcrete ? <CalderBrowserContentFixed scale={scale} expanded /> : <AshgroveBrowserContentFixed scale={scale} />}
           </BrowserChrome>
         </PannableDesktop>
       </div>
