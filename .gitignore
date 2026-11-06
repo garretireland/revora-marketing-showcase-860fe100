@@ -42,3 +42,13 @@ src/assets/northline-roof-inspection.png
 src/assets/signature-studio-northline.png
 src/assets/signature-studio-calder.png
 src/assets/signature-studio-ashgrove.png
+# Phase 6B: master for the hero's new single-monitor Northline image,
+# same narrow, explicitly-named approach as above.
+src/assets/hero-monitor-northline.png
+# Phase 6B refinement: the replacement with cleaner monitor edges. Both
+# masters are kept on disk (original + refined) per owner request.
+src/assets/hero-monitor-northline-refined.png
+# Phase 6B transparent: same refined render with the background genuinely
+# removed (real alpha, verified by pixel inspection, not just a channel
+# flag). All three masters are kept on disk per owner request.
+src/assets/hero-monitor-northline-transparent.png

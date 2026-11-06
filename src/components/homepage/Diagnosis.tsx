@@ -39,8 +39,31 @@ export default function Diagnosis() {
 
   useLayoutEffect(() => {
     if (!root.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    // Phase 6B: skip the entrance entirely when the heading is already
+    // on screen at mount. "top 95%" (below) fixed content being stuck
+    // invisible indefinitely until a scroll, but on a load where the
+    // heading is already visible it meant the owner now watched the
+    // .from() tween's own opacity:0->1 fade play out in real time --
+    // itself read as a brief dark band, since ink/navy are nearly
+    // identical colors. Checking the actual heading element's own rect
+    // (not the section's) matters: the section's top padding (112-160px,
+    // untouched, out of scope) entering the viewport is NOT proof the
+    // heading itself is visible -- it could still be sitting below the
+    // fold inside that padding. NAV_HEIGHT accounts for SiteNav's fixed
+    // 72px bar, which visually covers that much of the viewport's top
+    // regardless of scroll position, so content technically within
+    // window bounds but under the nav isn't counted as visible either.
+    const NAV_HEIGHT = 72;
+    const headEl = root.current.querySelector<HTMLElement>("[data-dx-head]");
+    const alreadyVisible = !!headEl && (() => {
+      const r = headEl.getBoundingClientRect();
+      return r.top < window.innerHeight && r.bottom > NAV_HEIGHT;
+    })();
+    if (alreadyVisible) return;
+
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ scrollTrigger: { trigger: root.current, start: "top 70%", once: true } });
+      const tl = gsap.timeline({ scrollTrigger: { trigger: root.current, start: "top 95%", once: true } });
       tl.from("[data-dx-head]", { opacity: 0, y: 18, duration: 0.8, ease: "power3.out", stagger: 0.08 })
         .from("[data-dx-side]", { opacity: 0, y: 26, duration: 0.9, ease: "power3.out", stagger: 0.22 }, 0.25)
         .from("[data-dx-spine]", { scaleY: 0, duration: 0.9, ease: "power2.inOut" }, 0.6)
