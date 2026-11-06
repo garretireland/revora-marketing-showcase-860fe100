@@ -18,6 +18,7 @@ import IndustryShowcase from "@/components/homepage/IndustryShowcase";
 import SignatureStudio from "@/components/homepage/SignatureStudio";
 import { C } from "@/components/homepage/tokens";
 import { track } from "@/lib/analytics";
+import revoraFounderGarret from "@/assets/web/revora-founder-garret.jpg";
 
 // Revora homepage -- the website chapter (Phase 2): nav, hero, find-vs-
 // choose diagnosis, the approved website transformation (pinned), the
@@ -49,7 +50,7 @@ const Index = () => {
         <AcquisitionFilm />
         <LeadGenSystem />
         <FoundingProgram />
-        <Operator />
+        <Operator image={revoraFounderGarret} />
         <Faq />
         <FinalClose />
       </main>

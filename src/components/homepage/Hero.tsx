@@ -5,29 +5,24 @@ import { Play } from "lucide-react";
 import { BookCall, SeeWhatWedBuild } from "./Cta";
 import { scrollToFilm } from "./scrollTo";
 import { C, CONTAINER, OFFER } from "./tokens";
-import heroMonitor from "@/assets/web/hero-monitor-northline-transparent.webp";
+import heroArchitectural from "@/assets/web/hero-candidate-a-architectural.jpg";
 
-// Phase 6B: the hero visual is now a single Higgsfield-rendered monitor
-// photo (baked-in three-quarter perspective, orange rim lighting) instead
-// of the live-rendered AfterSite/BrowserFrame mockup. AfterSite and
-// BrowserFrame are untouched in MockSites.tsx and still used elsewhere
-// (WebsiteTransformation's reduced-motion fallback, the live GSAP
-// cinematic) -- rollback here is just reverting this file's own diff, not
-// anything that risks those components.
+// Phase 8 release: the hero visual is the approved "A -- Large"
+// architectural scene (illuminated arch, monitor on a glowing stone
+// platform, floating lead/performance metric cards), chosen after an
+// explicit local A/B/Large comparison round (Phase 8A/8B) against both a
+// "B -- Centered" candidate and the prior Phase 6B single-monitor
+// treatment. That comparison machinery (variantImage/variantScale props,
+// the dev-only /concept/hero-compare route) has been removed now that a
+// decision is made -- this file goes back to rendering one, single, final
+// hero image, same as before Phase 8A ever started.
 //
-// Phase 6B refinement: swapped to the owner's refined re-render (cleaner
-// bezel/stand edges) -- same 1536x1024 size. The original
-// hero-monitor-northline.jpg/.png is kept on disk, untouched, for
-// rollback; only this import line changed to point at the new file.
-//
-// Phase 6B transparent: swapped again to a background-removed version of
-// the same refined render. Verified by decoding the PNG's raw alpha
-// channel directly (not just checking hasAlpha): outer border/corners are
-// alpha=0, monitor body is alpha~253 (effectively opaque). Served as WebP
-// (not JPEG) since JPEG can't carry alpha -- 140KB, actually smaller than
-// the previous flattened JPEG (236KB). The monitor now sits directly on
-// REVORA's navy hero background with no masking needed; the right-edge
-// mask below is removed accordingly.
+// Rollback: the prior production hero (hero-monitor-northline-transparent
+// .webp, a single-monitor photo with real alpha transparency) remains on
+// disk, untouched, along with its own PNG masters -- rolling back is
+// reverting this file's own diff, not recovering lost assets. The
+// B-centered candidate JPEG also remains on disk, unused, for the same
+// reason (explored, not chosen, not deleted).
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,19 +34,11 @@ export default function Hero({ onPrimary }: { onPrimary: () => void }) {
   useLayoutEffect(() => {
     if (!root.current || reduced()) return;
     const ctx = gsap.context(() => {
-      // Phase 6B: all rotateX/rotateY removed -- the hero visual is now a
-      // flat photo with its own baked-in three-quarter perspective, so a
-      // CSS 3D rotation on top of it would compound into a visibly warped
-      // double-perspective, not "more depth." Kept: the same fade+rise
-      // entrance and the same gentle upward drift on scroll-out, just
-      // without any rotation component.
-      //
-      // Phase 6B release cleanup: the initial-render experiment that
-      // removed this entrance entirely is reverted -- it was tested
-      // specifically to see if it resolved the transient refresh band; it
-      // didn't, and there's no separate evidence this entrance was ever
-      // broken, so removing it had no independent justification once that
-      // experiment's own goal wasn't met. Restored to its prior timing.
+      // Phase 6B: all rotateX/rotateY removed -- the hero visual is a flat
+      // photo with its own baked-in perspective, so a CSS 3D rotation on
+      // top of it would compound into a visibly warped double-perspective.
+      // Kept: the same fade+rise entrance and the same gentle upward drift
+      // on scroll-out.
       gsap.from("[data-hero-in]", { opacity: 0, y: 22, duration: 1.0, ease: "power3.out", stagger: 0.08, delay: 0.1 });
       gsap.from("[data-hero-frame]", { opacity: 0, y: 40, duration: 1.3, ease: "power3.out", delay: 0.3 });
       gsap.to("[data-hero-frame]", {
@@ -67,55 +54,15 @@ export default function Hero({ onPrimary }: { onPrimary: () => void }) {
       {/* quiet light: a warm haze behind the site, nothing decorative */}
       <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(900px 520px at 78% 42%, rgba(255,136,56,0.07), transparent 65%), linear-gradient(180deg, rgba(7,11,17,0) 70%, #070b11 100%)" }} />
 
-      {/* Phase 6B: grid ratio rebalanced 1.02fr/1fr -> 0.95fr/1.05fr and
-          items-center -> lg:items-start (desktop only). The text column's
-          own max-w-[620px] cap means it was already rendering well under
-          that cap at full container width (~566px of ~620px) -- a modest
-          rebalance shifts real width to the preview without approaching
-          that cap closely enough to risk the hand-set 3-line headline
-          wrapping differently than intended. items-start (vs. center)
-          aligns both columns from the same top edge instead of centering
-          the shorter preview within the taller text column's own height,
-          which was the main source of the "unused whitespace" above/below
-          it -- a plain Grid alignment keyword, not an offset, so it can't
-          introduce overlap or clipping. Mobile keeps its own items-center
-          base and single-column stacking untouched either way.
-
-          Phase 6B: lg:min-h-0 added. Root cause of the hero->Diagnosis
-          whitespace, verified by reading both sections' own padding (not
-          guessed): Hero's own bottom padding (pb-20, unchanged at every
-          breakpoint) plus Diagnosis's own top padding (pt-28/md:pt-40,
-          untouched, reasonable on its own) already total 192-240px at the
-          boundary -- min-h-[100svh] on top of that forces this section to
-          always be at least full-viewport-tall regardless of how tall its
-          actual content is, so on any desktop viewport taller than the
-          content's natural height, the leftover becomes extra blank space
-          that (now that the grid is lg:items-start, not centered) collects
-          at the bottom of the section, right before Diagnosis. Removing
-          the floor at lg: makes the section's height fully content-driven
-          at desktop; min-h-[100svh] stays for mobile, which wasn't the
-          reported problem and where stacked content already runs closer
-          to full height anyway. Diagnosis.tsx itself needed no changes --
-          the cause was entirely Hero's own min-height. */}
-      {/* Phase 6B correction: the single lg:grid-cols-[0.85fr_1.15fr] ratio
-          was only checked against the wrap-safety math at FULL container
-          width (1240px) -- live-tested in Chrome at the lg: breakpoint's
-          own floor (1024px, the narrowest width that ratio actually
-          applies at), it measurably failed: text column rendered at
-          384px, while the headline's own lines need ~395px and the CTA
-          row needs ~441px (measured via a hidden nowrap clone, not
-          guessed) to each stay on one line -- confirmed by screenshot, the
-          headline wrapped to 5 lines and both CTA labels wrapped inside
-          their buttons at exactly 1024px. Fix: a tiered ratio.
-          lg:grid-cols-[1.1fr_0.9fr] holds through the 1024-1279px range,
-          giving the text column ~497px at 1024px (497 > 441 CTA
-          requirement, ~56px of real margin) -- then xl:grid-cols-[0.85fr_1.15fr]
-          takes over at 1280px+, where the text column is already ~476px
-          (>441px, ~35px margin) even at that breakpoint's own floor, so
-          the more preview-weighted ratio only activates where it's
-          actually safe. Verified at 1024px, 1180px, and 1780px viewports
-          after this fix -- three clean lines, no CTA wrap, at every width
-          tested. */}
+      {/* Phase 6B: grid ratio tiered -- lg:grid-cols-[1.1fr_0.9fr] holds
+          through the 1024-1279px range (live-bisected: text column stays
+          >=~497px there, clear of the ~441px CTA-row wrap floor), then
+          xl:grid-cols-[0.85fr_1.15fr] takes over at 1280px+ where the text
+          column is still >=~476px even at that breakpoint's own floor.
+          This ratio is the text column's actual safety floor -- Phase 8's
+          larger hero image does NOT change it (see the image's own
+          lg:absolute positioning below, which grows independently of this
+          ratio specifically to avoid reopening the wrap bug this fixed). */}
       <div className={`${CONTAINER} relative grid min-h-[100svh] lg:min-h-0 items-center gap-14 pb-20 pt-32 lg:grid-cols-[1.1fr_0.9fr] xl:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-10 lg:pt-28`}>
         <div className="max-w-[620px]">
           <p data-hero-in className="text-[12px] font-semibold uppercase tracking-[0.3em]" style={{ color: C.faint }}>
@@ -124,48 +71,18 @@ export default function Hero({ onPrimary }: { onPrimary: () => void }) {
             <span className="mt-[5px] block whitespace-nowrap">for local service businesses</span>
           </p>
           <h1 data-hero-in className="mt-6 font-display text-[clamp(2.9rem,6.4vw,5.4rem)] font-medium leading-[0.96] tracking-[-0.035em] lg:leading-[1.01]" style={{ color: C.text }}>
-            {/* Phase 6B final layout correction: clamp() max lowered from
-                5.9rem to 5.4rem. Root cause, found via live bisection, not
-                guessed: the text column's pixel width is PERMANENTLY fixed
-                at 476px for every viewport >=1280px, because CONTAINER
-                itself hits its own max-w-[1240px] cap there and never
-                grows again -- but this clamp's vw-driven font size kept
-                growing past that same point, reaching its old 5.9rem
-                ceiling at exactly 1475px viewport and staying there
-                forever on any wider screen (including ultrawide
-                monitors). That's not a transient glitch at one width --
-                every desktop >=~1420px was permanently 5 lines instead of
-                3. Bisected the actual safe ceiling directly against the
-                live 476px column (not computed): font-size wraps at 90px,
-                clean through 89.5px and every value tested down to 85px.
-                5.4rem (86.4px) leaves ~3px of margin below that measured
-                threshold. It only takes effect once the vw-driven value
-                would exceed it (~1350px+) -- the already-verified-safe
-                1024-1280px range is untouched, since 6.4vw stays below
-                5.4rem for all of it.
-
-                explicit lines so line 3 can take an OPTICAL offset: the p/y
-                descenders of "company they" crowd it at the shared line-height */}
+            {/* Phase 6B: clamp() max is 5.4rem, live-bisected against the
+                text column's own permanently-fixed 476px width at
+                viewports >=1280px (CONTAINER caps at 1240px and never
+                grows again) -- wraps at 90px, clean through 89.5px down to
+                85px tested; 5.4rem (86.4px) leaves ~3px margin. Explicit
+                line breaks so line 3 can take an optical offset: the p/y
+                descenders of "company they" crowd it at the shared
+                line-height otherwise. */}
             <span className="block">Look like the</span>
             <span className="block">company they</span>
             <span className="block mt-[8px] lg:mt-[9px]">should <span style={{ color: C.orange }}>choose.</span></span>
           </h1>
-          {/* Phase 6B correction, Step 5: measured the actual hero->Diagnosis
-              boundary via getBoundingClientRect() in Chrome -- the gap
-              between the two sections is exactly 0px; Diagnosis's own
-              160px top padding was already there, untouched, and is not
-              excessive on its own. The visual impression of "excessive
-              whitespace" is not a section-boundary bug at all -- it's a
-              consequence of the headline's own approved height (486-510px
-              measured, ~53% of the text column's 955px total) next to a
-              shorter image, which this task doesn't authorize changing.
-              The only legitimately adjustable, evidence-backed lever left
-              is this column's own internal margins (not a "gap fix", just
-              tightening): mt-7/mt-10/mt-10/mt-8 trimmed by 4-8px each
-              below, recovering ~24px total. This is modest by design --
-              it does not and cannot fully resolve the visual impression,
-              since the headline itself remains the dominant, untouched
-              factor. */}
           <p data-hero-in className="mt-6 max-w-[520px] text-[18px] leading-[1.6] md:text-[19px]" style={{ color: C.muted }}>
             Revora builds premium websites for local service businesses. And when you're ready for more opportunities, we build the system that brings them to you.
           </p>
@@ -195,75 +112,49 @@ export default function Hero({ onPrimary }: { onPrimary: () => void }) {
           </a>
         </div>
 
-        {/* width/height attributes (the image's real intrinsic size) let
-            the browser reserve the correct space before the file loads, so
-            h-auto never causes a layout shift when it arrives; no explicit
-            loading attribute, matching this codebase's existing pattern
-            for other above-the-fold hero images (calder-hero.jpg,
-            northline-roof-hero.jpg in MockSites.tsx both omit it too) --
-            eager is the browser default, which is what an LCP-candidate
-            image above the fold should use.
-
-            Phase 6B refinement: lg:mt-16 (headline-top alignment) replaced
-            with lg:self-center. Measured cause of whitespace still
-            remaining after lg:min-h-0: even with the floor removed, the
-            text column's own content (eyebrow+h1+paragraph+CTAs+offer
-            strip+film link) is still taller than this image at any
-            wrap-safe grid ratio, so with items-start the row's own height
-            is set by the text column and the shorter image, pinned to the
-            row's top, leaves its own unused space below it before the
-            section's pb-20 -- self-center on just this one grid item
-            splits that leftover space above/below instead of dropping it
-            all beneath the image, without touching the text column's own
-            top-alignment or the section's padding. */}
+        {/* This wrapper is the position:relative containing block the
+            image's own lg:absolute positioning resolves against (see
+            below). */}
         <div className="relative lg:pl-4 lg:self-center">
           <div data-hero-frame>
-            {/* Phase 6B transparent: the right-edge-only mask-image this
-                wrapper used to carry is gone. That mask existed only to
-                fake a soft edge against an opaque JPEG with a baked-in
-                background; this WebP has real alpha (verified by decoding
-                actual pixel values, not just the hasAlpha flag), so the
-                monitor's own silhouette -- screen, bezel, stand, orange
-                rim light -- sits directly against the section's navy
-                background with no CSS blending needed on any edge.
+            {/* Full scenic Higgsfield render, not a transparent cutout
+                (confirmed by decoding raw pixel alpha, not just the
+                hasAlpha flag: alpha=255/opaque at every corner). Its own
+                near-black corners (rgb 3-27 range) are close to but not
+                identical to C.navy/C.ink, so a soft mask-image edge fade
+                blends the rectangle into the section background instead
+                of a hard seam -- no drop-shadow needed, the scene already
+                has its own baked-in platform glow/lighting.
 
-                Phase 6B shadow repair: the wrapper's own box-shadow is
-                gone. box-shadow draws around an element's rectangular box,
-                not its alpha -- with the old opaque JPEG that rectangle
-                was invisible except right at the real edge (read as an
-                intentional lift-off-the-page shadow), but once ~43% of
-                that same rectangle became genuinely transparent (measured
-                via full-image alpha heatmap, not guessed), the shadow
-                painted directly through the empty space as a visible dark
-                rectangular patch, worst at the bottom (60px y-offset) and
-                still clearly visible on the left (140px blur). filter:
-                drop-shadow() on the img instead reads the image's own
-                alpha matte and casts a shadow that hugs the monitor+stand
-                silhouette itself, so it naturally disappears everywhere
-                the image is already transparent. Values are deliberately
-                subtler than the old box-shadow's (24px blur vs 140px,
-                0.35 opacity vs 0.6) since a drop-shadow this tight no
-                longer needs to fake coverage across the whole rectangle. */}
+                Phase 8 sizing: lg:absolute removes the image from grid
+                flow entirely at lg:+, so it contributes nothing to the
+                grid's own column-track sizing (an earlier attempt gave it
+                an explicit width as a normal in-flow child instead, which
+                grew the image column's own `fr` track and stole width
+                from the text column -- a real regression, caught and
+                fixed before this became the approved version).
+                lg:left-0 anchors it to the column's own natural left
+                edge, so it only grows further RIGHT, into the page's own
+                unused margin space toward the viewport edge -- never left
+                into the gap or the headline. The root <section>'s
+                existing overflow-hidden clips it at the viewport edge, no
+                scrollbar risk. Mobile (below lg:) stays simple, static,
+                in-flow w-full. */}
             <img
-              src={heroMonitor}
-              alt="Northline Roofing website displayed on a monitor"
-              width={1536}
-              height={1024}
-              // Phase 6B release cleanup: fetchPriority="high" and
-              // loading="eager" are kept -- independently correct,
-              // low-risk hints for an above-the-fold LCP-candidate image,
-              // regardless of the (separate, unresolved) refresh-band
-              // investigation that first introduced them. decoding="sync"
-              // is reverted back to this codebase's established "async"
-              // convention: it was explicitly experimental, didn't
-              // resolve the band it was tested against, and has a real,
-              // acknowledged cost (blocks main-thread decode) with no
-              // demonstrated benefit to offset it.
+              src={heroArchitectural}
+              alt="Architectural hero scene: a website displayed on a monitor atop a glowing stone platform, with floating lead and performance metric cards and orange light trails"
+              width={1800}
+              height={1206}
               fetchPriority="high"
               loading="eager"
               decoding="async"
-              className="block h-auto w-full"
-              style={{ filter: "drop-shadow(0 20px 24px rgba(0,0,0,0.35))" }}
+              className="block h-auto w-full lg:absolute lg:left-0 lg:top-1/2 lg:w-[850px] lg:max-w-none lg:-translate-y-1/2 xl:w-[900px]"
+              style={{
+                maskImage: "linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%), linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%), linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
+                maskComposite: "intersect",
+                WebkitMaskComposite: "source-in",
+              }}
             />
           </div>
         </div>

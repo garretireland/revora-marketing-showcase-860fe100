@@ -52,3 +52,12 @@ src/assets/hero-monitor-northline-refined.png
 # removed (real alpha, verified by pixel inspection, not just a channel
 # flag). All three masters are kept on disk per owner request.
 src/assets/hero-monitor-northline-transparent.png
+# Phase 8A: masters for the two dev-only hero comparison candidates
+# (local experiment, /concept/hero-compare route -- never built into
+# production), same narrow, explicitly-named approach as above.
+src/assets/hero-candidate-a-architectural.png
+src/assets/hero-candidate-b-centered.png
+# Phase 8C: master for the Founder section's real photo of Garret Ireland
+# (extracted from a PDF-wrapped file found on Desktop -- same photo,
+# just re-saved as a real JPEG; original PDF untouched on Desktop).
+src/assets/revora-founder-garret.jpg
