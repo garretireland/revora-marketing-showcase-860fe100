@@ -2,9 +2,13 @@ import SiteNav from "@/components/homepage/SiteNav";
 import SiteFooter from "@/components/homepage/SiteFooter";
 import { C } from "@/components/homepage/tokens";
 
-// Presented in the current Revora site shell. LEGAL CONTENT UNCHANGED and
-// not yet reviewed -- a dedicated legal/privacy pass will update it to the
-// site's actual data practices.
+// Presented in the current Revora site shell. Section 6 (Cookies and
+// Analytics) was rewritten in Phase 7D to accurately describe the
+// consent-gated GA4 implementation actually shipped (see
+// src/lib/analytics.ts). The rest of this page's legal content is
+// otherwise UNCHANGED and not yet reviewed -- flagged for a dedicated
+// legal/privacy pass; nothing here should be read as a compliance
+// guarantee.
 
 const PrivacyPolicy = () => {
   return (
@@ -24,7 +28,7 @@ const PrivacyPolicy = () => {
               <li>Contact information (name, email address, phone number, business address)</li>
               <li>Business information (company name, industry, service needs)</li>
               <li>Marketing preferences and interests</li>
-              <li>Website usage data and analytics</li>
+              <li>Website usage data and analytics (via Google Analytics 4, only if you opt in -- see Section 6)</li>
               <li>Information provided through forms, calls, or consultations</li>
             </ul>
           </section>
@@ -47,7 +51,7 @@ const PrivacyPolicy = () => {
             <p className="mb-4">We may share your information with:</p>
             <ul className="list-disc pl-6 space-y-2">
               <li><strong>Advertising Platforms:</strong> Information may be shared with advertising platforms (such as Google, Facebook, LinkedIn) to create and optimize ad campaigns</li>
-              <li><strong>Service Providers:</strong> Third-party vendors who assist us in providing our services (CRM systems, email marketing platforms, analytics tools)</li>
+              <li><strong>Service Providers:</strong> Third-party vendors who assist us in providing our services (CRM systems, email marketing platforms, and Google Analytics 4, which only receives data if you opt in -- see Section 6)</li>
               <li><strong>Clients:</strong> When we collect information on behalf of our clients for their marketing campaigns, that information may be shared with the client</li>
               <li><strong>Legal Requirements:</strong> When required by law or to protect our rights and safety</li>
             </ul>
@@ -77,9 +81,18 @@ const PrivacyPolicy = () => {
           </section>
 
           <section>
-            <h2 className="mb-4 text-[19px] font-semibold text-[#f4f1ec]">6. Cookies and Tracking</h2>
+            <h2 className="mb-4 text-[19px] font-semibold text-[#f4f1ec]">6. Cookies and Analytics</h2>
+            <p className="mb-4">
+              This site uses Google Analytics 4 (GA4) to understand how visitors use it -- for example, which pages are viewed and whether visitors click to book a call or request a website preview. This is <strong>opt-in only</strong>: Google Analytics does not load, and no analytics cookies are set, unless you actively accept it via the consent banner shown on your first visit, or later through "Cookie Settings" in the footer.
+            </p>
+            <p className="mb-4">
+              If you accept, GA4 collects standard usage data (pages viewed, general interactions) under Google's own data practices; we do not send it your name, email, phone number, business name, or the content of any form you submit. If you decline, none of this is collected.
+            </p>
+            <p className="mb-4">
+              You can withdraw consent at any time via "Cookie Settings" in the footer. Withdrawing stops future collection and removes analytics cookies from your browser where technically possible. It does not retroactively delete data already sent to Google under an earlier acceptance -- for that, Google's own account tools or a direct request to us would be needed.
+            </p>
             <p>
-              We use cookies and similar tracking technologies to analyze website traffic, understand user behavior, and improve our services. You can control cookie settings through your browser preferences.
+              This section describes what the site technically does. It is not a legal compliance opinion.
             </p>
           </section>
 

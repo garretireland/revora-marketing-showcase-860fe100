@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { CALENDLY, C } from "./tokens";
+import { track } from "@/lib/analytics";
 
 // The homepage's two (and only two) conversion actions, styled once:
 //   BOOK A CALL                  -> direct, high intent (Calendly)
@@ -13,7 +14,14 @@ const look = (v: Variant): React.CSSProperties =>
 
 export function BookCall({ variant = "solid", className = "" }: { variant?: Variant; className?: string }) {
   return (
-    <a href={CALENDLY} target="_blank" rel="noopener noreferrer" className={`${base} ${className}`} style={look(variant)}>
+    <a
+      href={CALENDLY}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={() => track("book_call_click")}
+      className={`${base} ${className}`}
+      style={look(variant)}
+    >
       Book a Call <ArrowRight size={17} className="transition-transform group-hover:translate-x-0.5" />
     </a>
   );

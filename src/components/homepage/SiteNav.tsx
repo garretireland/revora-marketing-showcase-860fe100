@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import revoraLogo from "@/assets/revora-logo.png";
 import { CALENDLY, C } from "./tokens";
 import { clearHash, goToSection, onSectionClick, reducedMotion } from "./scrollTo";
+import { track } from "@/lib/analytics";
 
 // The supplied logo art (1024x1024) is navy/orange on transparent with wide
 // padding: crop to the wordmark and render it white for the dark site.
@@ -125,6 +126,7 @@ export default function SiteNav() {
       href={CALENDLY}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={() => track("book_call_click")}
       className="rounded-full px-4 py-2.5 text-[13px] font-semibold transition-transform hover:-translate-y-px md:px-5"
       style={{ background: C.orange, color: C.orangeInk }}
     >
@@ -221,7 +223,7 @@ export default function SiteNav() {
                   href={CALENDLY}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => setOpen(false)}
+                  onClick={() => { track("book_call_click"); setOpen(false); }}
                   className="flex w-full items-center justify-center rounded-full py-4 text-[15px] font-semibold"
                   style={{ background: C.orange, color: C.orangeInk }}
                 >

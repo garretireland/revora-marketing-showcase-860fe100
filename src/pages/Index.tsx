@@ -17,6 +17,7 @@ import WebsiteTransformation from "@/components/website-transformation/WebsiteTr
 import IndustryShowcase from "@/components/homepage/IndustryShowcase";
 import SignatureStudio from "@/components/homepage/SignatureStudio";
 import { C } from "@/components/homepage/tokens";
+import { track } from "@/lib/analytics";
 
 // Revora homepage -- the website chapter (Phase 2): nav, hero, find-vs-
 // choose diagnosis, the approved website transformation (pinned), the
@@ -27,7 +28,7 @@ import { C } from "@/components/homepage/tokens";
 // components/cinematic/*, homepage/TransformationStage) remain unused here.
 const Index = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
-  const openPreview = () => setPreviewOpen(true);
+  const openPreview = () => { track("preview_form_open"); setPreviewOpen(true); };
 
   return (
     <div className="min-h-screen font-sans antialiased [&_section[id]]:scroll-mt-[88px]" style={{ background: C.navy, color: C.text }}>

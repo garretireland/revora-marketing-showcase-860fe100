@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { CALENDLY, C } from "./tokens";
+import { track } from "@/lib/analytics";
 import {
   EMPTY_REQUEST, IMPROVE_MAX, mailtoFor, submitPreviewRequest, validate,
   type FieldErrors, type PreviewRequest,
@@ -71,8 +72,13 @@ export default function PreviewDialog({ open, onOpenChange }: { open: boolean; o
     sendingRef.current = true;
     setStatus("sending");
     try {
-      await submitPreviewRequest(data);
-      setStatus("sent");
+      const submitted = await submitPreviewRequest(data);
+      setStatus("sent"); // unchanged UX: same success screen for a real submission or a silently-dropped bot
+      // only when submitPreviewRequest() confirms a REAL Netlify submission
+      // (not the honeypot's silent drop, which also resolves truthy-success
+      // for UX reasons but made no network request) -- never fired
+      // optimistically, never in the catch branch, carries no form content/PII.
+      if (submitted) track("preview_form_submit");
     } catch {
       setStatus("failed"); // fields are kept; retry or use a fallback
     } finally {

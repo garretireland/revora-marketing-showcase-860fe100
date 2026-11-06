@@ -53,12 +53,23 @@ export class SubmitError extends Error {
   }
 }
 
-// Resolves only when Netlify's form handler accepted the submission.
-// Rejects on network failure/timeout, a non-2xx response (e.g. form
-// detection off -> 404/405), or a 2xx that is just the app shell (a
-// rewrite, not the form handler).
-export async function submitPreviewRequest(r: PreviewRequest): Promise<void> {
-  if (r["bot-field"]) return; // honeypot tripped: drop quietly (bots only)
+// Resolves only when Netlify's form handler accepted the submission, OR
+// when the honeypot silently drops a bot (unchanged UX: both still read
+// as "success" to the caller, so the dialog's existing success screen and
+// retry/error handling are untouched). Rejects on network failure/timeout,
+// a non-2xx response (e.g. form detection off -> 404/405), or a 2xx that
+// is just the app shell (a rewrite, not the form handler).
+//
+// The boolean return (added for analytics correctness, not a UX change)
+// tells the ONE caller whether a real Netlify submission actually
+// happened: true = confirmed submission, false = honeypot tripped, no
+// network request was made at all. PreviewDialog uses this to fire its
+// preview_form_submit analytics event only for real submissions, while
+// still showing the identical "sent" success state either way -- a bot
+// that trips the honeypot sees the same deceptive success screen a real
+// submission would, exactly as before.
+export async function submitPreviewRequest(r: PreviewRequest): Promise<boolean> {
+  if (r["bot-field"]) return false; // honeypot tripped: drop quietly (bots only), no request sent
   const body = new URLSearchParams({
     "form-name": FORM_NAME,
     name: r.name.trim(),
@@ -82,6 +93,7 @@ export async function submitPreviewRequest(r: PreviewRequest): Promise<void> {
   if (!res.ok) throw new SubmitError("server");
   const text = await res.text().catch(() => "");
   if (text.includes('id="root"')) throw new SubmitError("not-configured");
+  return true;
 }
 
 // Honest fallback while delivery isn't connected: a pre-filled email the

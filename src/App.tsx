@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
+import AnalyticsPageView from "./components/AnalyticsPageView";
+import ConsentBanner from "./components/ConsentBanner";
 import Index from "./pages/Index";
 import Guarantee from "./pages/Guarantee";
 import About from "./pages/About";
@@ -34,6 +36,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <ScrollToTop />
+        <AnalyticsPageView />
+        <ConsentBanner />
         <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<Index />} />

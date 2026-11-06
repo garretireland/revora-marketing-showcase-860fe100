@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { RevoraLogo } from "./SiteNav";
 import { CALENDLY, C, CONTAINER } from "./tokens";
 import { onSectionClick } from "./scrollTo";
+import { requestConsentPanel, track } from "@/lib/analytics";
 
 // Minimal footer. Only real, existing details: the established contact
 // email and the existing Privacy Policy route. No invented socials/legal.
@@ -32,9 +33,10 @@ export default function SiteFooter() {
       </div>
       <div className={`${CONTAINER} mt-12 flex flex-col gap-4 border-t pt-8 text-[13px] md:flex-row md:items-center md:justify-between`} style={{ borderColor: C.line, color: C.faint }}>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-          <a href={CALENDLY} target="_blank" rel="noopener noreferrer" className="font-semibold transition-colors hover:text-white" style={{ color: C.orange }}>Book a Call</a>
+          <a href={CALENDLY} target="_blank" rel="noopener noreferrer" onClick={() => track("book_call_click")} className="font-semibold transition-colors hover:text-white" style={{ color: C.orange }}>Book a Call</a>
           <a href={`mailto:${EMAIL}`} className="transition-colors hover:text-white">{EMAIL}</a>
           <Link to="/privacy-policy" className="transition-colors hover:text-white">Privacy Policy</Link>
+          <button type="button" onClick={() => requestConsentPanel()} className="transition-colors hover:text-white">Cookie Settings</button>
         </div>
         <span>© {new Date().getFullYear()} Revora Marketing</span>
       </div>
