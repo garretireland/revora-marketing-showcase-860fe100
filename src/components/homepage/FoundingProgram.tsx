@@ -45,10 +45,10 @@ export default function FoundingProgram() {
         <div className="max-w-[820px]">
           <p data-fp-head className="text-[12px] font-semibold uppercase tracking-[0.3em]" style={{ color: C.orange }}>Founding Client Program</p>
           <h2 data-fp-head className="mt-5 font-display text-[clamp(2.2rem,4.6vw,3.9rem)] font-medium leading-[1.03] tracking-[-0.03em]" style={{ color: C.text }}>
-            We're taking on our first 3 founding lead-generation clients.
+            We're opening 3 founding client spots for lead generation.
           </h2>
           <p data-fp-head className="mt-6 max-w-[640px] text-[18px] leading-[1.6]" style={{ color: C.muted }}>
-            We're building Revora's first lead-generation case studies with a small group of local service businesses, and working closely with each one on real campaigns. Founding clients receive preferred early-client pricing for their first 90 days.
+            We're opening a limited number of founding partnerships with local service businesses looking to generate more opportunities through targeted Meta advertising. Each campaign is built around the business, its market, and the type of work it wants to attract. Founding clients receive preferred early-client pricing for their first 90 days.
           </p>
         </div>
 
