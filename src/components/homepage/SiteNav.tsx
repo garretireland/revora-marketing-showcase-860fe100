@@ -21,7 +21,11 @@ export function RevoraLogo({ height = 30 }: { height?: number }) {
 
 // Primary destinations only (not every section). Labels -> existing IDs.
 const LINKS = [
-  ["Websites", "offer"], // the website product/offer, not the mid-page animation
+  // Phase 7: was ["Websites", "offer"] -- pointed at the pricing section
+  // instead of the Northline website transformation, which already has
+  // its own real id="websites" (passed through from Index.tsx) that was
+  // just never used as a nav target.
+  ["Websites", "websites"],
   ["How It Works", "how-it-works"],
   ["Lead Generation", "lead-generation"], // start of the lead-gen chapter (pivot)
   // Phase 4A: previously pointed at "founding" (lead-gen pricing only) --
