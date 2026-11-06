@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import revoraLogo from "@/assets/revora-logo.png";
+// Phase: nav logo optimization. The 1024x1024 master (@/assets/revora-logo.png)
+// is kept on disk untouched; this points at a 512x512 web copy instead --
+// the crop math below renders this at a CSS width of at most ~136px
+// (height=30, the largest caller), so 512px source gives ~3.8x retina
+// headroom, comfortably sharp with no need for the full 1024px master.
+import revoraLogo from "@/assets/web/revora-logo-nav.png";
 import { CALENDLY, C } from "./tokens";
 import { clearHash, goToSection, onSectionClick, reducedMotion } from "./scrollTo";
 import { track } from "@/lib/analytics";

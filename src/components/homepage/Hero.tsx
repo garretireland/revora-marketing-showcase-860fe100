@@ -6,6 +6,9 @@ import { BookCall, SeeWhatWedBuild } from "./Cta";
 import { scrollToFilm } from "./scrollTo";
 import { C, CONTAINER, OFFER } from "./tokens";
 import heroArchitectural from "@/assets/web/hero-candidate-a-architectural.jpg";
+import heroArchitectural640 from "@/assets/web/hero-candidate-a-architectural-640.jpg";
+import heroArchitectural960 from "@/assets/web/hero-candidate-a-architectural-960.jpg";
+import heroArchitectural1350 from "@/assets/web/hero-candidate-a-architectural-1350.jpg";
 
 // Phase 8 release: the hero visual is the approved "A -- Large"
 // architectural scene (illuminated arch, monitor on a glowing stone
@@ -140,8 +143,22 @@ export default function Hero({ onPrimary }: { onPrimary: () => void }) {
                 existing overflow-hidden clips it at the viewport edge, no
                 scrollbar risk. Mobile (below lg:) stays simple, static,
                 in-flow w-full. */}
+            {/* Responsive delivery: src/srcSet stay the authoritative
+                1800px file (unchanged, used as-is by any browser without
+                srcset support); 640/960/1350w are smaller re-encodes of
+                that same file for narrower viewports. sizes mirrors the
+                className's own per-breakpoint widths exactly (900px at
+                xl:, 850px at lg:, else the mobile/tablet w-full case) so
+                the browser picks the right candidate for how this image
+                is ACTUALLY rendered, not a generic 100vw guess. width/
+                height stay 1800x1206 (the fallback src's own intrinsic
+                size) -- aspect ratio is identical across every tier, so
+                CLS reservation is unaffected regardless of which
+                candidate loads. */}
             <img
               src={heroArchitectural}
+              srcSet={`${heroArchitectural640} 640w, ${heroArchitectural960} 960w, ${heroArchitectural1350} 1350w, ${heroArchitectural} 1800w`}
+              sizes="(min-width: 1280px) 900px, (min-width: 1024px) 850px, 100vw"
               alt="Architectural hero scene: a website displayed on a monitor atop a glowing stone platform, with floating lead and performance metric cards and orange light trails"
               width={1800}
               height={1206}
