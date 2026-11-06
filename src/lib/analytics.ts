@@ -92,7 +92,19 @@ function setStoredConsent(analytics: boolean) {
   notifyConsent(state);
 }
 
-function gtagStub(...args: unknown[]) { window.dataLayer!.push(args); }
+// Phase 7D gtag bootstrap correction: kept byte-identical to Google's own
+// canonical snippet (function(){dataLayer.push(arguments);}), not the
+// earlier rest-params rewrite (dataLayer.push(args), a real Array rather
+// than an arguments object -- Array.isArray differs between the two).
+// gtag.js is only ever tested/verified against this exact literal form;
+// Tag Assistant reported "Consent not configured -- default consent state
+// has not been set yet" under the rewritten version, which is consistent
+// with (not proven to be caused by) that deviation. Testing this reverted
+// form to see whether it resolves it. Needs a real `function` declaration,
+// not an arrow function, since arrow functions have no `arguments` of
+// their own.
+// eslint-disable-next-line prefer-rest-params
+function gtagStub() { window.dataLayer!.push(arguments); }
 
 // Injects gtag.js and, only once it has genuinely finished loading, moves
 // consent to 'granted' and configures it. Handles the real async race:
@@ -104,10 +116,23 @@ function ensureGtagLoaded() {
   if (gtagReady || document.getElementById(SCRIPT_ID)) return;
   window.dataLayer = window.dataLayer || [];
   window.gtag = gtagStub;
-  // Consent Mode default: denied until explicitly updated below. Set
-  // synchronously, before the async script load even starts, so there is
-  // no window where the library could initialize without this baseline.
-  window.gtag("consent", "default", { analytics_storage: "denied" });
+  // Consent Mode default: all four categories explicitly denied until
+  // updated below. Set synchronously, before the async script load even
+  // starts, so there is no window where the library could initialize
+  // without this baseline. ad_storage/ad_user_data/ad_personalization
+  // are never granted anywhere in this file -- only analytics_storage
+  // ever moves to "granted" (on accept) and back to "denied" (on
+  // withdrawal) -- these three stay denied permanently. Explicitly
+  // declaring them here (not just omitting them) removes the ambiguous
+  // "not set" state that prior Tag Assistant testing flagged, with zero
+  // change in what's actually collected: no advertising tag exists in
+  // this codebase to grant them to in the first place.
+  window.gtag("consent", "default", {
+    analytics_storage: "denied",
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+  });
   window.gtag("js", new Date());
 
   const script = document.createElement("script");
