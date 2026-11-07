@@ -116,7 +116,22 @@ export default function Hero({ onPrimary }: { onPrimary: () => void }) {
           larger hero image does NOT change it (see the image's own
           lg:absolute positioning below, which grows independently of this
           ratio specifically to avoid reopening the wrap bug this fixed). */}
-      <div className={`${CONTAINER} relative grid min-h-[100svh] lg:min-h-0 items-center gap-14 pb-20 pt-32 lg:grid-cols-[1.1fr_0.9fr] xl:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-10 lg:pt-28`}>
+      {/* 2026-11-07 responsive correction: min-h-[100svh] alone forces the
+          mobile/tablet grid to be at least the full viewport height no
+          matter how tall that viewport is. On a normal phone height this
+          reads as intended (full-bleed first impression); on an
+          unusually tall narrow viewport (e.g. 425x1410, reported) it
+          forces far more height than the actual content needs, centered
+          via items-center, which is exactly what reads as "too much
+          empty space above/below the artwork." min(100svh,860px) keeps
+          today's behavior unchanged at ordinary phone heights (where
+          100svh is already well under 860px) and caps the forced
+          minimum only once the viewport gets unusually tall, letting
+          the section size to its actual content instead. 860px is an
+          estimate of a comfortable content height for this column at
+          narrow widths, not independently re-measured in a live
+          browser -- confirm visually before relying on the exact value. */}
+      <div className={`${CONTAINER} relative grid min-h-[min(100svh,860px)] lg:min-h-0 items-center gap-14 pb-20 pt-32 lg:grid-cols-[1.1fr_0.9fr] xl:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-10 lg:pt-28`}>
         <div className="max-w-[620px]">
           <p data-hero-in className="text-[12px] font-semibold uppercase tracking-[0.3em]" style={{ color: C.faint }}>
             {/* deliberate two-line composition (not viewport wrapping) */}
@@ -230,15 +245,39 @@ export default function Hero({ onPrimary }: { onPrimary: () => void }) {
             {/* Responsive delivery: src/srcSet stay the authoritative
                 1800px file (unchanged, used as-is by any browser without
                 srcset support); 640/960/1350w are smaller re-encodes of
-                that same file for narrower viewports. sizes mirrors the
-                className's own per-breakpoint widths exactly (900px at
-                xl:, 850px at lg:, else the mobile/tablet w-full case) so
-                the browser picks the right candidate for how this image
-                is ACTUALLY rendered, not a generic 100vw guess. width/
-                height stay 1800x1206 (the fallback src's own intrinsic
-                size) -- aspect ratio is identical across every tier, so
-                CLS reservation is unaffected regardless of which
-                candidate loads. */}
+                that same file for narrower viewports. sizes keeps 900px
+                as its xl:+ hint (a safe upper bound for the fluid width
+                below, not an exact match) so srcset selection stays
+                conservative rather than under-fetching; a generic 100vw
+                guess is still avoided. width/height stay 1800x1206 (the
+                fallback src's own intrinsic size) -- aspect ratio is
+                identical across every tier, so CLS reservation is
+                unaffected regardless of which candidate loads. */}
+            {/* 2026-11-07 responsive correction: the prior flat
+                xl:w-[900px] clipped visibly at 1440px. Root cause,
+                derived from CONTAINER's actual max-w-[1240px]/px-10 and
+                the xl:grid-cols-[0.85fr_1.15fr] split: the image's own
+                absolute-positioned left edge sits at roughly
+                (50vw - 64px) in this regime, so a flat 900px width only
+                clears the viewport's right edge once that edge is
+                already far enough out -- around ~1712px and up, which
+                is why 1728px/ultrawide were already fine. Below that,
+                overflow-hidden on the section was silently cropping the
+                excess. min(900px, 50vw + 44px) grows with viewport width
+                instead of jumping straight to 900px at the xl:
+                breakpoint, reaches exactly 900px by ~1712px (so 1728px
+                and ultrawide are unchanged, still exactly 900px, same as
+                before), and stays narrower than 900px for the 1280-
+                ~1711px range specifically to stop the clipping. This
+                introduces a visible step down from lg:'s flat 850px to
+                ~684px right at the 1280px breakpoint itself (not present
+                before, where the jump was a smaller +50px increase) --
+                a deliberate trade-off to fix the reported clipping
+                without touching the untested/unreported lg: (1024-1279)
+                tier; confirm this reads acceptably at exactly 1280px
+                before considering it final. Derived from the actual
+                layout math above, not independently re-measured in a
+                live browser. */}
             <img
               src={heroArchitectural}
               srcSet={`${heroArchitectural640} 640w, ${heroArchitectural960} 960w, ${heroArchitectural1350} 1350w, ${heroArchitectural} 1800w`}
@@ -249,7 +288,7 @@ export default function Hero({ onPrimary }: { onPrimary: () => void }) {
               fetchPriority="high"
               loading="eager"
               decoding="async"
-              className="block h-auto w-full lg:absolute lg:left-0 lg:top-1/2 lg:w-[850px] lg:max-w-none lg:-translate-y-1/2 xl:w-[900px]"
+              className="block h-auto w-full lg:absolute lg:left-0 lg:top-1/2 lg:w-[850px] lg:max-w-none lg:-translate-y-1/2 xl:w-[min(900px,calc(50vw+44px))]"
               style={{
                 maskImage: "linear-gradient(to bottom, transparent 0%, black 30%, black 90%, transparent 100%), linear-gradient(to right, transparent 0%, black 28%, black 86%, transparent 100%)",
                 WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 30%, black 90%, transparent 100%), linear-gradient(to right, transparent 0%, black 28%, black 86%, transparent 100%)",
