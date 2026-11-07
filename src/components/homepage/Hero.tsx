@@ -9,6 +9,7 @@ import heroArchitectural from "@/assets/web/hero-candidate-a-architectural.jpg";
 import heroArchitectural640 from "@/assets/web/hero-candidate-a-architectural-640.jpg";
 import heroArchitectural960 from "@/assets/web/hero-candidate-a-architectural-960.jpg";
 import heroArchitectural1350 from "@/assets/web/hero-candidate-a-architectural-1350.jpg";
+import heroArchBackground from "@/assets/web/hero-arch-background.jpg";
 
 // Phase 8 release: the hero visual is the approved "A -- Large"
 // architectural scene (illuminated arch, monitor on a glowing stone
@@ -54,6 +55,55 @@ export default function Hero({ onPrimary }: { onPrimary: () => void }) {
 
   return (
     <section ref={root} className="relative overflow-hidden" style={{ background: C.navy }}>
+      {/* Architectural environment layer (2026-11-07): a separate,
+          architecture-only wide render (no UI/text/monitor -- distinct
+          from the main hero illustration) sitting full-bleed behind the
+          entire section, including -- structurally for free -- behind
+          SiteNav's own transparent-until-scroll header (SiteNav.tsx is
+          unmodified; its background only solidifies on scroll, so
+          whatever paints here already shows through at the top of the
+          page). A sibling BEFORE the grid container, so it never
+          participates in grid-track sizing (the exact "stolen width"
+          regression class fixed once already in Phase 8 -- see the main
+          image's own comment below). Desktop-only (lg:+): mobile's
+          single narrow column has far less room to host this without
+          hurting headline legibility. Deliberately excluded from the
+          data-hero-in/data-hero-frame attributes GSAP's entrance
+          animation selects on -- static, no animation of its own.
+
+          Positioning/masking choices: background-position places the
+          source image's own darkest, most-arch-silhouette region (its
+          upper-left, confirmed by inspection) under the headline, so
+          the headline sits over the image's naturally darkest area, not
+          an edited-dark one. A navy (#0a1018) tint is pre-blended into
+          the background-image itself (stacked linear-gradient under the
+          url()) so the image's own near-black tones read as the same
+          navy as the page, not a mismatched black. A horizontal mask
+          fades the layer out well before the right side, specifically
+          so its orange rim-lighting never doubles up against the
+          existing illustration's own, already-strong glow -- the two
+          should read as one lit environment, not two separate light
+          sources stacked on each other. A vertical mask blends the top/
+          bottom section edges the same way the main illustration's own
+          mask already does. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 hidden lg:block"
+        style={{
+          backgroundImage: `linear-gradient(rgba(10,16,24,0.4), rgba(10,16,24,0.4)), url(${heroArchBackground})`,
+          backgroundSize: "cover",
+          backgroundPosition: "10% 26%",
+          backgroundRepeat: "no-repeat",
+          opacity: 0.48,
+          maskImage:
+            "linear-gradient(to right, black 0%, black 48%, transparent 86%), linear-gradient(to bottom, transparent 0%, black 16%, black 88%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to right, black 0%, black 48%, transparent 86%), linear-gradient(to bottom, transparent 0%, black 16%, black 88%, transparent 100%)",
+          maskComposite: "intersect",
+          WebkitMaskComposite: "source-in",
+        }}
+      />
+
       {/* quiet light: a warm haze behind the site, nothing decorative */}
       <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(900px 520px at 78% 42%, rgba(255,136,56,0.07), transparent 65%), linear-gradient(180deg, rgba(7,11,17,0) 70%, #070b11 100%)" }} />
 
@@ -119,6 +169,28 @@ export default function Hero({ onPrimary }: { onPrimary: () => void }) {
             image's own lg:absolute positioning resolves against (see
             below). */}
         <div className="relative lg:pl-4 lg:self-center">
+          {/* Hero fade refinement (2026-11-07): a soft, blurred,
+              color-matched glow sitting behind the image, inset larger
+              than the image's own footprint. This bridges the real gap
+              identified between the image's near-black corners (rgb 3-27,
+              see below) and the flat C.navy page background -- the prior
+              mask-only approach faded alpha to 0 over a color that was
+              merely CLOSE to the background, not matched to it, which is
+              what read as a seam/rectangle edge even with soft alpha.
+              Desktop-only (lg:+): mobile's in-flow w-full image doesn't
+              have this floating-rectangle-against-flat-background problem
+              the same way. CSS-only, no new image asset -- cannot invent
+              scene content past the photo's actual edge, only soften the
+              transition into it. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 hidden lg:block"
+            style={{
+              background: "radial-gradient(62% 58% at 38% 46%, rgba(255,136,56,0.09), rgba(10,16,24,0.55) 52%, transparent 76%)",
+              filter: "blur(56px)",
+              transform: "scale(1.18)",
+            }}
+          />
           <div data-hero-frame>
             {/* Full scenic Higgsfield render, not a transparent cutout
                 (confirmed by decoding raw pixel alpha, not just the
@@ -128,6 +200,18 @@ export default function Hero({ onPrimary }: { onPrimary: () => void }) {
                 blends the rectangle into the section background instead
                 of a hard seam -- no drop-shadow needed, the scene already
                 has its own baked-in platform glow/lighting.
+
+                2026-11-07 refinement: fade bands widened and made
+                asymmetric per edge (vs. a uniform tight 6%/94% box) so
+                the transition follows where the scene actually thins out
+                -- generous at the top (arch recedes into darkness) and
+                left (faces the text column, most visible as a hard edge
+                today), tighter at the bottom (the stone platform's own
+                reflection already fades naturally) and right (grows into
+                mostly-empty page margin). Still a rectangular mask --
+                CSS cannot reshape it to literally trace the arch's curve
+                without new image content; the glow layer above is what
+                carries the "arch-following" read, not this gradient.
 
                 Phase 8 sizing: lg:absolute removes the image from grid
                 flow entirely at lg:+, so it contributes nothing to the
@@ -167,8 +251,8 @@ export default function Hero({ onPrimary }: { onPrimary: () => void }) {
               decoding="async"
               className="block h-auto w-full lg:absolute lg:left-0 lg:top-1/2 lg:w-[850px] lg:max-w-none lg:-translate-y-1/2 xl:w-[900px]"
               style={{
-                maskImage: "linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%), linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
-                WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%), linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
+                maskImage: "linear-gradient(to bottom, transparent 0%, black 30%, black 90%, transparent 100%), linear-gradient(to right, transparent 0%, black 28%, black 86%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 30%, black 90%, transparent 100%), linear-gradient(to right, transparent 0%, black 28%, black 86%, transparent 100%)",
                 maskComposite: "intersect",
                 WebkitMaskComposite: "source-in",
               }}
