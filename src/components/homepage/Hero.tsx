@@ -253,7 +253,31 @@ export default function Hero({ onPrimary }: { onPrimary: () => void }) {
                 fallback src's own intrinsic size) -- aspect ratio is
                 identical across every tier, so CLS reservation is
                 unaffected regardless of which candidate loads. */}
-            {/* 2026-11-07 responsive correction: the prior flat
+            {/* 2026-11-07 responsive correction (round 2): the flat
+                lg:w-[850px] clipped visibly at 1279px (confirmed via a
+                live screenshot -- the monitor's right edge was cut off).
+                Root cause, derived from CONTAINER's actual
+                max-w-[1240px]/px-10 and lg:grid-cols-[1.1fr_0.9fr]: in
+                this tier the image's absolute-positioned left edge is
+                at ~0.55V+14 below V=1240 (no container margin yet, V the
+                viewport width in px) and ~V/2+76 from 1240 to 1279
+                (container capped, margin growing) -- a continuous
+                function in reality, just differently expressed either
+                side of where centering margin starts. A flat 850px
+                width only clears the viewport in this tier once V is
+                much larger than 1279 ever gets -- the whole lg: range
+                was clipping, worse at the 1024 end than at 1279.
+                calc(46vw - 42px) is a single-line fit safely under the
+                true safe-width curve at both ends (~429px at 1024,
+                ~546px at 1279, each with a comfortable margin) --
+                smaller than the xl: formula's ~684px at 1280, but
+                growing in the same direction, which is the natural
+                "smooth enough" shape for a breakpoint transition (vs.
+                round 1's xl: fix, which had to shrink at its own
+                boundary instead). Derived from layout math following a
+                real screenshot, not independently re-measured after
+                this specific change. */}
+            {/* 2026-11-07 responsive correction (round 1): the prior flat
                 xl:w-[900px] clipped visibly at 1440px. Root cause,
                 derived from CONTAINER's actual max-w-[1240px]/px-10 and
                 the xl:grid-cols-[0.85fr_1.15fr] split: the image's own
@@ -288,7 +312,7 @@ export default function Hero({ onPrimary }: { onPrimary: () => void }) {
               fetchPriority="high"
               loading="eager"
               decoding="async"
-              className="block h-auto w-full lg:absolute lg:left-0 lg:top-1/2 lg:w-[850px] lg:max-w-none lg:-translate-y-1/2 xl:w-[min(900px,calc(50vw+44px))]"
+              className="block h-auto w-full lg:absolute lg:left-0 lg:top-1/2 lg:w-[calc(46vw-42px)] lg:max-w-none lg:-translate-y-1/2 xl:w-[min(900px,calc(50vw+44px))]"
               style={{
                 maskImage: "linear-gradient(to bottom, transparent 0%, black 30%, black 90%, transparent 100%), linear-gradient(to right, transparent 0%, black 28%, black 86%, transparent 100%)",
                 WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 30%, black 90%, transparent 100%), linear-gradient(to right, transparent 0%, black 28%, black 86%, transparent 100%)",
